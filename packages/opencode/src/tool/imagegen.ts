@@ -33,15 +33,6 @@ export const ImageGenTool = Tool.define(
             metadata: { filename: params.filename, size, quality },
           })
 
-          const apiKey = process.env.OPENAI_API_KEY
-          if (!apiKey) {
-            return {
-              output: "Error: OPENAI_API_KEY environment variable is not set. Please set it before using the imagegen tool.",
-              title: "imagegen: missing API key",
-              metadata: { error: "missing_api_key" },
-            }
-          }
-
           yield* ctx.ask({
             permission: "imagegen",
             patterns: [params.filename],
@@ -53,6 +44,15 @@ export const ImageGenTool = Tool.define(
               quality,
             },
           })
+
+          const apiKey = process.env.OPENAI_API_KEY
+          if (!apiKey) {
+            return {
+              output: "Error: OPENAI_API_KEY environment variable is not set. Please set it before using the imagegen tool.",
+              title: "imagegen: missing API key",
+              metadata: { error: "missing_api_key" },
+            }
+          }
 
           const response = yield* Effect.promise(() =>
             fetch("https://api.openai.com/v1/images/generations", {
