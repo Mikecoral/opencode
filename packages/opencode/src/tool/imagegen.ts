@@ -110,7 +110,7 @@ export const ImageGenTool = Tool.define(
             title: `imagegen: ${params.filename}.png`,
             metadata: { path: outputPath, size, quality },
           }
-        }).pipe(Effect.orDie),
+        }),
     }
   }),
 )

@@ -96,7 +96,18 @@ After the critic completes, show the user the scores and top recommendations. As
 
 ## Stage 4: Iteration (Optional)
 
-If the user wants to iterate on specific assets, use the ready-to-use prompts from the critique to regenerate those assets via the imagegen tool directly, then update the manifest.
+If the user wants to iterate on specific assets, dispatch the @designer sub-agent with targeted regeneration instructions:
+
+```
+Please regenerate the following assets based on the critique feedback:
+
+[LIST THE SPECIFIC ASSETS AND WHAT TO CHANGE]
+
+Use these ready-to-use prompts from the critique:
+[PASTE THE RELEVANT PROMPTS FROM design-output/critique.md]
+
+Save updated files to design-output/ with the same filenames (overwrite previous versions) and update design-output/design-assets.md with the new prompts used.
+```
 
 ---
 
