@@ -14,128 +14,189 @@ triggers:
 
 # Brand Design Harness
 
-You are orchestrating a multi-agent brand design workflow. When a user requests brand identity design work, execute this harness to coordinate three specialized sub-agents.
+You are orchestrating a multi-agent brand design workflow. Execute the stages in order. At each boundary, summarize for the user and **wait for confirmation** before proceeding.
 
 ## When to Activate
 
-Activate this skill when the user asks for brand design, brand identity, logo design, or visual identity work — especially for organizations, schools, companies, or products.
-
-## Harness Workflow
-
-Execute the following stages in order. At each stage boundary, show the user what was produced and ask for confirmation before proceeding.
+Brand design, brand identity, logo, or visual identity work — for organizations, schools, companies, or products.
 
 ---
 
-## Stage 1: Brand Strategy Research (Planner Agent)
+## Session Setup (Before Stage 1)
 
-Dispatch the @planner sub-agent with this message:
+**Generate a timestamp-based run directory and hold it for the entire session.**
 
+Compute `RUN_DIR` as:
 ```
-Please research and analyze the brand design requirements for the following request:
-
-[INSERT USER'S ORIGINAL REQUEST HERE]
-
-Your task:
-1. Research the organization thoroughly using web search
-2. Analyze the brand context, positioning, and design opportunity
-3. Produce a comprehensive design brief covering all 10 sections
-4. Save the brief to `design-output/brief.md`
-
-Be thorough — the Designer agent will use your brief to generate actual visual assets.
+design-output/YYYYMMDD-HHMM
 ```
+using the current date and time (e.g. `design-output/20260518-1423`).
 
-After the planner completes, read `design-output/brief.md` and show the user a summary. Ask:
+All files for this session go under `RUN_DIR`. Never mix files from different runs. Tell the user:
 
-> "The brand strategy brief is ready. Here are the key design directions: [summary]. Shall I proceed to visual design generation? (yes/no/modify)"
-
-If the user wants modifications, incorporate their feedback and re-run the planner or edit the brief directly.
+> "Starting brand design session. Output directory: `design-output/YYYYMMDD-HHMM/`"
 
 ---
 
-## Stage 2: Visual Asset Generation (Designer Agent)
+## Stage 1: Brand Strategy Research (Planner)
 
-Once the user approves the brief, dispatch the @designer sub-agent with this message:
+Dispatch `@planner`:
 
 ```
-The brand design brief is ready at `design-output/brief.md`.
+Please research and produce a brand design brief for:
 
-Please read the brief carefully, then generate the 5 brand visual assets:
-1. logo-primary (1024x1024, high quality)
-2. logo-horizontal (1792x1024, high quality)  
-3. color-palette (1792x1024, high quality)
-4. typography-specimen (1792x1024, high quality)
-5. brand-mockup (1792x1024, high quality)
+[INSERT USER'S ORIGINAL REQUEST]
 
-For each asset, craft a detailed imagegen prompt that reflects the brand strategy from the brief. Save the manifest to `design-output/design-assets.md`.
+Follow the Research Protocol in your instructions: at least 3 websearch queries
+and 2 webfetch calls on authoritative sources. Cite every factual claim with
+inline URLs.
+
+Output directory: [RUN_DIR]
+Save brief to: [RUN_DIR]/brief.md
 ```
 
-After the designer completes, show the user the list of generated files. Ask:
-
-> "Visual assets generated. Files saved to design-output/. Shall I proceed to design critique and quality evaluation? (yes/no)"
+After completion, read `[RUN_DIR]/brief.md` and summarize the key strategic directions for the user.
 
 ---
 
-## Stage 3: Design Critique (Critic Agent)
+## Stage 1.5: Brief Review (Critic, Mode A)
 
-Once approved, dispatch the @critic sub-agent with this message:
+**This stage is mandatory** — it catches weak research before we spend image-generation budget on a bad foundation.
+
+Dispatch `@critic`:
 
 ```
-Please evaluate the brand design system:
-- Read the design brief at `design-output/brief.md`
-- Review the asset manifest at `design-output/design-assets.md`
-- Score across all 5 dimensions
-- Identify top 3 improvements with ready-to-use imagegen prompts
-- Save your critique to `design-output/critique.md`
+Output directory: [RUN_DIR]
+
+Please review the brand design brief at `[RUN_DIR]/brief.md` in Brief Review
+mode (Mode A). Score across all 5 dimensions and produce a verdict
+(PASS / REVISE / RESEARCH-AGAIN). Save to `[RUN_DIR]/brief-critique.md`.
 ```
 
-After the critic completes, show the user the scores and top recommendations. Ask:
+Read `[RUN_DIR]/brief-critique.md`, present the verdict and dimension scores to the user. Then:
 
-> "Critique complete. Overall score: [X]/10. Top recommendation: [summary]. Options: (1) Accept current results (2) Iterate on specific assets (3) Full redesign"
+- **If verdict = PASS** → ask: *"Brief approved by critic with score X/10. Proceed to design generation? (yes/no)"*
+- **If verdict = REVISE** → list the specific fixes; ask: *"Critic requests these revisions. Options: (1) I edit the brief now (2) Re-dispatch planner with these fixes (3) Proceed anyway"*
+- **If verdict = RESEARCH-AGAIN** → re-dispatch `@planner` with the specific search queries from the critique and the same `RUN_DIR`, then loop back to Stage 1.5.
+
+### Retry Guard (MANDATORY)
+
+Track how many times Planner has been re-dispatched in this session. **Hard cap: 2 re-research attempts** (3 total Planner runs). On the 3rd `RESEARCH-AGAIN` verdict, do NOT auto-loop. Instead, present to the user:
+
+> "Brief failed Critic review 3 times. The research subject may be obscure or the entity may not exist online. Options: (1) Proceed with the current best brief despite warnings (2) Provide source material manually (paste text / give URLs) (3) Abort workflow"
+
+This prevents infinite loops when the organization has insufficient web presence.
+
+---
+
+## Stage 2a: Asset Planning (Designer, Phase 1)
+
+Once brief is approved, dispatch `@designer`:
+
+```
+Output directory: [RUN_DIR]
+
+The approved brief is at `[RUN_DIR]/brief.md`. Run Phase 1 only: propose
+4-8 brand assets tailored to this organization. Save to
+`[RUN_DIR]/asset-plan.md` and STOP — do not generate images yet.
+```
+
+Read `[RUN_DIR]/asset-plan.md`. Present the proposed asset list to the user. Ask:
+
+> "Designer proposes these N assets: [list]. Approve to generate? (yes / modify list / change scope)"
+
+If user wants modifications, edit `asset-plan.md` directly or re-dispatch designer with constraints.
+
+---
+
+## Stage 2b: Visual Generation (Designer, Phase 2)
+
+Once the asset plan is approved, dispatch `@designer`:
+
+```
+Output directory: [RUN_DIR]
+
+The asset plan at `[RUN_DIR]/asset-plan.md` is approved. Run Phase 2:
+generate every asset in the plan via `imagegen` using `[RUN_DIR]/<filename>`
+as the filename parameter (e.g. `20260518-1423/logo-primary`), then save
+the manifest to `[RUN_DIR]/design-assets.md`.
+```
+
+After completion, list the generated files for the user. Ask:
+
+> "All N assets generated. Proceed to visual critique? (yes/no)"
+
+---
+
+## Stage 3: Visual Critique (Critic, Mode B)
+
+Dispatch `@critic`:
+
+```
+Output directory: [RUN_DIR]
+
+Please evaluate the generated brand assets in Visual Review mode (Mode B):
+- Read `[RUN_DIR]/brief.md` and `[RUN_DIR]/design-assets.md`
+- Score across all 5 visual dimensions
+- Provide top 3 iteration recommendations with ready-to-use imagegen prompts
+- Save to `[RUN_DIR]/critique.md`
+```
+
+Present the scores and top recommendation. Ask:
+
+> "Critique complete. Overall: X/10. Options: (1) Accept (2) Iterate on specific assets (3) Full redesign"
 
 ---
 
 ## Stage 4: Iteration (Optional)
 
-If the user wants to iterate on specific assets, dispatch the @designer sub-agent with targeted regeneration instructions:
+If user picks iteration, dispatch `@designer` again with targeted regeneration:
 
 ```
-Please regenerate the following assets based on the critique feedback:
+Output directory: [RUN_DIR]
 
-[LIST THE SPECIFIC ASSETS AND WHAT TO CHANGE]
+Regenerate the following assets based on critique feedback:
 
-Use these ready-to-use prompts from the critique:
-[PASTE THE RELEVANT PROMPTS FROM design-output/critique.md]
+[LIST ASSETS + WHAT TO CHANGE]
 
-Save updated files to design-output/ with the same filenames (overwrite previous versions) and update design-output/design-assets.md with the new prompts used.
+Use these prompts from the critique:
+[PASTE PROMPTS FROM [RUN_DIR]/critique.md]
+
+Use `[RUN_DIR]/<filename>` as the filename parameter for imagegen.
+Overwrite the originals and update `[RUN_DIR]/design-assets.md`.
 ```
 
 ---
 
 ## Final Output
 
-After the workflow completes, write a summary report to `design-output/README.md`:
+Write `[RUN_DIR]/README.md`:
 
 ```markdown
 # Brand Design System: [Organization Name]
 
 Generated: [date]
 
-## Design Brief
-See `brief.md`
+## Run Directory
+`[RUN_DIR]/`
 
-## Generated Assets
-- `logo-primary.png` — Primary logo mark
-- `logo-horizontal.png` — Horizontal logo lockup
-- `color-palette.png` — Brand color system
-- `typography-specimen.png` — Typography specimen
-- `brand-mockup.png` — Brand application mockup
+## Brief
+See `brief.md` (reviewed: `brief-critique.md`)
+
+## Assets
+[List of actually-generated files with one-line descriptions, pulled from design-assets.md]
 
 ## Quality Assessment
-Overall Score: [X]/10
-See `critique.md` for detailed evaluation.
+Overall Score: X/10 — see `critique.md`
 
 ## Asset Manifest
 See `design-assets.md` for prompts and technical details.
+
+## Reasoning Traces (for audit)
+- `planner-trace.md` — search queries, fetched URLs, Subject Type reasoning, DNA derivation
+- `critic-mode-a-trace.md` — per-dimension scoring rationale for the brief
+- `designer-trace.md` — asset selection tradeoffs and per-prompt derivation
+- `critic-mode-b-trace.md` — per-asset observations and recommendation derivation
 ```
 
-Tell the user: "Brand design complete. All assets are in the `design-output/` directory. Open `design-output/README.md` for a summary."
+Tell the user: *"Brand design complete. All assets are in `[RUN_DIR]/`. See `[RUN_DIR]/README.md` for the summary."*

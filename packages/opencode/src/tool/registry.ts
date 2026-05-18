@@ -24,6 +24,7 @@ import { Provider } from "@/provider/provider"
 import { ProviderID, type ModelID } from "../provider/schema"
 import { WebSearchTool } from "./websearch"
 import { ImageGenTool } from "./imagegen"
+import { PromptSearchTool } from "./prompt_search"
 import { RepoCloneTool } from "./repo_clone"
 import { RepoOverviewTool } from "./repo_overview"
 import * as Log from "@opencode-ai/core/util/log"
@@ -126,6 +127,7 @@ export const layer: Layer.Layer<
     const webfetch = yield* WebFetchTool
     const websearch = yield* WebSearchTool
     const imagegen = yield* ImageGenTool
+    const promptSearch = yield* PromptSearchTool
     const repoClone = yield* RepoCloneTool
     const repoOverview = yield* RepoOverviewTool
     const shell = yield* ShellTool
@@ -233,6 +235,7 @@ export const layer: Layer.Layer<
           todo: Tool.init(todo),
           search: Tool.init(websearch),
           imagegen: Tool.init(imagegen),
+          prompt_search: Tool.init(promptSearch),
           repo_clone: Tool.init(repoClone),
           repo_overview: Tool.init(repoOverview),
           skill: Tool.init(skilltool),
@@ -259,6 +262,7 @@ export const layer: Layer.Layer<
             tool.todo,
             tool.search,
             tool.imagegen,
+            tool.prompt_search,
             ...(flags.experimentalScout ? [tool.repo_clone, tool.repo_overview] : []),
             tool.skill,
             tool.patch,
