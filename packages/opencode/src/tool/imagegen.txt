@@ -1,0 +1,11 @@
+Generate brand design images using OpenAI's gpt-image-2 model.
+
+Use this tool to create brand visual assets: logos, color palettes, typography specimens, brand posters, and identity mockups. Images are saved as PNG files under `design-output/` in the current working directory.
+
+Parameters:
+- prompt: Detailed English description of the visual to generate. Include brand context, visual style, colors, composition, and mood. 100–200 words produces the best results.
+- filename: Output name without extension (e.g. "logo-primary", "color-palette-v2").
+- size: "1024x1024" for square assets (logos, icons), "1792x1024" for landscape (banners, posters), "1024x1792" for portrait (social cards). Default: "1024x1024".
+- quality: "high" for final deliverables, "low" for quick drafts. Default: "auto".
+
+Requires the OPENAI_API_KEY environment variable to be set.
