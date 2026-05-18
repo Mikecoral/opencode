@@ -4,14 +4,16 @@ import * as fs from "node:fs/promises"
 import * as path from "node:path"
 import DESCRIPTION from "./imagegen.txt"
 
+const OUTPUT_DIR = "design-output"
+
 export const Parameters = Schema.Struct({
   prompt: Schema.String.annotations({ description: "The detailed image generation prompt describing the brand visual to generate" }),
   filename: Schema.String.annotations({ description: "Output filename without extension, e.g. 'logo-primary' or 'color-palette'" }),
   size: Schema.optional(
-    Schema.Literal("1024x1024", "1024x1792", "1792x1024")
+    Schema.Literals(["1024x1024", "1024x1792", "1792x1024"])
   ).annotations({ description: "Image dimensions. Default: 1024x1024" }),
   quality: Schema.optional(
-    Schema.Literal("low", "medium", "high", "auto")
+    Schema.Literals(["low", "medium", "high", "auto"])
   ).annotations({ description: "Image quality. Default: auto" }),
 })
 
@@ -69,6 +71,7 @@ export const ImageGenTool = Tool.define(
                 quality,
                 response_format: "b64_json",
               }),
+              signal: ctx.abort,
             })
           )
 
@@ -94,7 +97,7 @@ export const ImageGenTool = Tool.define(
             }
           }
 
-          const outputDir = path.join(process.cwd(), "design-output")
+          const outputDir = path.join(process.cwd(), OUTPUT_DIR)
           yield* Effect.promise(() => fs.mkdir(outputDir, { recursive: true }))
 
           const outputPath = path.join(outputDir, `${params.filename}.png`)
@@ -107,7 +110,7 @@ export const ImageGenTool = Tool.define(
             title: `imagegen: ${params.filename}.png`,
             metadata: { path: outputPath, size, quality },
           }
-        }),
+        }).pipe(Effect.orDie),
     }
   }),
 )
