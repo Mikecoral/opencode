@@ -3,7 +3,7 @@
   "provider": {
     "openai": {
       "options": {
-        "apiKey": "sk-kBTxSftvqbus62EsDYNw3pamynJhABA3Y58Et6HqOvUE2W5Z",
+        "apiKey": "",
         "baseURL": "https://apicz.boyuerichdata.com/v1",
         "imageModel": "gpt-image-2"
       }
