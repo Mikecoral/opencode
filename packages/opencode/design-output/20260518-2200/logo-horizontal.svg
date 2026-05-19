@@ -1,0 +1,17 @@
+<svg width="1792" height="1024" viewBox="0 0 1792 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1792" height="1024" rx="96" fill="#F8FAFC"/>
+  <path d="M236 334C236 287.056 274.056 249 321 249H587C633.944 249 672 287.056 672 334V600C672 646.944 633.944 685 587 685H321C274.056 685 236 646.944 236 600V334Z" fill="white" stroke="#2563EB" stroke-width="30"/>
+  <path d="M312 540H438V414H564" stroke="#7C3AED" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M455 324L492 252L529 324L601 361L529 398L492 470L455 398L383 361L455 324Z" fill="#FBBF24"/>
+  <circle cx="312" cy="540" r="25" fill="#14B8A6"/>
+  <circle cx="438" cy="414" r="25" fill="#2563EB"/>
+  <circle cx="564" cy="414" r="25" fill="#7C3AED"/>
+  <path d="M791 340H1499" stroke="#0F172A" stroke-width="9" stroke-linecap="round" opacity="0.08"/>
+  <text x="790" y="497" font-family="HarmonyOS Sans SC, Noto Sans SC, Source Han Sans SC, sans-serif" font-size="142" font-weight="850" letter-spacing="8" fill="#0F172A">创智学院</text>
+  <text x="799" y="582" font-family="Inter, Manrope, Arial, sans-serif" font-size="43" font-weight="750" letter-spacing="7" fill="#2563EB">CREATIVE INTELLIGENCE ACADEMY</text>
+  <text x="803" y="658" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="34" font-weight="500" fill="#475569">让创造力与智能同行</text>
+  <circle cx="1447" cy="406" r="10" fill="#14B8A6"/>
+  <circle cx="1504" cy="455" r="8" fill="#7C3AED"/>
+  <circle cx="1397" cy="505" r="8" fill="#FBBF24"/>
+  <path d="M1447 406L1504 455M1447 406L1397 505" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+</svg>

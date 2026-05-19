@@ -1,0 +1,43 @@
+<svg width="1792" height="1024" viewBox="0 0 1792 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1792" height="1024" fill="#E2E8F0"/>
+  <rect x="94" y="86" width="1604" height="852" rx="64" fill="#F8FAFC"/>
+  <text x="150" y="170" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="56" font-weight="850" fill="#0F172A">创智学院品牌应用预览</text>
+  <text x="152" y="218" font-family="Inter, Manrope, Arial, sans-serif" font-size="24" font-weight="750" letter-spacing="3" fill="#2563EB">BRAND APPLICATION MOCKUP</text>
+  <rect x="150" y="280" width="720" height="368" rx="42" fill="url(#hero)"/>
+  <circle cx="740" cy="372" r="96" fill="white" opacity="0.16"/>
+  <text x="204" y="380" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="58" font-weight="850" fill="white">让创造力与智能同行</text>
+  <text x="208" y="442" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="28" font-weight="500" fill="#DBEAFE">AI素养 · 项目制学习 · 未来能力</text>
+  <rect x="208" y="510" width="178" height="58" rx="29" fill="white"/>
+  <text x="251" y="548" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="24" font-weight="800" fill="#2563EB">了解课程</text>
+  <rect x="432" y="510" width="220" height="58" rx="29" fill="white" fill-opacity="0.16" stroke="white" stroke-opacity="0.5"/>
+  <text x="477" y="548" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="24" font-weight="800" fill="white">预约体验</text>
+  <rect x="936" y="280" width="330" height="214" rx="32" fill="white" stroke="#CBD5E1"/>
+  <text x="980" y="346" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="34" font-weight="850" fill="#0F172A">课程证书</text>
+  <path d="M982 390H1190M982 430H1128" stroke="#CBD5E1" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="1198" cy="424" r="36" fill="#FBBF24"/>
+  <rect x="1312" y="280" width="284" height="214" rx="32" fill="#0F172A"/>
+  <text x="1352" y="354" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="34" font-weight="850" fill="white">名片</text>
+  <text x="1354" y="410" font-family="Inter, Manrope, Arial, sans-serif" font-size="22" font-weight="700" fill="#93C5FD">Creative Intelligence</text>
+  <circle cx="1510" cy="426" r="22" fill="#14B8A6"/>
+  <rect x="936" y="538" width="282" height="274" rx="34" fill="white" stroke="#CBD5E1"/>
+  <rect x="978" y="582" width="198" height="102" rx="24" fill="#DBEAFE"/>
+  <text x="978" y="736" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="30" font-weight="850" fill="#0F172A">课程卡片</text>
+  <text x="980" y="778" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="22" font-weight="500" fill="#64748B">AI创意实践营</text>
+  <rect x="1262" y="538" width="334" height="274" rx="34" fill="white" stroke="#CBD5E1"/>
+  <circle cx="1324" cy="612" r="42" fill="#2563EB"/>
+  <text x="1400" y="626" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="32" font-weight="850" fill="#0F172A">公众号头像</text>
+  <path d="M1310 622H1328V604H1346" stroke="white" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="1346" cy="604" r="6" fill="#FBBF24"/>
+  <rect x="1312" y="692" width="230" height="66" rx="22" fill="#EDE9FE"/>
+  <text x="1356" y="734" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="24" font-weight="800" fill="#7C3AED">创智学院</text>
+  <rect x="150" y="700" width="720" height="112" rx="34" fill="white" stroke="#CBD5E1"/>
+  <text x="202" y="770" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="34" font-weight="850" fill="#0F172A">PPT / 手册封面模块</text>
+  <circle cx="768" cy="756" r="18" fill="#FBBF24"/>
+  <defs>
+    <linearGradient id="hero" x1="150" y1="280" x2="870" y2="648" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="0.72" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#14B8A6"/>
+    </linearGradient>
+  </defs>
+</svg>

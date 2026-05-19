@@ -1,0 +1,30 @@
+Search the awesome-gpt-image-2 prompt library for ready-made prompt templates that can be adapted for the current image-generation task.
+
+Use this tool BEFORE writing an `imagegen` prompt from scratch. The local library contains ~126 curated, structured prompts (JSON-style with type/subject/style/layout/footer fields) for `gpt-image-2` — these are the editor-picked highlights from a larger online corpus.
+
+Strengths of the library:
+- Posters, infographics, illustrated maps, product marketing, e-commerce mains, app/web UI mockups, social cards, YouTube thumbnails
+- Style references: photography, anime, illustration, 3D render, ink/Chinese style, isometric, pixel art, watercolor
+
+Limitations to know:
+- Pure brand logos and minimalist marks are sparse — for `logo-primary` you may not find a great template; write from scratch in that case
+- Library is in English and Chinese only; pass `language: "zh"` for Chinese cultural subjects
+
+Even when the templates don't directly match your asset, their **prompt structure** (the JSON scaffolding pattern) is the real value — borrow the structure, swap the content.
+
+Parameters:
+- keyword: Free-text search query. Multiple words = AND. Examples: "poster food map", "minimalist logo monogram", "isometric architecture", "exploded view product".
+- topK: Number of templates to return. Default 3. Max 10.
+- language: "en" (default, searches README.md) or "zh" (searches README_zh.md).
+- libraryPath: Optional override for the library root directory. Defaults to env PROMPT_LIBRARY_PATH or `~/python-learn/SII/AIdesign/awesome-gpt-image-2`.
+
+Returns top K matches by weighted score (title × 3 + description × 2 + body × 1), each containing:
+- number, title
+- description (one-line summary)
+- prompt_body (full prompt template — may contain `{argument name="X" default="Y"}` placeholders to replace with brand-specific content)
+
+Best practice:
+1. Search with category-appropriate keywords (e.g. for tourism-poster → "poster illustration map travel")
+2. Pick the closest template
+3. Replace placeholders / subject / style fields with the brand's Cultural & Visual DNA from the brief
+4. Pass the rewritten prompt to `imagegen`

@@ -16,6 +16,18 @@ triggers:
 
 You are orchestrating a multi-agent brand design workflow. Execute the stages in order. At each boundary, summarize for the user and **wait for confirmation** before proceeding.
 
+## Subagent Dispatch Contract
+
+When a stage says to dispatch a subagent, call the `task` tool directly with the
+exact `subagent_type` shown below:
+
+- Planner: `subagent_type: "planner"`
+- Designer: `subagent_type: "designer"`
+- Critic: `subagent_type: "critic"`
+
+Do not include `@`, translated names, titles, punctuation, spaces, or extra text
+in `subagent_type`. Put human-readable labels only in `description`.
+
 ## When to Activate
 
 Brand design, brand identity, logo, or visual identity work — for organizations, schools, companies, or products.
@@ -24,13 +36,29 @@ Brand design, brand identity, logo, or visual identity work — for organization
 
 ## Session Setup (Before Stage 1)
 
-**Generate a timestamp-based run directory and hold it for the entire session.**
+**Generate a timestamp-based run id + run directory and hold both for the entire session.**
 
-Compute `RUN_DIR` as:
+### Fresh-Start Rule for New Sessions
+
+For every new window / new conversation that activates this skill, start a **new**
+brand-design run from Stage 1. Do **not** search `design-output/` for prior briefs,
+asset plans, critiques, or generated images in an attempt to reuse an earlier
+plan.
+
+- Default behavior: create a fresh `RUN_ID`, fresh `RUN_DIR`, fresh brief, and
+  fresh asset plan.
+- Only reuse or continue a previous run when the user explicitly asks to resume,
+  continue, revise, or inspect a specific earlier run directory.
+- A similar subject name is not enough reason to reuse old work; treat it as a
+  new project unless the user says otherwise.
+
+Compute:
 ```
-design-output/YYYYMMDD-HHMM
+RUN_ID = YYYYMMDD-HHMM
+RUN_DIR = design-output/RUN_ID
 ```
-using the current date and time (e.g. `design-output/20260518-1423`).
+using the current date and time (e.g. `RUN_ID = 20260518-1423`,
+`RUN_DIR = design-output/20260518-1423`).
 
 All files for this session go under `RUN_DIR`. Never mix files from different runs. Tell the user:
 
@@ -40,7 +68,7 @@ All files for this session go under `RUN_DIR`. Never mix files from different ru
 
 ## Stage 1: Brand Strategy Research (Planner)
 
-Dispatch `@planner`:
+Use the `task` tool with `subagent_type: "planner"` and `description: "Research brand brief"`:
 
 ```
 Please research and produce a brand design brief for:
@@ -63,7 +91,7 @@ After completion, read `[RUN_DIR]/brief.md` and summarize the key strategic dire
 
 **This stage is mandatory** — it catches weak research before we spend image-generation budget on a bad foundation.
 
-Dispatch `@critic`:
+Use the `task` tool with `subagent_type: "critic"` and `description: "Review brand brief"`:
 
 ```
 Output directory: [RUN_DIR]
@@ -77,7 +105,7 @@ Read `[RUN_DIR]/brief-critique.md`, present the verdict and dimension scores to 
 
 - **If verdict = PASS** → ask: *"Brief approved by critic with score X/10. Proceed to design generation? (yes/no)"*
 - **If verdict = REVISE** → list the specific fixes; ask: *"Critic requests these revisions. Options: (1) I edit the brief now (2) Re-dispatch planner with these fixes (3) Proceed anyway"*
-- **If verdict = RESEARCH-AGAIN** → re-dispatch `@planner` with the specific search queries from the critique and the same `RUN_DIR`, then loop back to Stage 1.5.
+- **If verdict = RESEARCH-AGAIN** → use the `task` tool again with `subagent_type: "planner"`, the specific search queries from the critique, and the same `RUN_DIR`, then loop back to Stage 1.5.
 
 ### Retry Guard (MANDATORY)
 
@@ -91,19 +119,21 @@ This prevents infinite loops when the organization has insufficient web presence
 
 ## Stage 2a: Asset Planning (Designer, Phase 1)
 
-Once brief is approved, dispatch `@designer`:
+Once brief is approved, use the `task` tool with `subagent_type: "designer"` and `description: "Plan brand assets"`:
 
 ```
 Output directory: [RUN_DIR]
 
 The approved brief is at `[RUN_DIR]/brief.md`. Run Phase 1 only: propose
-4-8 brand assets tailored to this organization. Save to
-`[RUN_DIR]/asset-plan.md` and STOP — do not generate images yet.
+the Visual Direction, Deliverable Strategy, touchpoint priority map, rejected
+asset ideas, self-check, and 4-8 brand assets tailored to this specific brief.
+Do not use an industry-default bundle such as school = admissions + campus +
+palette. Save to `[RUN_DIR]/asset-plan.md` and STOP — do not generate images yet.
 ```
 
-Read `[RUN_DIR]/asset-plan.md`. Present the proposed asset list to the user. Ask:
+Read `[RUN_DIR]/asset-plan.md`. Present the selected Visual Direction, Deliverable Strategy, and proposed asset list to the user. Ask:
 
-> "Designer proposes these N assets: [list]. Approve to generate? (yes / modify list / change scope)"
+> "Designer selected [Visual Direction] / [Deliverable Strategy] and proposes these N assets: [list]. Approve to generate? (yes / modify list / change direction / change strategy / change assets)"
 
 If user wants modifications, edit `asset-plan.md` directly or re-dispatch designer with constraints.
 
@@ -111,13 +141,13 @@ If user wants modifications, edit `asset-plan.md` directly or re-dispatch design
 
 ## Stage 2b: Visual Generation (Designer, Phase 2)
 
-Once the asset plan is approved, dispatch `@designer`:
+Once the asset plan is approved, use the `task` tool with `subagent_type: "designer"` and `description: "Generate brand assets"`:
 
 ```
 Output directory: [RUN_DIR]
 
 The asset plan at `[RUN_DIR]/asset-plan.md` is approved. Run Phase 2:
-generate every asset in the plan via `imagegen` using `[RUN_DIR]/<filename>`
+generate every asset in the plan via `imagegen` using `[RUN_ID]/<filename>`
 as the filename parameter (e.g. `20260518-1423/logo-primary`), then save
 the manifest to `[RUN_DIR]/design-assets.md`.
 ```
@@ -130,14 +160,15 @@ After completion, list the generated files for the user. Ask:
 
 ## Stage 3: Visual Critique (Critic, Mode B)
 
-Dispatch `@critic`:
+Use the `task` tool with `subagent_type: "critic"` and `description: "Critique brand assets"`:
 
 ```
 Output directory: [RUN_DIR]
 
 Please evaluate the generated brand assets in Visual Review mode (Mode B):
 - Read `[RUN_DIR]/brief.md` and `[RUN_DIR]/design-assets.md`
-- Score across all 5 visual dimensions
+- Read `[RUN_DIR]/asset-plan.md` and audit whether the generated assets follow the selected Visual Direction and Deliverable Strategy
+- Score across all 5 dimensions: Philosophy, Hierarchy, Execution, Specificity, Restraint
 - Provide top 3 iteration recommendations with ready-to-use imagegen prompts
 - Save to `[RUN_DIR]/critique.md`
 ```
@@ -150,10 +181,11 @@ Present the scores and top recommendation. Ask:
 
 ## Stage 4: Iteration (Optional)
 
-If user picks iteration, dispatch `@designer` again with targeted regeneration:
+If user picks iteration, use the `task` tool again with `subagent_type: "designer"` and `description: "Iterate brand assets"`:
 
 ```
 Output directory: [RUN_DIR]
+Iteration directory: [RUN_DIR]/iterations/[ITERATION_ID]
 
 Regenerate the following assets based on critique feedback:
 
@@ -162,8 +194,11 @@ Regenerate the following assets based on critique feedback:
 Use these prompts from the critique:
 [PASTE PROMPTS FROM [RUN_DIR]/critique.md]
 
-Use `[RUN_DIR]/<filename>` as the filename parameter for imagegen.
-Overwrite the originals and update `[RUN_DIR]/design-assets.md`.
+Create `[RUN_DIR]/iterations/[ITERATION_ID]/` for the regenerated files.
+Use `[RUN_ID]/iterations/[ITERATION_ID]/<filename>` as the filename
+parameter for imagegen so the new images stay inside the original run folder.
+Do not overwrite the original assets unless the user explicitly asks for that.
+Update `[RUN_DIR]/design-assets.md` with the iteration paths.
 ```
 
 ---

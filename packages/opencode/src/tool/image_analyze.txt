@@ -1,0 +1,10 @@
+Analyze a PNG image using OpenAI's vision capability. Returns a detailed text description of what's in the image — composition, colors, typography, quality, and design effectiveness.
+
+Use this tool in brand design critique to evaluate actual generated images rather than relying only on the prompt text.
+
+Parameters:
+- imagePath: Path to the PNG file. Can be relative to cwd (e.g. `design-output/20260518-1423/logo-primary.png`) or absolute.
+- question: Optional specific question about the image. Defaults to a comprehensive brand design quality assessment covering composition, color use, typography, cultural appropriateness, and overall visual impact.
+
+Requires the same OpenAI API key and base URL used by the `imagegen` tool.
+Note: the model must support vision (multimodal) — gpt-4o, gpt-4-turbo, or gpt-5.5 work; older text-only models will return an error.

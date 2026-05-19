@@ -129,7 +129,10 @@ export const ImageGenTool = Tool.define(
             }
           }
 
-          const outputPath = path.join(process.cwd(), OUTPUT_DIR, `${params.filename}.png`)
+          // Callers sometimes reason in full run paths like `design-output/20260518-2304/logo-primary`,
+          // but this tool already owns the `design-output/` root. Normalize that prefix so it is not doubled.
+          const filename = params.filename.replace(/^design-output[\\/]+/, "")
+          const outputPath = path.join(process.cwd(), OUTPUT_DIR, `${filename}.png`)
           yield* Effect.promise(() => fs.mkdir(path.dirname(outputPath), { recursive: true }))
           yield* Effect.promise(() => fs.writeFile(outputPath, buffer))
 

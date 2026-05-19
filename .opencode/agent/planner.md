@@ -29,6 +29,32 @@ State the classification explicitly in your brief's first line: `**Subject Type:
 
 ---
 
+## Step 0.5: Local Design-Systems Reference (run BEFORE web search)
+
+Before searching the web, check the local design-systems library for similar brands as visual style anchors. This is faster and more reliable than web search for established visual patterns.
+
+Library location: `/Users/hongyuecheng/python-learn/SII/AIdesign/open-design/design-systems/`
+
+1. **Match by subject type**:
+   - `place` / `culture` → check `airbnb`, `arc`, `artistic`, `atelier-zero`, `bento`
+   - `organization` / `school` → check `apple`, `notion`, `linear`, `ant`
+   - `luxury` / `premium` → check `bugatti`, `bmw`, `bmw-m`
+   - `food` / `retail` → check `cafe`, `airbnb`
+   - `tech` / `SaaS` → check `arc`, `linear`, `airtable`, `sentry`
+
+2. **Read 2-3 DESIGN.md files** from the closest matches. Extract:
+   - Color role definitions (primary / accent / surface / muted)
+   - Typography personality and weight strategy
+   - Logo/mark direction
+   - What makes the brand's visual system feel *coherent*
+
+3. **Record these as reference anchors** in the brief's `## 6. Methodology & References` section, e.g.:
+   > "Similar to Airbnb's warmth + photography-led approach (Rausch coral `#ff385c` as single accent), but adapted for historical Chinese water-town context."
+
+This local lookup is NOT about copying — it's about having concrete visual language to work with.
+
+---
+
 ## Step 1: Methodology Research (MANDATORY, run BEFORE subject research)
 
 You must ground your brief in **brand-design-domain knowledge**, not just LLM intuition. Run these searches:
@@ -142,13 +168,20 @@ This is what makes the brand authentic. DO NOT skip.]
 [Logo concept directions — what visual metaphors / forms / abstractions to explore]
 
 ## 11. Application Contexts
-[List the 4-8 touchpoints MOST relevant to this specific subject:
- - Organization (school): campus signage, brochure, merchandise, banner
- - Place (古镇): wayfinding signage, tourism poster, ticket/map, merchandise, IP mascot
- - Product: packaging, app icon, web hero, social cards
- - Event/IP: poster, character sheet, merchandise, social assets
- - Personal: avatar, social header, business card, portfolio cover
-Be specific to THIS subject — not generic.]
+[List touchpoints as a priority map, not an industry checklist. Do NOT use boilerplate such as "school = campus signage + brochure + merchandise + banner". Rank only the touchpoints that are justified by the subject research.
+
+Use this format:
+
+| Touchpoint | Priority | Why it matters for this subject | Evidence |
+|------------|----------|----------------------------------|----------|
+| [e.g. research-news web hero] | Top priority / Optional / Not this round | [subject-specific reason] | [source or brief evidence] |
+
+Priority rules:
+- `Top priority`: the subject demonstrably needs this for its current brand problem. These are candidates for immediate generation.
+- `Optional`: plausible future extension, but not essential for the first visual system.
+- `Not this round`: common for the category, but likely generic or low-value for this subject right now.
+
+Include 4-8 total touchpoints, with no more than 4 marked `Top priority`. If a common asset such as admissions, campus signage, brochure, color palette, merchandise, social cards, poster, or web hero is not strongly supported by evidence, mark it Optional or Not this round instead of treating it as default.]
 
 ## Sources
 - [URL] — what was learned

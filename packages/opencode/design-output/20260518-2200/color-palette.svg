@@ -1,0 +1,36 @@
+<svg width="1792" height="1024" viewBox="0 0 1792 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1792" height="1024" fill="#F8FAFC"/>
+  <text x="120" y="136" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="70" font-weight="850" fill="#0F172A">创智学院色彩系统</text>
+  <text x="124" y="196" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="3" fill="#2563EB">COLOR SYSTEM FOR CREATIVE INTELLIGENCE ACADEMY</text>
+  <rect x="120" y="274" width="242" height="264" rx="34" fill="#2563EB"/>
+  <rect x="397" y="274" width="242" height="264" rx="34" fill="#7C3AED"/>
+  <rect x="674" y="274" width="242" height="264" rx="34" fill="#14B8A6"/>
+  <rect x="951" y="274" width="242" height="264" rx="34" fill="#FBBF24"/>
+  <rect x="1228" y="274" width="242" height="264" rx="34" fill="#0F172A"/>
+  <rect x="1505" y="274" width="167" height="264" rx="34" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="4"/>
+  <text x="150" y="590" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="800" fill="#0F172A">Technology Blue</text>
+  <text x="150" y="634" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" fill="#2563EB">#2563EB</text>
+  <text x="427" y="590" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="800" fill="#0F172A">Wisdom Purple</text>
+  <text x="427" y="634" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" fill="#7C3AED">#7C3AED</text>
+  <text x="704" y="590" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="800" fill="#0F172A">Active Teal</text>
+  <text x="704" y="634" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" fill="#14B8A6">#14B8A6</text>
+  <text x="981" y="590" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="800" fill="#0F172A">Spark Yellow</text>
+  <text x="981" y="634" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" fill="#B7791F">#FBBF24</text>
+  <text x="1258" y="590" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="800" fill="#0F172A">Deep Ink</text>
+  <text x="1258" y="634" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" fill="#0F172A">#0F172A</text>
+  <text x="1525" y="590" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="800" fill="#0F172A">Mist</text>
+  <text x="1525" y="634" font-family="Inter, Manrope, Arial, sans-serif" font-size="28" font-weight="700" fill="#64748B">#F8FAFC</text>
+  <rect x="120" y="730" width="710" height="124" rx="32" fill="url(#hero)"/>
+  <text x="164" y="804" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="38" font-weight="800" fill="white">数字主视觉：蓝紫渐变</text>
+  <rect x="884" y="730" width="308" height="124" rx="32" fill="#0F172A"/>
+  <text x="932" y="804" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="34" font-weight="800" fill="white">证书 / 正式文件</text>
+  <rect x="1244" y="730" width="428" height="124" rx="32" fill="white" stroke="#E2E8F0" stroke-width="4"/>
+  <circle cx="1308" cy="792" r="18" fill="#FBBF24"/>
+  <text x="1344" y="804" font-family="HarmonyOS Sans SC, Noto Sans SC, sans-serif" font-size="34" font-weight="800" fill="#0F172A">重点提示只用暖黄点亮</text>
+  <defs>
+    <linearGradient id="hero" x1="120" y1="730" x2="830" y2="854" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+</svg>

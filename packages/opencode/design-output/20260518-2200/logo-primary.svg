@@ -1,0 +1,20 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" rx="160" fill="#F8FAFC"/>
+  <circle cx="512" cy="428" r="274" fill="url(#halo)" opacity="0.26"/>
+  <path d="M334 322C334 288.863 360.863 262 394 262H630C663.137 262 690 288.863 690 322V560C690 593.137 663.137 620 630 620H394C360.863 620 334 593.137 334 560V322Z" fill="white" stroke="#2563EB" stroke-width="28"/>
+  <path d="M392 502H496V398H600" stroke="#7C3AED" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M510 318L544 252L578 318L644 352L578 386L544 452L510 386L444 352L510 318Z" fill="#FBBF24"/>
+  <circle cx="392" cy="502" r="24" fill="#14B8A6"/>
+  <circle cx="496" cy="398" r="24" fill="#2563EB"/>
+  <circle cx="600" cy="398" r="24" fill="#7C3AED"/>
+  <path d="M386 690H638" stroke="#0F172A" stroke-width="8" stroke-linecap="round" opacity="0.12"/>
+  <text x="512" y="782" text-anchor="middle" font-family="HarmonyOS Sans SC, Noto Sans SC, Source Han Sans SC, sans-serif" font-size="92" font-weight="800" letter-spacing="4" fill="#0F172A">创智学院</text>
+  <text x="512" y="844" text-anchor="middle" font-family="Inter, Manrope, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="5" fill="#2563EB">CREATIVE INTELLIGENCE ACADEMY</text>
+  <defs>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 428) rotate(90) scale(274)">
+      <stop stop-color="#7C3AED"/>
+      <stop offset="0.55" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#14B8A6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
