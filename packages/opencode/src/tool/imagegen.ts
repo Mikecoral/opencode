@@ -19,7 +19,7 @@ export const Parameters = Schema.Struct({
     description: "The detailed image generation prompt describing the brand visual to generate",
   }),
   filename: Schema.String.annotate({
-    description: "Output filename without extension, e.g. 'logo-primary' or 'color-palette'",
+    description: "Output filename without extension, e.g. 'identity-mark', 'campaign-poster', or 'digital-surface'",
   }),
   size: Schema.optional(Schema.Literals(["1024x1024", "1024x1536", "1536x1024", "auto"])).annotate({
     description: "Image dimensions. Default: 1024x1024",

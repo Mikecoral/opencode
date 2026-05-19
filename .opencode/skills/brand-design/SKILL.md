@@ -40,25 +40,71 @@ Use `RUN_DIR` as the base path for all file saves throughout this session.
 
 ---
 
-## Stage 1: Brand Strategy Research (Planner Agent)
+## Stage 1a: Visual Research (Visual Researcher Agent)
 
-Dispatch the @planner sub-agent with this message:
+Dispatch the @visual-researcher sub-agent with this message:
 
 ```
-Please research and analyze the brand design requirements for the following request:
+Run directory: `[RUN_DIR]/`
+
+Please research the following brand design request:
 
 [INSERT USER'S ORIGINAL REQUEST HERE]
 
 Your task:
-1. Research the organization thoroughly using web search
-2. Analyze the brand context, positioning, and design opportunity
-3. Produce a comprehensive design brief covering all 10 sections
-4. Save the brief to `[RUN_DIR]/brief.md`
+1. Conduct a competitor & category visual audit (4–6 organizations)
+2. Find 6–10 visual reference examples from across industries
+3. Propose 3 clearly differentiated creative directions
+4. Save findings to `[RUN_DIR]/visual-research.md` and `[RUN_DIR]/direction-options.md`
 
-Be thorough — the Designer agent will use your brief to generate actual visual assets.
+Be specific — the Planner will use your research to write the design brief.
 ```
 
-After the planner completes, read `[RUN_DIR]/brief.md` and show the user a summary. Ask:
+After the researcher completes, tell the user: "Visual research complete. Competitor audit and 3 direction options saved. Proceeding to brief writing."
+
+---
+
+## Stage 1: Brand Brief (Planner Agent)
+
+Dispatch the @planner sub-agent with this message:
+
+```
+Please write the brand design brief for the following request:
+
+[INSERT USER'S ORIGINAL REQUEST HERE]
+
+Research files are already available at:
+- `[RUN_DIR]/visual-research.md` — competitor audit and visual references
+- `[RUN_DIR]/direction-options.md` — 3 proposed creative directions
+
+Your task:
+1. Read both research files thoroughly
+2. Select and refine the strongest direction from `direction-options.md`
+3. Synthesize the research into a comprehensive 10-section design brief
+4. Save the brief to `[RUN_DIR]/brief.md`
+
+Do not re-search what is already in the research files. Your job is strategy synthesis, not web research.
+```
+
+After the planner completes, check whether `[RUN_DIR]/search-supplement-request.md` exists:
+
+**If it exists (planner flagged research gaps):**
+
+Re-dispatch @visual-researcher in supplement mode:
+
+```
+SUPPLEMENT REQUEST — read `[RUN_DIR]/search-supplement-request.md` for the specific gaps to fill.
+
+Run directory: `[RUN_DIR]/`
+
+Append your supplemental findings to the existing `[RUN_DIR]/visual-research.md` and `[RUN_DIR]/direction-options.md`. Do not overwrite them.
+```
+
+After the researcher completes, re-dispatch @planner with the same message as Stage 1. This loop runs at most once — if the planner flags gaps a second time, proceed to brief writing anyway and note the gaps in the brief.
+
+**If it does not exist (research was sufficient):**
+
+Read `[RUN_DIR]/brief.md` and show the user a summary. Ask:
 
 > "The brand strategy brief is ready. Here are the key design directions: [summary]. Shall I proceed to visual design generation? (yes/no/modify)"
 
@@ -94,43 +140,18 @@ If the user chooses to revise, dispatch @planner with the critic's feedback as a
 
 ---
 
-## Stage 1.75: Visual Research (Visual Researcher Agent)
-
-Once the brief passes review, dispatch the @visual-researcher sub-agent:
-
-```
-The brand design brief is at `[RUN_DIR]/brief.md`.
-
-Please conduct visual research and save your findings to:
-- `[RUN_DIR]/visual-research.md` — competitor audit + inspiration references
-- `[RUN_DIR]/direction-options.md` — 3 distinct visual direction proposals
-```
-
-After the visual researcher completes, read `[RUN_DIR]/direction-options.md` and show the user the 3 directions in summary. Ask:
-
-> "Visual research complete. Here are 3 design directions: [summarize each in 1 line]. Which direction should we proceed with? (1 / 2 / 3 / modify)"
-
-Record the chosen direction name for the designer dispatch.
-
----
-
 ## Stage 2a: Asset Planning (Designer Agent)
 
-Once the user selects a direction, dispatch the @designer sub-agent for planning only:
+Once the user approves the brief, dispatch the @designer sub-agent for planning only:
 
 ```
 MODE: PLAN (do not generate images yet)
 
 Run directory: `[RUN_DIR]/`
 
-Please read:
-- `[RUN_DIR]/brief.md` — brand strategy
-- `[RUN_DIR]/visual-research.md` — competitor audit and references
-- `[RUN_DIR]/direction-options.md` — all 3 directions
+Please read `[RUN_DIR]/brief.md` and research the brand as needed.
 
-Chosen direction: [DIRECTION NAME chosen by user]
-
-Based on the brief and chosen direction, propose an asset list for this brand.
+Based on the brief, propose an asset list tailored to this brand.
 Save your asset plan to `[RUN_DIR]/asset-plan.md`.
 ```
 
@@ -154,7 +175,7 @@ Run directory: `[RUN_DIR]/`
 The asset plan is confirmed at `[RUN_DIR]/asset-plan.md`.
 
 Please read the plan and generate all listed assets.
-Ground every prompt in `[RUN_DIR]/brief.md` and `[RUN_DIR]/visual-research.md`.
+Ground every prompt in `[RUN_DIR]/brief.md`.
 Save generated images to `[RUN_DIR]/` and the manifest to `[RUN_DIR]/design-assets.md`.
 ```
 
@@ -183,30 +204,111 @@ After the critic completes, show the user the scores and top recommendations. As
 
 ---
 
+## Stage 3.5: Crowd Critic (On-Demand Only)
+
+**Do NOT run this stage automatically.** Only dispatch when the user explicitly asks (e.g. "run crowd critic", "做受众测试", "crowd feedback").
+
+Crowd critic can be run on the original assets (`[RUN_DIR]/`) or on any iteration directory (`[ITER_DIR]/`). Use whichever directory contains the assets currently under review.
+
+**Dispatch @crowd-critic:**
+
+```
+Output directory: [ACTIVE_DIR]   ← RUN_DIR or current ITER_DIR
+Crowd critic enabled: true
+Sample size: 24
+Audience inference: auto
+
+Project summary: [INSERT USER'S ORIGINAL DESIGN REQUEST]
+```
+
+**After crowd critic completes — reconcile with standard critique:**
+
+Read both:
+- `[ACTIVE_DIR]/critique.md` — standard critic findings (dimension scores, MUST_FIX)
+- `[ACTIVE_DIR]/crowd-critic-designer-actions.md` — crowd priority actions
+
+Produce a merged action summary in this format and show it to the user:
+
+```
+## Merged Action Summary
+
+### Agreed (both critics flag this)
+- [asset]: [issue] — HIGH PRIORITY
+
+### Craft only (standard critic only)
+- [asset]: [issue] — fix before delivery
+
+### Audience only (crowd critic only)
+- [asset]: [issue] — consider if audience fit matters here
+
+### Conflicting signals
+- [asset]: standard critic says [X], crowd says [Y]
+  → Recommendation: [which to follow and why — craft issues override audience preference;
+    audience issues override craft when the brand's primary goal is broad accessibility]
+```
+
+**Conflict resolution rule:**
+- MUST_FIX items from the standard critic always take priority over crowd preference — craft failures block delivery regardless of audience scores.
+- When only the crowd flags an issue (craft check passes), follow the crowd action if it affects 3+ audience segments or a segment that maps to the brief's primary audience.
+- When signals conflict (crowd likes something the standard critic flagged), present both views to the user and ask which to prioritize.
+
+Ask: "Merged review complete. [N] agreed issues, [M] conflicts. Shall I proceed to iteration? (yes/no)"
+
+---
+
 ## Stage 4: Iteration (Optional)
 
-If the user wants to iterate on specific assets, first determine the iteration number:
+If the user wants to iterate on specific assets:
 
-- Check how many `iter-N` subfolders already exist under `[RUN_DIR]/`
-- Set `ITER_DIR = [RUN_DIR]/iter-1` (or `iter-2`, `iter-3`, etc. — increment from the highest existing number)
+**Step 1 — Determine iteration directory:**
+- Count existing `iter-N` subfolders under `[RUN_DIR]/`
+- Set `ITER_DIR = [RUN_DIR]/iter-1` (or `iter-2`, `iter-3`, etc.)
 - Tell the user: "Saving iteration to `[ITER_DIR]/`."
 
-Then dispatch the @designer sub-agent with targeted regeneration instructions:
+**Step 2 — Build the fix list:**
+
+Derive from whichever sources are available, in priority order:
+1. MUST_FIX items from `critique.md` (standard critic, current active dir)
+2. Agreed items from the merged action summary (if Stage 3.5 was run)
+3. Craft-only items from `critique.md`
+4. Audience-only items from `crowd-critic-designer-actions.md` that meet the 3-segment threshold
+
+Show the user the prioritized list and confirm before dispatching.
+
+**Step 3 — Dispatch @designer in ITERATE mode:**
 
 ```
-Please regenerate the following assets based on the critique feedback:
+MODE: ITERATE
 
-[LIST THE SPECIFIC ASSETS AND WHAT TO CHANGE]
+RUN_DIR: [RUN_DIR]
+ITER_DIR: [ITER_DIR]
 
-Use these ready-to-use prompts from the critique:
-[PASTE THE RELEVANT PROMPTS FROM [RUN_DIR]/critique.md]
+Assets to regenerate:
+[LIST EACH ASSET AND THE SPECIFIC ISSUE TO FIX, ONE PER LINE]
 
-Save regenerated images to `[ITER_DIR]/` and save the updated manifest to `[ITER_DIR]/design-assets.md` listing each asset, the issue it addresses, and the new prompt used.
+Critique sources:
+- `[ACTIVE_DIR]/critique.md` — MUST_FIX items and Top 3 recommendations
+[- `[ACTIVE_DIR]/crowd-critic-designer-actions.md` — Priority Actions table, if crowd critique was run]
 
-The original assets remain untouched in `[RUN_DIR]/`.
+Save all regenerated images to `[ITER_DIR]/`.
+Save manifest to `[ITER_DIR]/design-assets.md`.
+Original assets must not be modified.
 ```
 
-After iteration, run Stage 3 again (dispatch @critic) with paths pointing to `[ITER_DIR]/` so the new assets are evaluated. Update `ITER_DIR` as the active directory for any further iterations.
+**Step 4 — Re-run standard critique on new assets:**
+
+After the designer completes, dispatch @critic (Mode B):
+
+```
+MODE: B
+
+RUN_DIR: [ITER_DIR]
+Brief: [RUN_DIR]/brief.md
+Assets: [ITER_DIR]/design-assets.md
+Save critique to: [ITER_DIR]/critique.md
+```
+
+Show the new dimension scores alongside the previous round's scores so the user can see what improved. Set `[ITER_DIR]` as the active directory for any further iterations or crowd critique runs.
 
 ---
 
@@ -242,11 +344,7 @@ Generated: [date]
 See `brief.md`
 
 ## Generated Assets
-- `logo-primary.png` — Primary logo mark
-- `logo-horizontal.png` — Horizontal logo lockup
-- `color-palette.png` — Brand color system
-- `typography-specimen.png` — Typography specimen
-- `brand-mockup.png` — Brand application mockup
+See `design-assets.md` for the actual generated asset list. Assets are selected from the approved plan and may include identity, digital, editorial, campaign, spatial, product, or other brief-specific touchpoints.
 
 ## Quality Assessment
 Overall Score: [X]/10

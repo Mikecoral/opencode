@@ -41,7 +41,9 @@ Check your task instructions for `MODE: A` or `MODE: B`:
 | Symbol & Mark | Does it propose a concrete concept, or just say "create a mark"? |
 | Typography | Does it specify a style category (humanist sans, slab serif, etc.)? |
 
-**Output format — save to `[RUN_DIR]/brief-review.md`:**
+**Output — save two files:**
+
+**`[RUN_DIR]/brief-review.md`** (summary for user):
 
 ```
 # Brief Review: [Organization Name]
@@ -62,6 +64,49 @@ Check your task instructions for `MODE: A` or `MODE: B`:
 
 ## Recommendation
 PROCEED / REVISE FIRST — [one sentence justification]
+```
+
+**`[RUN_DIR]/critic-mode-a-trace.md`** (full reasoning log):
+
+```
+# Critic Mode A Trace: [Organization Name]
+
+## Inputs
+- Brief path: [path read]
+- Brief word count: [approx]
+
+## Per-Section Analysis
+
+### Design Keywords
+Raw content: "[quote the actual keywords from brief]"
+Assessment: [detailed reasoning — why specific/generic, what images this would produce]
+Score: X/10
+
+### Visual Direction
+Raw content: "[quote]"
+Assessment: [reasoning]
+Score: X/10
+
+### Color Strategy
+Raw content: "[quote]"
+Assessment: [reasoning]
+Score: X/10
+
+### Symbol & Mark
+Raw content: "[quote]"
+Assessment: [reasoning]
+Score: X/10
+
+### Typography
+Raw content: "[quote]"
+Assessment: [reasoning]
+Score: X/10
+
+## Scoring Rationale
+[How the overall score was calculated from section scores]
+
+## Rewrite Suggestions
+[Full proposed rewrites for each flagged section]
 ```
 
 ---
@@ -177,7 +222,7 @@ For every issue that blocks delivery, emit:
 
 ---
 
-## Output Format — save to `[RUN_DIR]/critique.md`
+## Output Format — save two files
 
 ```
 # Brand Design Critique: [Organization Name]
@@ -245,4 +290,72 @@ For every issue that blocks delivery, emit:
 ## Verdict
 SHIP / ITERATE / REDESIGN
 [One sentence justification. SHIP = overall ≥7.5 and 0 MUST_FIX. ITERATE = fixable issues. REDESIGN = strategy misalignment or >3 MUST_FIX.]
+```
+
+**`[RUN_DIR]/critic-mode-b-trace.md`** (full reasoning log):
+
+```
+# Critic Mode B Trace: [Organization Name]
+
+## Inputs
+- Brief path: [path]
+- Asset manifest path: [path]
+- Assets reviewed: [list each filename]
+- Iteration context: [RUN_DIR or ITER_DIR, indicate if this is iter-N]
+
+## Step 1 — Safety Check Reasoning
+### Text Hallucination
+Asset-by-asset: [for each asset, describe exactly what text was visible and whether it matched the prompt]
+
+### Mockup Single-Object
+[Describe what objects were visible in each mockup asset]
+
+### Privacy Information
+[List all visible text strings checked and whether any were real personal data]
+
+## Step 2 — Anti-AI Slop Scan Reasoning
+For each of the 7 sins, explain what was observed and why it passes or fails:
+1. Generic gradient: [observation]
+2. Default tech accent: [observed color values]
+3. Emoji icons: [what was seen]
+4. Rounded card + left border: [composition observed]
+5. Invented metrics: [any text claims found]
+6. Filler copy: [text content found in mockups]
+7. Uniform sans-serif: [typefaces observed across assets]
+
+## Step 3 — Craft Evaluation Reasoning
+### Color
+[Observed palette layers — which colors appeared, estimated proportions, accent count]
+
+### Typography
+[Observed typefaces, approximate sizes, tracking observations per asset]
+
+### Hierarchy
+[Focal point count, grouping distances observed, CTA prominence]
+
+## Step 4 — Dimension Scoring Reasoning
+### Strategy Alignment — X/10
+[Full reasoning: what brief said vs. what images showed, evidence for score]
+
+### Logo Quality — X/10
+[Full reasoning: mark concept analysis, distinctiveness assessment]
+
+### Color System — X/10
+[Full reasoning: palette coherence, emotional fit, craft rule compliance]
+
+### Typography — X/10
+[Full reasoning: typeface choices, craft rule compliance per asset]
+
+### Application Coherence — X/10
+[Full reasoning: shared tokens observed, visual inconsistencies noted]
+
+## Score Calculation
+| Dimension | Score |
+|-----------|-------|
+| Strategy Alignment | X |
+| Logo Quality | X |
+| Color System | X |
+| Typography | X |
+| Application Coherence | X |
+| **Overall** | **X/10** |
 ```
