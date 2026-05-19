@@ -1,0 +1,24 @@
+{
+  "source": {
+    "dataset": "SocioBench ISSP sampling500",
+    "domain": "nationalidentity",
+    "sample_size": 12,
+    "seed": "20260519-1415-crowd-retest",
+    "note": "Independent retest sample. Profiles are demographic context for simulated audience critique, not real design preference labels."
+  },
+  "project_summary": "Retest crowd critique for Shanghai Innovation Institute / SII brand assets, with a fresher mix including younger prospective applicants, working adults, domestic-work profiles, small-city viewers, and older stakeholders.",
+  "profiles": [
+    { "person_id": 60000092, "sex": "Female", "age_band": "46-60", "education_years": 12, "work_status": "Domestic work", "place": "A big city" },
+    { "person_id": 60000108, "sex": "Male", "age_band": "31-45", "education_years": 16, "work_status": "In paid work", "place": "A big city" },
+    { "person_id": 60000112, "sex": "Female", "age_band": "31-45", "education_years": 16, "work_status": "In paid work", "place": "A big city" },
+    { "person_id": 60000300, "sex": "Male", "age_band": "61-75", "education_years": 12, "work_status": "In paid work", "place": "A big city" },
+    { "person_id": 60000318, "sex": "Female", "age_band": "18-30", "education_years": 16, "work_status": "In paid work", "place": "Suburbs or outskirts of a big city" },
+    { "person_id": 60000342, "sex": "Male", "age_band": "46-60", "education_years": 12, "work_status": "In paid work", "place": "Suburbs or outskirts of a big city" },
+    { "person_id": 60000380, "sex": "Female", "age_band": "18-30", "education_years": 16, "work_status": "In paid work", "place": "Suburbs or outskirts of a big city" },
+    { "person_id": 60000447, "sex": "Female", "age_band": "46-60", "education_years": 9, "work_status": "Domestic work", "place": "A town or a small city" },
+    { "person_id": 60000720, "sex": "Male", "age_band": "18-30", "education_years": 15, "work_status": "In paid work", "place": "Suburbs or outskirts of a big city" },
+    { "person_id": 60000738, "sex": "Male", "age_band": "18-30", "education_years": 12, "work_status": "In paid work", "place": "Suburbs or outskirts of a big city" },
+    { "person_id": 60000770, "sex": "Female", "age_band": "31-45", "education_years": 12, "work_status": "In paid work", "place": "A town or a small city" },
+    { "person_id": 60000818, "sex": "Female", "age_band": "31-45", "education_years": 18, "work_status": "In paid work", "place": "Suburbs or outskirts of a big city" }
+  ]
+}

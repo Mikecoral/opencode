@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">创智 Signal Kit NFC Card</title>
+  <desc id="desc">A cultural creative NFC identity and visitor card for Shanghai Innovation Institute.</desc>
+  <rect width="1536" height="1024" fill="#0A102A"/>
+  <rect x="168" y="192" width="1200" height="640" rx="64" fill="#F6F8FB"/>
+  <rect x="168" y="192" width="1200" height="640" rx="64" fill="none" stroke="#0F62FE" stroke-width="4"/>
+  <g opacity="0.35" stroke="#A2A9B0" stroke-width="1">
+    <path d="M248 280h1040M248 360h1040M248 440h1040M248 520h1040M248 600h1040M248 680h1040"/>
+    <path d="M328 256v496M408 256v496M488 256v496M568 256v496M648 256v496M728 256v496M808 256v496M888 256v496M968 256v496M1048 256v496M1128 256v496M1208 256v496"/>
+  </g>
+  <g transform="translate(248 284)">
+    <rect width="260" height="260" rx="44" fill="#0A102A"/>
+    <path d="M62 68h126M62 68v70M62 138h126M188 138v70M62 208h126" stroke="#F6F8FB" stroke-width="28" stroke-linecap="round" fill="none"/>
+    <path d="M164 68v140M218 68v140" stroke="#00D5C8" stroke-width="24" stroke-linecap="round"/>
+    <circle cx="218" cy="68" r="12" fill="#FF7A1A"/>
+  </g>
+  <text x="568" y="338" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="74" font-weight="750" fill="#0A102A" letter-spacing="8">创智学院</text>
+  <text x="570" y="392" font-family="Inter,Arial,sans-serif" font-size="26" font-weight="700" fill="#0F62FE" letter-spacing="4">SHANGHAI INNOVATION INSTITUTE</text>
+  <text x="570" y="484" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="26" fill="#161616">ROLE: VISITOR / RESEARCH PARTNER</text>
+  <text x="570" y="536" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="26" fill="#161616">PROJECT: SII-SIGNAL-KIT-001</text>
+  <text x="570" y="588" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="26" fill="#161616">ACCESS: FRONTIER COMMONS</text>
+  <rect x="570" y="638" width="540" height="12" rx="6" fill="#0F62FE"/>
+  <rect x="570" y="666" width="300" height="12" rx="6" fill="#00D5C8"/>
+  <circle cx="1136" cy="648" r="20" fill="#FF7A1A"/>
+  <g transform="translate(1176 608)" fill="none" stroke="#0A102A" stroke-width="8" stroke-linecap="round">
+    <path d="M0 24c28-28 56-28 84 0"/>
+    <path d="M14 48c18-18 38-18 56 0"/>
+    <path d="M28 72c8-8 18-8 28 0"/>
+  </g>
+  <text x="248" y="728" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="22" fill="#697077">NFC ENABLED / TAP TO OPEN PROFILE</text>
+  <text x="1288" y="728" text-anchor="end" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="22" fill="#697077">NO. 0001</text>
+</svg>

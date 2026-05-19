@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536" role="img" aria-labelledby="title desc">
+  <title id="title">创智学院 Research Release Cover Template</title>
+  <desc id="desc">A research publication cover template for Shanghai Innovation Institute.</desc>
+  <rect width="1024" height="1536" fill="#0A102A"/>
+  <rect x="64" y="64" width="896" height="1408" rx="44" fill="#F6F8FB"/>
+  <rect x="112" y="112" width="800" height="420" rx="36" fill="#0A102A"/>
+  <g opacity="0.32" stroke="#F6F8FB" stroke-width="1">
+    <path d="M152 180h720M152 244h720M152 308h720M152 372h720M152 436h720"/>
+    <path d="M216 148v336M296 148v336M376 148v336M456 148v336M536 148v336M616 148v336M696 148v336M776 148v336"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M176 404c168-158 380-176 636-52" stroke="#00D5C8" stroke-width="14"/>
+    <path d="M176 428c210-74 424-60 636 42" stroke="#0F62FE" stroke-width="14"/>
+  </g>
+  <circle cx="178" cy="404" r="18" fill="#FF7A1A"/>
+  <text x="112" y="636" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="22" fill="#0F62FE" letter-spacing="3">SII RESEARCH RELEASE / 2026</text>
+  <text x="112" y="736" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="70" font-weight="750" fill="#0A102A">科研进展发布</text>
+  <text x="112" y="812" font-family="Inter,Arial,sans-serif" font-size="38" font-weight="700" fill="#161616">Frontier Intelligence Report</text>
+  <rect x="112" y="880" width="800" height="2" fill="#A2A9B0"/>
+  <g font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" fill="#161616">
+    <text x="112" y="970" font-size="36" font-weight="650">标题示例：面向具身智能的开放训练系统</text>
+    <text x="112" y="1034" font-size="28" fill="#697077">项目编号 SII-LAB-042 · 开源模型 · 机器人训练 · 科学智能</text>
+  </g>
+  <g transform="translate(112 1120)">
+    <rect width="188" height="72" rx="20" fill="#0A102A"/>
+    <rect x="216" width="188" height="72" rx="20" fill="#0F62FE"/>
+    <rect x="432" width="188" height="72" rx="20" fill="#00D5C8"/>
+    <text x="94" y="46" text-anchor="middle" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="18" fill="#F6F8FB">MODEL</text>
+    <text x="310" y="46" text-anchor="middle" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="18" fill="#F6F8FB">DATA</text>
+    <text x="526" y="46" text-anchor="middle" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="18" fill="#0A102A">VALUE</text>
+  </g>
+  <text x="112" y="1332" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="38" font-weight="700" fill="#0A102A">创智学院</text>
+  <text x="112" y="1382" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700" fill="#0F62FE" letter-spacing="3">SHANGHAI INNOVATION INSTITUTE</text>
+  <text x="912" y="1380" text-anchor="end" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="20" fill="#697077">sii.edu.cn</text>
+</svg>

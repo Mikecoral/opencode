@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">创智学院 Logo Direction 1: Dynamic Grid SII</title>
+  <desc id="desc">A restrained dynamic-grid SII monogram for Shanghai Innovation Institute.</desc>
+  <rect width="1024" height="1024" rx="64" fill="#F6F8FB"/>
+  <g opacity="0.35" stroke="#A2A9B0" stroke-width="1">
+    <path d="M224 168v512M296 168v512M368 168v512M440 168v512M512 168v512M584 168v512M656 168v512M728 168v512M800 168v512"/>
+    <path d="M224 168h576M224 240h576M224 312h576M224 384h576M224 456h576M224 528h576M224 600h576M224 672h576"/>
+  </g>
+  <g fill="#0A102A">
+    <rect x="224" y="168" width="288" height="72" rx="20"/>
+    <rect x="224" y="240" width="72" height="144" rx="20"/>
+    <rect x="224" y="384" width="288" height="72" rx="20"/>
+    <rect x="440" y="456" width="72" height="144" rx="20"/>
+    <rect x="224" y="600" width="288" height="72" rx="20"/>
+    <rect x="584" y="168" width="72" height="504" rx="20"/>
+    <rect x="728" y="168" width="72" height="504" rx="20"/>
+  </g>
+  <g fill="#0F62FE">
+    <circle cx="260" cy="204" r="14"/>
+    <circle cx="620" cy="204" r="14"/>
+    <circle cx="764" cy="636" r="14"/>
+  </g>
+  <g stroke="#00D5C8" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M620 204C660 262 708 310 764 348"/>
+    <path d="M260 204C326 246 378 296 440 384"/>
+  </g>
+  <g transform="translate(804 156)">
+    <path d="M0 36l18-18 18 18-18 18z" fill="#FF7A1A"/>
+    <path d="M18 0v72M-18 36h72" stroke="#FF7A1A" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <text x="512" y="792" text-anchor="middle" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="72" font-weight="700" fill="#0A102A" letter-spacing="6">创智学院</text>
+  <text x="512" y="850" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="600" fill="#0F62FE" letter-spacing="3">SHANGHAI INNOVATION INSTITUTE</text>
+  <text x="512" y="904" text-anchor="middle" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="18" fill="#697077" letter-spacing="4">DYNAMIC GRID IDENTITY / SII</text>
+</svg>

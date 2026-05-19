@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">创智学院 Logo Direction 4: Open Code Wordmark</title>
+  <desc id="desc">A typographic code-structured logo for Shanghai Innovation Institute.</desc>
+  <rect width="1536" height="1024" rx="64" fill="#0A102A"/>
+  <g opacity="0.18" stroke="#F6F8FB" stroke-width="1">
+    <path d="M160 180h1216M160 260h1216M160 340h1216M160 420h1216M160 500h1216M160 580h1216M160 660h1216"/>
+    <path d="M256 144v560M416 144v560M576 144v560M736 144v560M896 144v560M1056 144v560M1216 144v560"/>
+  </g>
+  <text x="184" y="350" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="120" font-weight="700" fill="#00D5C8">&lt;</text>
+  <text x="1258" y="350" font-family="'SF Mono','IBM Plex Mono',monospace" font-size="120" font-weight="700" fill="#00D5C8">/&gt;</text>
+  <text x="768" y="360" text-anchor="middle" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif" font-size="156" font-weight="750" fill="#F6F8FB" letter-spacing="14">创智学院</text>
+  <rect x="396" y="438" width="744" height="10" rx="5" fill="#0F62FE"/>
+  <circle cx="1172" cy="443" r="18" fill="#FF7A1A"/>
+  <text x="768" y="544" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="44" font-weight="700" fill="#0F62FE" letter-spacing="10">SHANGHAI INNOVATION INSTITUTE</text>
+  <g font-family="'SF Mono','IBM Plex Mono',monospace" font-size="24" fill="#A2A9B0">
+    <text x="300" y="694">// open research</text>
+    <text x="300" y="738">const institute = createFuture({ talent, science, industry })</text>
+    <text x="300" y="782">export default SII</text>
+  </g>
+  <rect x="1076" y="656" width="168" height="168" rx="28" fill="none" stroke="#0F62FE" stroke-width="10"/>
+  <text x="1160" y="762" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="54" font-weight="800" fill="#F6F8FB" letter-spacing="6">SII</text>
+</svg>
