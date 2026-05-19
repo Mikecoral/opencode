@@ -94,21 +94,68 @@ If the user chooses to revise, dispatch @planner with the critic's feedback as a
 
 ---
 
-## Stage 2: Visual Asset Generation (Designer Agent)
+## Stage 1.75: Visual Research (Visual Researcher Agent)
 
-Once the user approves the brief, dispatch the @designer sub-agent with this message:
+Once the brief passes review, dispatch the @visual-researcher sub-agent:
 
 ```
-The brand design brief is ready at `[RUN_DIR]/brief.md`.
+The brand design brief is at `[RUN_DIR]/brief.md`.
 
-Please read the brief carefully, then generate the 5 brand visual assets:
-1. logo-primary (1024x1024, high quality)
-2. logo-horizontal (1792x1024, high quality)  
-3. color-palette (1792x1024, high quality)
-4. typography-specimen (1792x1024, high quality)
-5. brand-mockup (1792x1024, high quality)
+Please conduct visual research and save your findings to:
+- `[RUN_DIR]/visual-research.md` — competitor audit + inspiration references
+- `[RUN_DIR]/direction-options.md` — 3 distinct visual direction proposals
+```
 
-For each asset, craft a detailed imagegen prompt that reflects the brand strategy from the brief. Save generated images to `[RUN_DIR]/` and the manifest to `[RUN_DIR]/design-assets.md`.
+After the visual researcher completes, read `[RUN_DIR]/direction-options.md` and show the user the 3 directions in summary. Ask:
+
+> "Visual research complete. Here are 3 design directions: [summarize each in 1 line]. Which direction should we proceed with? (1 / 2 / 3 / modify)"
+
+Record the chosen direction name for the designer dispatch.
+
+---
+
+## Stage 2a: Asset Planning (Designer Agent)
+
+Once the user selects a direction, dispatch the @designer sub-agent for planning only:
+
+```
+MODE: PLAN (do not generate images yet)
+
+Run directory: `[RUN_DIR]/`
+
+Please read:
+- `[RUN_DIR]/brief.md` — brand strategy
+- `[RUN_DIR]/visual-research.md` — competitor audit and references
+- `[RUN_DIR]/direction-options.md` — all 3 directions
+
+Chosen direction: [DIRECTION NAME chosen by user]
+
+Based on the brief and chosen direction, propose an asset list for this brand.
+Save your asset plan to `[RUN_DIR]/asset-plan.md`.
+```
+
+After the designer saves the plan, read `[RUN_DIR]/asset-plan.md` and show it to the user. Ask:
+
+> "Here is the proposed asset list: [summary]. Shall I proceed with generation, or would you like to adjust? (proceed / modify)"
+
+If the user modifies, update `[RUN_DIR]/asset-plan.md` directly, then proceed.
+
+---
+
+## Stage 2b: Visual Asset Generation (Designer Agent)
+
+Once the asset plan is confirmed, dispatch the @designer sub-agent for generation:
+
+```
+MODE: GENERATE
+
+Run directory: `[RUN_DIR]/`
+
+The asset plan is confirmed at `[RUN_DIR]/asset-plan.md`.
+
+Please read the plan and generate all listed assets.
+Ground every prompt in `[RUN_DIR]/brief.md` and `[RUN_DIR]/visual-research.md`.
+Save generated images to `[RUN_DIR]/` and the manifest to `[RUN_DIR]/design-assets.md`.
 ```
 
 After the designer completes, show the user the list of generated files. Ask:
