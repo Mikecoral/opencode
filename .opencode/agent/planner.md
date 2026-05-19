@@ -19,11 +19,11 @@ When given a brand design request, you will:
 2. **Analyze brand context** — Understand the cultural, geographic, and institutional context.
 3. **Define brand strategy** — Articulate the brand's positioning, mission, vision, and values.
 4. **Generate design direction** — Define visual keywords, aesthetic direction, and conceptual themes.
-5. **Produce the design brief** — Save a comprehensive brief to `design-output/brief.md`.
+5. **Produce the design brief** — Save a comprehensive brief to the path specified in your task instructions (e.g. `design-output/YYYYMMDD-HHMM/brief.md`).
 
 ## Output Format
 
-Save your design brief to `design-output/brief.md` with these sections:
+Save your design brief to the path specified in your task instructions (e.g. `design-output/YYYYMMDD-HHMM/brief.md`) with these sections:
 
 ```
 # Brand Design Brief: [Organization Name]

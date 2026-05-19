@@ -6,8 +6,8 @@ import DESCRIPTION from "./imagegen.txt"
 import { Config } from "@/config/config"
 
 const OUTPUT_DIR = "design-output"
-//const DEFAULT_BASE_URL = "https://api.openai.com/v1"
-const DEFAULT_BASE_URL = "https://apicz.boyuerichdata.com/v1"
+const DEFAULT_BASE_URL = "https://api.openai.com/v1"
+//const DEFAULT_BASE_URL = "https://apicz.boyuerichdata.com/v1"
 const DEFAULT_MODEL = "gpt-image-2"
 
 function optionString(value: unknown) {

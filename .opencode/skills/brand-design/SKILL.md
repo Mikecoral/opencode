@@ -26,6 +26,20 @@ Execute the following stages in order. At each stage boundary, show the user wha
 
 ---
 
+## Session Setup
+
+Before dispatching any agent, generate a timestamp-based run directory:
+
+```
+RUN_DIR = "design-output/YYYYMMDD-HHMM"  (current local time, e.g. design-output/20260519-1430)
+```
+
+Tell the user: "Starting brand design session. Output will be saved to `[RUN_DIR]/`."
+
+Use `RUN_DIR` as the base path for all file saves throughout this session.
+
+---
+
 ## Stage 1: Brand Strategy Research (Planner Agent)
 
 Dispatch the @planner sub-agent with this message:
@@ -39,12 +53,12 @@ Your task:
 1. Research the organization thoroughly using web search
 2. Analyze the brand context, positioning, and design opportunity
 3. Produce a comprehensive design brief covering all 10 sections
-4. Save the brief to `design-output/brief.md`
+4. Save the brief to `[RUN_DIR]/brief.md`
 
 Be thorough — the Designer agent will use your brief to generate actual visual assets.
 ```
 
-After the planner completes, read `design-output/brief.md` and show the user a summary. Ask:
+After the planner completes, read `[RUN_DIR]/brief.md` and show the user a summary. Ask:
 
 > "The brand strategy brief is ready. Here are the key design directions: [summary]. Shall I proceed to visual design generation? (yes/no/modify)"
 
@@ -57,7 +71,7 @@ If the user wants modifications, incorporate their feedback and re-run the plann
 Once the user approves the brief, dispatch the @designer sub-agent with this message:
 
 ```
-The brand design brief is ready at `design-output/brief.md`.
+The brand design brief is ready at `[RUN_DIR]/brief.md`.
 
 Please read the brief carefully, then generate the 5 brand visual assets:
 1. logo-primary (1024x1024, high quality)
@@ -66,12 +80,12 @@ Please read the brief carefully, then generate the 5 brand visual assets:
 4. typography-specimen (1792x1024, high quality)
 5. brand-mockup (1792x1024, high quality)
 
-For each asset, craft a detailed imagegen prompt that reflects the brand strategy from the brief. Save the manifest to `design-output/design-assets.md`.
+For each asset, craft a detailed imagegen prompt that reflects the brand strategy from the brief. Save generated images to `[RUN_DIR]/` and the manifest to `[RUN_DIR]/design-assets.md`.
 ```
 
 After the designer completes, show the user the list of generated files. Ask:
 
-> "Visual assets generated. Files saved to design-output/. Shall I proceed to design critique and quality evaluation? (yes/no)"
+> "Visual assets generated. Files saved to `[RUN_DIR]/`. Shall I proceed to design critique and quality evaluation? (yes/no)"
 
 ---
 
@@ -81,11 +95,11 @@ Once approved, dispatch the @critic sub-agent with this message:
 
 ```
 Please evaluate the brand design system:
-- Read the design brief at `design-output/brief.md`
-- Review the asset manifest at `design-output/design-assets.md`
+- Read the design brief at `[RUN_DIR]/brief.md`
+- Review the asset manifest at `[RUN_DIR]/design-assets.md`
 - Score across all 5 dimensions
 - Identify top 3 improvements with ready-to-use imagegen prompts
-- Save your critique to `design-output/critique.md`
+- Save your critique to `[RUN_DIR]/critique.md`
 ```
 
 After the critic completes, show the user the scores and top recommendations. Ask:
@@ -106,14 +120,14 @@ Please regenerate the following assets based on the critique feedback:
 Use these ready-to-use prompts from the critique:
 [PASTE THE RELEVANT PROMPTS FROM design-output/critique.md]
 
-Save updated files to design-output/ with the same filenames (overwrite previous versions) and update design-output/design-assets.md with the new prompts used.
+Save updated files to `[RUN_DIR]/` with the same filenames (overwrite previous versions) and update `[RUN_DIR]/design-assets.md` with the new prompts used.
 ```
 
 ---
 
 ## Final Output
 
-After the workflow completes, write a summary report to `design-output/README.md`:
+After the workflow completes, write a summary report to `[RUN_DIR]/README.md`:
 
 ```markdown
 # Brand Design System: [Organization Name]
@@ -138,4 +152,4 @@ See `critique.md` for detailed evaluation.
 See `design-assets.md` for prompts and technical details.
 ```
 
-Tell the user: "Brand design complete. All assets are in the `design-output/` directory. Open `design-output/README.md` for a summary."
+Tell the user: "Brand design complete. All assets are in `[RUN_DIR]/`. Open `[RUN_DIR]/README.md` for a summary."

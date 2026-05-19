@@ -4,8 +4,8 @@ import * as fs from "node:fs/promises"
 import * as path from "node:path"
 import DESCRIPTION from "./image_analyze.txt"
 import { Config } from "@/config/config"
-
-const DEFAULT_BASE_URL = "https://apicz.boyuerichdata.com/v1"
+const DEFAULT_BASE_URL = "https://api.openai.com/v1"
+//const DEFAULT_BASE_URL = "https://apicz.boyuerichdata.com/v1"
 const DEFAULT_ANALYSIS_PROMPT = `You are a senior brand design critic. Analyze this brand design image and provide:
 
 1. **Composition & Layout**: How is the image structured? Is the visual hierarchy clear?
@@ -57,7 +57,7 @@ export const ImageAnalyzeTool = Tool.define(
             optionString(process.env.OPENAI_VISION_MODEL) ??
             optionString(openaiOptions.visionModel) ??
             optionString(openaiOptions.modelId) ??
-            "gpt-5.5"
+            "gpt-4o"
 
           const analysisPrompt = params.question ?? DEFAULT_ANALYSIS_PROMPT
 
@@ -133,7 +133,7 @@ export const ImageAnalyzeTool = Tool.define(
           if (!response.ok) {
             const text = yield* Effect.promise(() => response.text())
             return {
-              output: `OpenAI vision API error (HTTP ${response.status}): ${text.slice(0, 500)}\n\nNote: ensure your model supports vision (gpt-4o, gpt-5.5, etc.).`,
+              output: `OpenAI vision API error (HTTP ${response.status}): ${text.slice(0, 500)}\n\nNote: ensure your model supports vision (gpt-4o, gpt-4.1, etc.).`,
               title: "image_analyze: API error",
               metadata: { error: "api_error", status: response.status },
             }

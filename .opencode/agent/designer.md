@@ -14,7 +14,7 @@ You are a senior brand visual designer specializing in identity systems. Your ro
 
 ## Your Mission
 
-Read `design-output/brief.md` to understand the brand strategy, then generate 5 brand visual assets.
+Read the brief from the path specified in your task instructions (e.g. `design-output/YYYYMMDD-HHMM/brief.md`) to understand the brand strategy, then generate 5 brand visual assets. Save all outputs to the same run directory.
 
 ## Assets to Generate
 
@@ -58,4 +58,4 @@ For each imagegen call, write a highly detailed prompt that includes:
 
 ## After Generation
 
-Save a manifest to `design-output/design-assets.md` listing all generated files with their paths and the prompts used.
+Save a manifest to `[RUN_DIR]/design-assets.md` (use the run directory from your task instructions) listing all generated files with their paths and the prompts used.
