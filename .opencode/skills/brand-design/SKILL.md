@@ -1,6 +1,6 @@
 ---
 name: brand-design
-description: Multi-agent brand identity design system. Coordinates Planner, Designer, and Critic agents to produce complete brand visual assets.
+description: 多智能体品牌形象设计系统。协调规划师、视觉研究员、设计师和评审师，完成完整的品牌视觉资产设计。
 triggers:
   - 品牌设计
   - 品牌形象
@@ -12,226 +12,237 @@ triggers:
   - 形象设计
 ---
 
-# Brand Design Harness
+# 品牌设计编排器
 
-You are orchestrating a multi-agent brand design workflow. Execute the stages in order. At each boundary, summarize for the user and **wait for confirmation** before proceeding.
+你正在编排一个多智能体品牌设计工作流。按顺序执行各阶段。每个阶段结束时向用户汇总，**等待确认后**再继续。
 
-## Subagent Dispatch Contract
+## 子智能体调度规范
 
-When a stage says to dispatch a subagent, call the `task` tool directly with the
-exact `subagent_type` shown below:
+当某个阶段需要调度子智能体时，直接使用 `task` 工具，并填写下方精确的 `subagent_type`：
 
-- Planner: `subagent_type: "planner"`
-- Designer: `subagent_type: "designer"`
-- Critic: `subagent_type: "critic"`
+- 规划师：`subagent_type: "planner"`
+- 视觉研究员：`subagent_type: "visual-researcher"`
+- 设计师：`subagent_type: "designer"`
+- 评审师：`subagent_type: "critic"`
 
-Do not include `@`, translated names, titles, punctuation, spaces, or extra text
-in `subagent_type`. Put human-readable labels only in `description`.
+`subagent_type` 中**不要包含** `@`、翻译名称、标题、标点、空格或其他额外文字。人类可读的标签只写在 `description` 字段中。
 
-## When to Activate
+## 激活时机
 
-Brand design, brand identity, logo, or visual identity work — for organizations, schools, companies, or products.
+当用户提出品牌设计、品牌形象、Logo或视觉形象设计需求时激活——适用于组织机构、学校、企业、产品等各类主体。
 
 ---
 
-## Session Setup (Before Stage 1)
+## 会话初始化（第一阶段前）
 
-**Generate a timestamp-based run id + run directory and hold both for the entire session.**
+**生成基于时间戳的运行ID和运行目录，并在整个会话中保持不变。**
 
-### Fresh-Start Rule for New Sessions
+### 新会话的全新启动规则
 
-For every new window / new conversation that activates this skill, start a **new**
-brand-design run from Stage 1. Do **not** search `design-output/` for prior briefs,
-asset plans, critiques, or generated images in an attempt to reuse an earlier
-plan.
+每次激活本技能的新窗口/新对话，都从第一阶段重新开始一次**全新**的品牌设计运行。**不要**去 `design-output/` 中查找之前的简报、资产计划、评审或生成图像来复用旧方案。
 
-- Default behavior: create a fresh `RUN_ID`, fresh `RUN_DIR`, fresh brief, and
-  fresh asset plan.
-- Only reuse or continue a previous run when the user explicitly asks to resume,
-  continue, revise, or inspect a specific earlier run directory.
-- A similar subject name is not enough reason to reuse old work; treat it as a
-  new project unless the user says otherwise.
+- 默认行为：创建全新的 `RUN_ID`、`RUN_DIR`、简报和资产计划。
+- 只有当用户明确要求继续、恢复或检查某个特定的历史运行目录时，才复用旧内容。
+- 主体名称相近不足以作为复用旧内容的理由；除非用户明确说明，否则视为新项目。
 
-Compute:
+计算方式：
 ```
 RUN_ID = YYYYMMDD-HHMM
 RUN_DIR = design-output/RUN_ID
 ```
-using the current date and time (e.g. `RUN_ID = 20260518-1423`,
-`RUN_DIR = design-output/20260518-1423`).
+使用当前日期和时间（如 `RUN_ID = 20260518-1423`，`RUN_DIR = design-output/20260518-1423`）。
 
-All files for this session go under `RUN_DIR`. Never mix files from different runs. Tell the user:
+本次会话的所有文件均存入 `RUN_DIR`，不同运行的文件绝不混放。告知用户：
 
-> "Starting brand design session. Output directory: `design-output/YYYYMMDD-HHMM/`"
-
----
-
-## Stage 1: Brand Strategy Research (Planner)
-
-Use the `task` tool with `subagent_type: "planner"` and `description: "Research brand brief"`:
-
-```
-Please research and produce a brand design brief for:
-
-[INSERT USER'S ORIGINAL REQUEST]
-
-Follow the Research Protocol in your instructions: at least 3 websearch queries
-and 2 webfetch calls on authoritative sources. Cite every factual claim with
-inline URLs.
-
-Output directory: [RUN_DIR]
-Save brief to: [RUN_DIR]/brief.md
-```
-
-After completion, read `[RUN_DIR]/brief.md` and summarize the key strategic directions for the user.
+> "品牌设计会话已启动。输出目录：`design-output/YYYYMMDD-HHMM/`"
 
 ---
 
-## Stage 1.5: Brief Review (Critic, Mode A)
+## 第一阶段：品牌策略调研（规划师）
 
-**This stage is mandatory** — it catches weak research before we spend image-generation budget on a bad foundation.
-
-Use the `task` tool with `subagent_type: "critic"` and `description: "Review brand brief"`:
+使用 `task` 工具，`subagent_type: "planner"`，`description: "调研品牌简报"`：
 
 ```
-Output directory: [RUN_DIR]
+请为以下内容调研并产出品牌设计简报：
 
-Please review the brand design brief at `[RUN_DIR]/brief.md` in Brief Review
-mode (Mode A). Score across all 5 dimensions and produce a verdict
-(PASS / REVISE / RESEARCH-AGAIN). Save to `[RUN_DIR]/brief-critique.md`.
+[插入用户的原始需求]
+
+遵循你的指令中的调研规范：至少3次websearch查询和2次webfetch。每条事实性声明须内联引用来源URL。
+
+输出目录：[RUN_DIR]
+简报保存至：[RUN_DIR]/brief.md
 ```
 
-Read `[RUN_DIR]/brief-critique.md`, present the verdict and dimension scores to the user. Then:
-
-- **If verdict = PASS** → ask: *"Brief approved by critic with score X/10. Proceed to design generation? (yes/no)"*
-- **If verdict = REVISE** → list the specific fixes; ask: *"Critic requests these revisions. Options: (1) I edit the brief now (2) Re-dispatch planner with these fixes (3) Proceed anyway"*
-- **If verdict = RESEARCH-AGAIN** → use the `task` tool again with `subagent_type: "planner"`, the specific search queries from the critique, and the same `RUN_DIR`, then loop back to Stage 1.5.
-
-### Retry Guard (MANDATORY)
-
-Track how many times Planner has been re-dispatched in this session. **Hard cap: 2 re-research attempts** (3 total Planner runs). On the 3rd `RESEARCH-AGAIN` verdict, do NOT auto-loop. Instead, present to the user:
-
-> "Brief failed Critic review 3 times. The research subject may be obscure or the entity may not exist online. Options: (1) Proceed with the current best brief despite warnings (2) Provide source material manually (paste text / give URLs) (3) Abort workflow"
-
-This prevents infinite loops when the organization has insufficient web presence.
+完成后，读取 `[RUN_DIR]/brief.md`，向用户汇总关键策略方向。
 
 ---
 
-## Stage 2a: Asset Planning (Designer, Phase 1)
+## 第1.5阶段：简报评审（评审师，模式A）
 
-Once brief is approved, use the `task` tool with `subagent_type: "designer"` and `description: "Plan brand assets"`:
+**本阶段为必须步骤**——在消耗生图配额之前，先把住简报质量关。
+
+使用 `task` 工具，`subagent_type: "critic"`，`description: "评审品牌简报"`：
 
 ```
-Output directory: [RUN_DIR]
+输出目录：[RUN_DIR]
 
-The approved brief is at `[RUN_DIR]/brief.md`. Run Phase 1 only: propose
-the Visual Direction, Deliverable Strategy, touchpoint priority map, rejected
-asset ideas, self-check, and 4-8 brand assets tailored to this specific brief.
-Do not use an industry-default bundle such as school = admissions + campus +
-palette. Save to `[RUN_DIR]/asset-plan.md` and STOP — do not generate images yet.
+请以简报评审模式（模式A）评审 `[RUN_DIR]/brief.md`。对所有5个维度评分，并给出裁决（PASS / REVISE / RESEARCH-AGAIN）。保存至 `[RUN_DIR]/brief-critique.md`。
 ```
 
-Read `[RUN_DIR]/asset-plan.md`. Present the selected Visual Direction, Deliverable Strategy, and proposed asset list to the user. Ask:
+读取 `[RUN_DIR]/brief-critique.md`，向用户展示裁决和各维度得分。然后：
 
-> "Designer selected [Visual Direction] / [Deliverable Strategy] and proposes these N assets: [list]. Approve to generate? (yes / modify list / change direction / change strategy / change assets)"
+- **若裁决为 PASS** → 询问：*"简报通过评审，得分X/10。是否进入视觉研究阶段？（是/否）"*
+- **若裁决为 REVISE** → 列出具体修改项；询问：*"评审师要求以下修改。请选择：(1) 我现在直接编辑简报 (2) 带着这些修改意见重新调度规划师 (3) 直接继续"*
+- **若裁决为 RESEARCH-AGAIN** → 使用 `task` 工具再次调度 `subagent_type: "planner"`，传入评审中的具体搜索查询和相同的 `RUN_DIR`，然后回到第1.5阶段。
 
-If user wants modifications, edit `asset-plan.md` directly or re-dispatch designer with constraints.
+### 重试上限（必须遵守）
+
+追踪本次会话中规划师被重新调度的次数。**硬性上限：最多重调研2次**（规划师总共运行3次）。第三次收到 `RESEARCH-AGAIN` 裁决时，**不要自动循环**。改为向用户呈现：
+
+> "简报连续三次未通过评审。该机构可能网络信息不足，或主体不存在。请选择：(1) 尽管有警告，仍以当前最佳简报继续 (2) 手动提供资料（粘贴文本/给出URL） (3) 中止工作流"
 
 ---
 
-## Stage 2b: Visual Generation (Designer, Phase 2)
+## 第1.75阶段：视觉参考研究（视觉研究员）
 
-Once the asset plan is approved, use the `task` tool with `subagent_type: "designer"` and `description: "Generate brand assets"`:
+简报通过后，使用 `task` 工具，`subagent_type: "visual-researcher"`，`description: "研究视觉方向"`：
 
 ```
-Output directory: [RUN_DIR]
+输出目录：[RUN_DIR]
 
-The asset plan at `[RUN_DIR]/asset-plan.md` is approved. Run Phase 2:
-generate every asset in the plan via `imagegen` using `[RUN_ID]/<filename>`
-as the filename parameter (e.g. `20260518-1423/logo-primary`), then save
-the manifest to `[RUN_DIR]/design-assets.md`.
+已审定的简报位于 `[RUN_DIR]/brief.md`。请研究视觉参考资料，并提出2-3个差异化视觉方向选项。不要重做事实性品牌调研，不要生成图像。
+
+保存：
+- `[RUN_DIR]/visual-references.md`
+- `[RUN_DIR]/direction-options.md`
+- `[RUN_DIR]/visual-research-trace.md`
 ```
 
-After completion, list the generated files for the user. Ask:
+读取 `[RUN_DIR]/direction-options.md`，向用户展示2-3个方向选项和推荐方向。询问：
 
-> "All N assets generated. Proceed to visual critique? (yes/no)"
+> "视觉研究完成。推荐方向：[方向]。是否以此方向进入资产规划，或选择其他选项？"
+
+用户确认或选择方向后再继续。若用户选择了其他方向，将该选择传入设计师阶段一。
 
 ---
 
-## Stage 3: Visual Critique (Critic, Mode B)
+## 第二阶段A：资产规划（设计师，阶段一）
 
-Use the `task` tool with `subagent_type: "critic"` and `description: "Critique brand assets"`:
+视觉研究确认后，使用 `task` 工具，`subagent_type: "designer"`，`description: "规划品牌资产"`：
 
 ```
-Output directory: [RUN_DIR]
+输出目录：[RUN_DIR]
 
-Please evaluate the generated brand assets in Visual Review mode (Mode B):
-- Read `[RUN_DIR]/brief.md` and `[RUN_DIR]/design-assets.md`
-- Read `[RUN_DIR]/asset-plan.md` and audit whether the generated assets follow the selected Visual Direction and Deliverable Strategy
-- Score across all 5 dimensions: Philosophy, Hierarchy, Execution, Specificity, Restraint
-- Provide top 3 iteration recommendations with ready-to-use imagegen prompts
-- Save to `[RUN_DIR]/critique.md`
+已审定的简报位于 `[RUN_DIR]/brief.md`。仅运行阶段一：提出视觉方向、交付策略、触点优先级地图、被排除的资产创意、自检，以及针对本简报定制的4-8个品牌资产。
+先读取 `[RUN_DIR]/visual-references.md` 和 `[RUN_DIR]/direction-options.md`。以用户认可或推荐的视觉方向为起点。
+不要使用行业默认包，如 学校 = 招生 + 校园 + 调色板。
+保存至 `[RUN_DIR]/asset-plan.md` 后停止——不要生成图像。
 ```
 
-Present the scores and top recommendation. Ask:
+读取 `[RUN_DIR]/asset-plan.md`，向用户展示所选视觉方向、交付策略和建议资产清单。询问：
 
-> "Critique complete. Overall: X/10. Options: (1) Accept (2) Iterate on specific assets (3) Full redesign"
+> "设计师选择了[视觉方向] / [交付策略]，并建议以下N个资产：[清单]。是否批准生成？（批准 / 修改清单 / 更换方向 / 更换策略 / 调整资产）"
+
+若用户需要修改，直接编辑 `asset-plan.md` 或带约束条件重新调度设计师。
 
 ---
 
-## Stage 4: Iteration (Optional)
+## 第二阶段B：视觉生成（设计师，阶段二）
 
-If user picks iteration, use the `task` tool again with `subagent_type: "designer"` and `description: "Iterate brand assets"`:
+资产计划确认后，使用 `task` 工具，`subagent_type: "designer"`，`description: "生成品牌资产"`：
 
 ```
-Output directory: [RUN_DIR]
-Iteration directory: [RUN_DIR]/iterations/[ITERATION_ID]
+输出目录：[RUN_DIR]
 
-Regenerate the following assets based on critique feedback:
+`[RUN_DIR]/asset-plan.md` 中的资产计划已批准。运行阶段二：
+按计划通过 `imagegen` 生成每个资产，文件名参数使用 `[RUN_ID]/<文件名>`（如 `20260518-1423/logo-primary`），然后将清单保存至 `[RUN_DIR]/design-assets.md`。
+```
 
-[LIST ASSETS + WHAT TO CHANGE]
+完成后，向用户列出已生成的文件。询问：
 
-Use these prompts from the critique:
-[PASTE PROMPTS FROM [RUN_DIR]/critique.md]
+> "全部N个资产已生成。是否进入视觉评审？（是/否）"
 
-Create `[RUN_DIR]/iterations/[ITERATION_ID]/` for the regenerated files.
-Use `[RUN_ID]/iterations/[ITERATION_ID]/<filename>` as the filename
-parameter for imagegen so the new images stay inside the original run folder.
-Do not overwrite the original assets unless the user explicitly asks for that.
-Update `[RUN_DIR]/design-assets.md` with the iteration paths.
+---
+
+## 第三阶段：视觉评审（评审师，模式B）
+
+使用 `task` 工具，`subagent_type: "critic"`，`description: "评审品牌资产"`：
+
+```
+输出目录：[RUN_DIR]
+
+请以视觉评审模式（模式B）评估已生成的品牌资产：
+- 读取 `[RUN_DIR]/brief.md` 和 `[RUN_DIR]/design-assets.md`
+- 读取 `[RUN_DIR]/visual-references.md` 和 `[RUN_DIR]/direction-options.md`
+- 读取 `[RUN_DIR]/asset-plan.md`，审核生成资产是否遵循所选视觉方向和交付策略
+- 审核设计师是否将视觉研究作为方向输入，而非退回到品类模板
+- 从5个维度评分：哲学性、层级感、执行质量、特异性、克制度
+- 提出前3条迭代建议，并附上可直接使用的imagegen提示词
+- 保存至 `[RUN_DIR]/critique.md`
+```
+
+展示评分和首要建议。询问：
+
+> "评审完成。综合评分：X/10。请选择：(1) 接受 (2) 迭代特定资产 (3) 全面重设计"
+
+---
+
+## 第四阶段：迭代（可选）
+
+若用户选择迭代，再次使用 `task` 工具，`subagent_type: "designer"`，`description: "迭代品牌资产"`：
+
+```
+输出目录：[RUN_DIR]
+迭代目录：[RUN_DIR]/iterations/[ITERATION_ID]
+
+根据评审反馈重新生成以下资产：
+
+[列出资产 + 修改内容]
+
+使用评审中的以下提示词：
+[粘贴来自 [RUN_DIR]/critique.md 的提示词]
+
+在 `[RUN_DIR]/iterations/[ITERATION_ID]/` 中存放重新生成的文件。
+imagegen 的文件名参数使用 `[RUN_ID]/iterations/[ITERATION_ID]/<文件名>`，确保新图像保存在原始运行目录内。
+除非用户明确要求，不要覆盖原始资产。
+更新 `[RUN_DIR]/design-assets.md`，加入迭代路径。
 ```
 
 ---
 
-## Final Output
+## 最终输出
 
-Write `[RUN_DIR]/README.md`:
+写入 `[RUN_DIR]/README.md`：
 
 ```markdown
-# Brand Design System: [Organization Name]
+# 品牌设计系统：[组织名称]
 
-Generated: [date]
+生成时间：[日期]
 
-## Run Directory
+## 运行目录
 `[RUN_DIR]/`
 
-## Brief
-See `brief.md` (reviewed: `brief-critique.md`)
+## 简报
+见 `brief.md`（评审记录：`brief-critique.md`）
 
-## Assets
-[List of actually-generated files with one-line descriptions, pulled from design-assets.md]
+## 视觉研究
+见 `visual-references.md` 和 `direction-options.md`
 
-## Quality Assessment
-Overall Score: X/10 — see `critique.md`
+## 资产
+[从 design-assets.md 中提取的实际生成文件列表，每项附一行描述]
 
-## Asset Manifest
-See `design-assets.md` for prompts and technical details.
+## 质量评估
+综合评分：X/10 — 详见 `critique.md`
 
-## Reasoning Traces (for audit)
-- `planner-trace.md` — search queries, fetched URLs, Subject Type reasoning, DNA derivation
-- `critic-mode-a-trace.md` — per-dimension scoring rationale for the brief
-- `designer-trace.md` — asset selection tradeoffs and per-prompt derivation
-- `critic-mode-b-trace.md` — per-asset observations and recommendation derivation
+## 资产清单
+详见 `design-assets.md`，含提示词和技术参数。
+
+## 推理追踪（供审计）
+- `planner-trace.md` — 搜索查询、抓取URL、主体类型推理、DNA推导
+- `visual-research-trace.md` — 视觉参考查询、设计来源抓取、方向差异化过程
+- `critic-mode-a-trace.md` — 简报各维度评分推理
+- `designer-trace.md` — 资产选择取舍与各提示词推导
+- `critic-mode-b-trace.md` — 各资产观察与建议推导
 ```
 
-Tell the user: *"Brand design complete. All assets are in `[RUN_DIR]/`. See `[RUN_DIR]/README.md` for the summary."*
+告知用户：*"品牌设计完成。所有资产位于 `[RUN_DIR]/`。汇总报告见 `[RUN_DIR]/README.md`。"*
