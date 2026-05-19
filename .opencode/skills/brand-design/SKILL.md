@@ -66,6 +66,34 @@ If the user wants modifications, incorporate their feedback and re-run the plann
 
 ---
 
+## Stage 1.5: Brief Review (Critic Agent — Mode A)
+
+Before generating any images, dispatch the @critic sub-agent to review the brief quality:
+
+```
+MODE: A (brief review — no images yet)
+
+Please review the brand design brief at `[RUN_DIR]/brief.md`.
+
+Your task:
+1. Evaluate whether the brief is specific enough to drive visual design
+2. Check each section for vague language, generic defaults, or missing detail
+3. Flag any sections that would produce generic/uninspired imagery if used as-is
+4. Suggest concrete improvements for weak sections
+5. Give an overall brief quality score (1-10)
+6. Save your review to `[RUN_DIR]/brief-review.md`
+
+Focus on: Are the design keywords vivid and distinctive? Is the color strategy specific? Is the symbol/mark direction original? Would a designer reading this produce something unique or something generic?
+```
+
+After the critic completes, read `[RUN_DIR]/brief-review.md` and show the user the score and flagged sections. Ask:
+
+> "Brief review complete. Quality score: [X]/10. Issues found: [list]. Options: (1) Proceed to visual generation anyway (2) Have planner revise the brief first"
+
+If the user chooses to revise, dispatch @planner with the critic's feedback as additional context, then re-run Stage 1.5.
+
+---
+
 ## Stage 2: Visual Asset Generation (Designer Agent)
 
 Once the user approves the brief, dispatch the @designer sub-agent with this message:
@@ -110,7 +138,13 @@ After the critic completes, show the user the scores and top recommendations. As
 
 ## Stage 4: Iteration (Optional)
 
-If the user wants to iterate on specific assets, dispatch the @designer sub-agent with targeted regeneration instructions:
+If the user wants to iterate on specific assets, first determine the iteration number:
+
+- Check how many `iter-N` subfolders already exist under `[RUN_DIR]/`
+- Set `ITER_DIR = [RUN_DIR]/iter-1` (or `iter-2`, `iter-3`, etc. — increment from the highest existing number)
+- Tell the user: "Saving iteration to `[ITER_DIR]/`."
+
+Then dispatch the @designer sub-agent with targeted regeneration instructions:
 
 ```
 Please regenerate the following assets based on the critique feedback:
@@ -118,10 +152,33 @@ Please regenerate the following assets based on the critique feedback:
 [LIST THE SPECIFIC ASSETS AND WHAT TO CHANGE]
 
 Use these ready-to-use prompts from the critique:
-[PASTE THE RELEVANT PROMPTS FROM design-output/critique.md]
+[PASTE THE RELEVANT PROMPTS FROM [RUN_DIR]/critique.md]
 
-Save updated files to `[RUN_DIR]/` with the same filenames (overwrite previous versions) and update `[RUN_DIR]/design-assets.md` with the new prompts used.
+Save regenerated images to `[ITER_DIR]/` and save the updated manifest to `[ITER_DIR]/design-assets.md` listing each asset, the issue it addresses, and the new prompt used.
+
+The original assets remain untouched in `[RUN_DIR]/`.
 ```
+
+After iteration, run Stage 3 again (dispatch @critic) with paths pointing to `[ITER_DIR]/` so the new assets are evaluated. Update `ITER_DIR` as the active directory for any further iterations.
+
+---
+
+## Stage 5: Creative Copywriting (Copywriter Agent)
+
+Run this stage only after all visual iterations are finalized (Stage 4 complete or skipped). Ask the user:
+
+> "All images are finalized. Would you like me to generate creative copy — taglines, brand voice guidelines, and touchpoint copy? (yes/no)"
+
+If yes, dispatch the @copywriter sub-agent:
+
+```
+The brand design brief is at `[RUN_DIR]/brief.md`.
+The final assets are in `[RUN_DIR]/` (or `[ITER_DIR]/` if iterations were done).
+
+Please generate the full creative copy package for this brand and save it to `[RUN_DIR]/copy.md`.
+```
+
+After the copywriter completes, tell the user: "Creative copy saved to `[RUN_DIR]/copy.md`."
 
 ---
 
@@ -150,6 +207,9 @@ See `critique.md` for detailed evaluation.
 
 ## Asset Manifest
 See `design-assets.md` for prompts and technical details.
+
+## Creative Copy
+See `copy.md` for taglines, brand voice, and touchpoint copy.
 ```
 
 Tell the user: "Brand design complete. All assets are in `[RUN_DIR]/`. Open `[RUN_DIR]/README.md` for a summary."

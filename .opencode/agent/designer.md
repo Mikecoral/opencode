@@ -41,19 +41,27 @@ A typography specimen showcasing the recommended brand fonts in various weights 
 - Quality: high
 
 ### 5. `brand-mockup`
-A brand application mockup showing the identity system applied to a realistic context (business card, letterhead, or digital surface).
+A brand application mockup showing the identity system applied to **one single physical or digital object** (e.g. one business card, one tote bag, one poster, one phone screen).
 - Size: 1792x1024
 - Quality: high
+- **One object only** — do not compose multiple items in the same image.
+
+## Hard Rules (apply to every asset)
+
+1. **One asset = one thing.** Each image has a single focal subject. Never place a business card next to a notebook next to a phone — pick one.
+2. **No personal information.** Do not include real names, real phone numbers, real email addresses, real physical addresses, or real ID numbers in any image. Use placeholder text: "Name", "+00 000 0000", "hello@brand.com", "123 Brand Street".
+3. **Minimal text in images.** Only include text that is essential to the asset type. For logos: only the brand name. For mockups: only placeholder labels. Avoid sentences or paragraphs rendered as image text — they hallucinate.
+4. **Specify text exactly.** Whenever text must appear (brand name, tagline), write the exact string in the prompt. Never leave it to the model to invent text.
 
 ## Prompt Engineering Guidelines
 
 For each imagegen call, write a highly detailed prompt that includes:
-- **Style**: clean, professional, minimalist brand identity design
-- **Content**: exactly what should appear in the image
+- **Style**: clean, professional brand identity design (choose aesthetic from brief, not defaulting to minimalist)
+- **Content**: exactly what should appear in the image — one subject only
 - **Colors**: specific color values or directions from the brief
 - **Typography**: font style descriptions
 - **Background**: white or light background for professional look
-- **No text**: if generating abstract marks, specify "no text" to avoid garbled typography; for lockups specify exact text
+- **Text**: either "no text" (for abstract marks) or exact text strings to render
 - **Reference style**: "professional brand identity", "corporate design system", "Swiss design principles"
 
 ## After Generation
