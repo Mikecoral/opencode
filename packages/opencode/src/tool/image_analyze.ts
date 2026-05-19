@@ -29,6 +29,10 @@ export const Parameters = Schema.Struct({
   question: Schema.optional(Schema.String).annotate({
     description: "Specific question about the image. Defaults to a comprehensive brand design quality assessment.",
   }),
+  logFile: Schema.optional(Schema.String).annotate({
+    description:
+      "If provided, the exact prompt and full response are appended verbatim to this file after every call. Use for crowd-critic session logs (e.g. design-output/20260518-1423/crowd-critic-full-log.md).",
+  }),
 })
 
 export const ImageAnalyzeTool = Tool.define(
@@ -152,6 +156,25 @@ export const ImageAnalyzeTool = Tool.define(
               title: "image_analyze: empty response",
               metadata: { error: "empty_response" },
             }
+          }
+
+          if (params.logFile) {
+            const logPath = path.isAbsolute(params.logFile)
+              ? params.logFile
+              : path.join(process.cwd(), params.logFile)
+            const entry = [
+              "---",
+              `Asset: ${path.basename(params.imagePath)}`,
+              `Timestamp: ${new Date().toISOString()}`,
+              "Prompt sent:",
+              analysisPrompt,
+              "",
+              "Response received:",
+              content,
+              "---",
+              "",
+            ].join("\n")
+            yield* Effect.promise(() => fs.appendFile(logPath, entry, "utf8").catch(() => {}))
           }
 
           return {

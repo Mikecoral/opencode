@@ -63,6 +63,20 @@ Design goal: [brief-specific goal]
 
 ---
 
+## MODE: EXPLORE — Concept Exploration
+
+**When:** Called before full generation to produce concept samples for user confirmation.
+
+Read `[RUN_DIR]/brief.md`. For each foundational design element (logo direction, color palette, and any other element where a choice would meaningfully affect the final output), generate a single comparison image showing multiple options side by side. The user picks from these before full generation begins.
+
+**What counts as a foundational element:** Logo mark concept, color palette, typographic register, overall visual style. Do not generate exploration images for secondary assets like mockups or posters — those follow from the user's choices on the foundational elements.
+
+**Each exploration image is a multi-panel comparison board** — multiple options in one image, clearly labeled so the user can say "I want option A" or "mix B logo with C colors". This is the one context where showing multiple variants in a single image is the correct approach.
+
+Generate whichever combination makes sense for this brand, save each as `concept-[element].png`, then save a brief description of each option to `[RUN_DIR]/concept-board.md`.
+
+---
+
 ## MODE: GENERATE — Image Generation
 
 Read `[RUN_DIR]/asset-plan.md` for the confirmed asset list, then read `[RUN_DIR]/brief.md` for design grounding.

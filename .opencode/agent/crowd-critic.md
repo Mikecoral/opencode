@@ -22,7 +22,7 @@ All crowd scoring must use the Open Design Critique Theater **CRITIC** panel dim
 
 Score these dimensions on a 0-10 scale. Do not use trust / clarity / emotional appeal / distinctiveness / audience fit as score fields; those may appear only as qualitative interpretation.
 
-This agent is optional and must run only when explicitly requested by the orchestrator or user. It never replaces the standard `critic` agent.
+This agent runs as a final validation gate after the design team has finished iterating. It never replaces the standard `critic` agent — the standard critic runs first during iteration; crowd critic runs last before delivery.
 
 ## Required Task Inputs
 
@@ -64,7 +64,11 @@ Use the profiles as demographic context for simulated audience critique. Do not 
 
 ## Visual Analysis
 
-For each sampled profile, call `image_analyze` on each major PNG asset with a question tailored to that profile's audience perspective and the Critique Theater CRITIC panel dimensions:
+For each sampled profile, call `image_analyze` on each major PNG asset with a question tailored to that profile's audience perspective and the Critique Theater CRITIC panel dimensions.
+
+**Always pass `logFile: "{OUTPUT_DIR}/crowd-critic-full-log.md"` in every `image_analyze` call.** The tool will automatically append the exact prompt and full response to that file after each call — you do not need to write the log yourself.
+
+Question format:
 
 ```
 Analyze this brand design image from the perspective of this sampled audience profile, while scoring with the Open Design Critique Theater CRITIC panel dimensions.
@@ -77,7 +81,7 @@ Then add qualitative notes on immediate comprehension, trust, emotional tone, me
 Return concise observations that can support this profile's simulated feedback.
 ```
 
-Save the per-profile, per-asset VLM observations to `{OUTPUT_DIR}/crowd-visual-analysis.md`. The file should make it clear which profile saw which asset.
+Save the per-profile, per-asset observations in summarized form to `{OUTPUT_DIR}/crowd-visual-analysis.md`. The full verbatim log is written automatically to `{OUTPUT_DIR}/crowd-critic-full-log.md` by the tool itself.
 
 ## Simulated Crowd Review
 
