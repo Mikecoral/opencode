@@ -7,7 +7,7 @@ import DESCRIPTION from "./prompt_search.txt"
 
 const DEFAULT_LIBRARY_PATH = path.join(
   os.homedir(),
-  "python-learn/SII/AIdesign/awesome-gpt-image-2",
+  "python-learn/SII/AIdesign/awesome-gpt-image-2-API-and-Prompts-main",
 )
 
 type PromptEntry = {
@@ -24,7 +24,36 @@ function optionString(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : undefined
 }
 
+function parseCaseFile(content: string, category: string): PromptEntry[] {
+  const blocks = content.split(/\n(?=### Case\s+\d+:)/g)
+  const entries: PromptEntry[] = []
+
+  for (const block of blocks) {
+    const headerMatch = block.match(/^### Case\s+(\d+):\s*\[([^\]]+)\]/)
+    if (!headerMatch) continue
+
+    const number = Number.parseInt(headerMatch[1], 10)
+    const title = headerMatch[2].trim()
+
+    const promptMatch = block.match(/\*\*Prompt:\*\*\s*\n+```[a-zA-Z]*\n([\s\S]*?)\n```/)
+    const promptBody = promptMatch ? promptMatch[1].trim() : ""
+
+    if (!promptBody) continue
+
+    entries.push({
+      number,
+      title,
+      description: category,
+      promptBody,
+      searchableText: `${title}\n${category}\n${promptBody}`.toLowerCase(),
+    })
+  }
+
+  return entries
+}
+
 function parseReadme(content: string): PromptEntry[] {
+  // Legacy format: ### No. N: Title with #### Description/Prompt sections
   const blocks = content.split(/\n(?=### No\.\s+\d+:)/g)
   const entries: PromptEntry[] = []
 
@@ -55,14 +84,52 @@ function parseReadme(content: string): PromptEntry[] {
   return entries
 }
 
-async function loadLibrary(libraryPath: string, language: "en" | "zh"): Promise<PromptEntry[]> {
-  const filename = language === "zh" ? "README_zh.md" : "README.md"
-  const fullPath = path.join(libraryPath, filename)
-  const cacheKey = fullPath
+const CATEGORY_NAMES: Record<string, string> = {
+  "poster": "Poster & Illustration",
+  "portrait": "Portrait & Photography",
+  "ecommerce": "E-commerce",
+  "ad-creative": "Ad Creative",
+  "character": "Character Design",
+  "ui": "UI & Social Media Mockup",
+  "comparison": "Comparison & Community",
+}
 
+async function loadLibrary(libraryPath: string, language: "en" | "zh"): Promise<PromptEntry[]> {
+  const cacheKey = `${libraryPath}:${language}`
   const cached = cache.get(cacheKey)
   if (cached) return cached
 
+  // Try cases/ directory first (new format)
+  const casesDir = path.join(libraryPath, "cases")
+  try {
+    const files = await fs.readdir(casesDir)
+    const langSuffix = language === "zh" ? "_zh-CN.md" : ".md"
+    const allEntries: PromptEntry[] = []
+    let globalNum = 1
+
+    for (const file of files.sort()) {
+      if (!file.endsWith(langSuffix)) continue
+      const baseName = file.replace(langSuffix, "")
+      if (language === "en" && /_(de|es|fr|ja|ko|pt|ru|tr|zh)/.test(baseName)) continue
+      const category = CATEGORY_NAMES[baseName] ?? baseName
+      const content = await fs.readFile(path.join(casesDir, file), "utf-8")
+      const parsed = parseCaseFile(content, category)
+      for (const entry of parsed) {
+        allEntries.push({ ...entry, number: globalNum++ })
+      }
+    }
+
+    if (allEntries.length > 0) {
+      cache.set(cacheKey, allEntries)
+      return allEntries
+    }
+  } catch {
+    // fall through to README fallback
+  }
+
+  // Fallback: single README file (legacy format)
+  const filename = language === "zh" ? "README_zh-CN.md" : "README.md"
+  const fullPath = path.join(libraryPath, filename)
   const content = await fs.readFile(fullPath, "utf-8")
   const parsed = parseReadme(content)
   cache.set(cacheKey, parsed)
@@ -77,23 +144,23 @@ function scoreEntry(entry: PromptEntry, keywords: string[]): number {
   const bodyLower = entry.promptBody.toLowerCase()
 
   let score = 0
-  let matchedAll = true
+  let matched = 0
 
   for (const kw of keywords) {
     const inTitle = titleLower.includes(kw)
     const inDesc = descLower.includes(kw)
     const inBody = bodyLower.includes(kw)
 
-    if (!inTitle && !inDesc && !inBody) {
-      matchedAll = false
-      continue
-    }
+    if (!inTitle && !inDesc && !inBody) continue
+    matched++
     if (inTitle) score += 3
     if (inDesc) score += 2
     if (inBody) score += 1
   }
 
-  return matchedAll ? score : 0
+  // Require at least 60% of keywords to match (min 1)
+  const threshold = Math.max(1, Math.ceil(keywords.length * 0.6))
+  return matched >= threshold ? score : 0
 }
 
 export const Parameters = Schema.Struct({

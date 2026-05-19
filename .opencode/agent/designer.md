@@ -67,7 +67,12 @@ tools:
 - 同一计划中不得混入两个不同策略的资产（如同时出现 logo 规范板和活动海报），除非简报明确说明需要两个系统且你能解释为何本次同时覆盖。
 
 其他规则：
-- 若策略为 `identity-core`，`logo-primary` 必须包含；其他策略可视情况不包含 logo。
+- `logo-primary` **无论哪种策略都必须包含**，它是所有视觉资产的基础锚点。
+- **资产应代表通用的视觉模式，而非特定事件**。区分标准：
+  - ✓ 通用：`web-hero`（展示品牌视觉语言的网页首屏）、`social-card-template`（可复用的社交卡片系统）
+  - ✗ 过度具体：`admissions-flow-page`（针对某次招生活动）、`research-stack-explainer`（针对某个具体项目）
+  - 判断方法：把品牌名从文件名和用途描述里去掉后，这个资产还有意义吗？有意义才是通用资产。
+- **文件名不能包含品牌名或机构名**。用 `web-hero` 而非 `web-hero-runstack`；用 `event-poster` 而非 `chuangzhi-forum-poster`。
 - 优先构建一个连贯的系统，而非拼凑样品。四个聚焦资产胜过八个泛化资产。
 - 至少记录两个被排除的资产创意及原因，以体现真实的取舍思考。
 
@@ -163,16 +168,17 @@ tools:
 
 在从头编写提示词之前，先用适合该类别的关键词调用 `prompt_search`。**默认使用 `language: "zh"`**，中文模板在文化还原度和排版处理上更优。
 
-| 资产 | 建议关键词 |
+| 资产 | 建议关键词（1-3个词，AND逻辑） |
 |------|-----------|
-| logo-primary | `"logo minimalist monogram"` / `"emblem brand mark"` |
-| brand-lockup | `"brand lockup wordmark chinese"` / `"logo typography lockup"` |
-| color-system | `"color palette system brand identity"` / `"色彩系统 品牌"` |
-| typography-specimen | `"typography specimen chinese font"` / `"字体规范展示"` |
-| visual-motif | `"pattern motif brand graphic system"` / `"图形母题 品牌"` |
-| brand-principles-board | `"brand moodboard visual identity"` / `"品牌调性参考板"` |
-| 导视标识 | `"signage typography wayfinding"` |
-| 应用图标 | `"app icon glyph"` |
+| logo-primary | `"logo minimalist"` / `"emblem brand"` / `"monogram logo"` |
+| brand-lockup | `"brand lockup"` / `"wordmark logo"` |
+| color-system | `"color palette brand"` / `"brand identity system"` |
+| typography-specimen | `"typography brand"` / `"font specimen"` |
+| visual-motif | `"pattern brand"` / `"graphic motif"` |
+| brand-principles-board | `"brand moodboard"` / `"visual identity board"` |
+| 导视标识 | `"signage wayfinding"` |
+| 应用图标 | `"app icon"` / `"icon glyph"` |
+| 海报 | `"poster brand"` / `"brand poster"` |
 
 目标 `topK: 3`，`language: "zh"`。
 
@@ -218,31 +224,43 @@ tools:
 
 每条 `imagegen` 提示词必须包含：
 
-- **风格锚点**："professional brand identity design"、"Swiss design principles"、"minimalist corporate"，或适合该品牌的风格
-- **文化/地域意象（关键）**：从简报第5章节（文化与视觉DNA）中提取。将中文文化概念翻译为生动的英文描述，便于模型理解：
-  - 江南水乡 → "Jiangnan water-town aesthetic, stone bridges, white-walled black-tiled rooftops, ink-wash atmosphere"
-  - 徽派 → "Huizhou architectural style, horse-head gables, monochrome ink palette"
-  - 国潮 → "modern guochao style, contemporary reinterpretation of classical Chinese motifs"
-  - 书院文化 → "traditional Chinese academy culture, scholarly ink-brush aesthetic, classical courtyard, literati spirit"
+- **风格锚点**：从品牌个性（简报第4章）和视觉方向中推导，而非使用通用默认值。例如：
+  - 克制学术型 → `"restrained academic brand identity, editorial precision"`
+  - 充满活力的文创 → `"vibrant cultural creative brand, expressive illustration-led identity"`
+  - 科技研究型 → `"research-forward tech identity, systematic visual language"`
+  - 传统文化型 → `"heritage cultural branding, ink-wash aesthetic, classical motifs"`
+  - **不要**默认写 "Swiss design principles" 或 "minimalist corporate"——这些是极端风格，只在简报明确指向瑞士极简风时才使用
+
+- **logo-primary 专属规则**：
+  - `logo-primary` 通常应是**组合标志（combination mark）**：符号 + 品牌中文名称，两者放在同一画面中
+  - 只有当简报第10章明确说明要做纯抽象符号时，才使用 `"pure symbol, no text"`
+  - 默认写法：`brand mark symbol alongside Chinese name "XXX" and optional English subtitle, on white background`
+  - 允许且鼓励：lettermark（字母标）、wordmark（字标）、emblem（徽章）、combination mark（组合标）——根据简报风格选择
+  - 禁止：因为"怕出乱码"就完全去掉文字，正确做法是精确指定文字内容
+
+- **文化/地域意象（关键）**：从简报第5章节（文化与视觉DNA）中提取，翻译为英文便于模型理解：
+  - 江南水乡 → `"Jiangnan water-town aesthetic, stone bridges, white-walled black-tiled rooftops, ink-wash atmosphere"`
+  - 徽派 → `"Huizhou architectural style, horse-head gables, monochrome ink palette"`
+  - 国潮 → `"modern guochao style, contemporary reinterpretation of classical Chinese motifs"`
+  - 书院文化 → `"traditional Chinese academy culture, scholarly ink-brush aesthetic, classical courtyard, literati spirit"`
+
 - **具体内容**：图像中确切出现的内容（文字、形状、版式）
-- **颜色**：从简报中提取的具体十六进制色值或色彩方向
+- **颜色**：从 `brand-tokens.md` 提取的具体十六进制色值
 - **字体**：字体风格（人文无衬线、几何、衬线、书法）——描述而非命名
-- **背景**：通常为白色或浅色，除非品牌有特殊需求
+- **背景**：通常白色或浅色，除非品牌有特殊需求
+
 - **文字纪律**：
-  - 纯抽象标志 → 加入 `"no text, no letters, pure symbol"` 以避免出现乱码
-  - 含中文的锁定组合/卡片/标识 → 在引号内明确指定精确汉字，如 `Chinese text "创智学院" in clean Song/serif typeface`
-  - 含中英双语 → 分别标注，如 `Chinese name "创智学院", English subtitle "Institute of Innovation"`
-  - **不要**让模型自行推断文字内容——gpt-image-2 在无明确指定时容易生成乱码或错误文字
-- **中文字符质量负向引导**（所有含文字的资产必须包含）：
-  `"no warped Chinese characters, no fake gibberish glyphs, no scrambled hanzi, no Lorem ipsum, no English filler where Chinese is required"`
-- **通用负向引导**：`"no stock photo people, no clichéd icons, no generic AI-style gradients, no cluttered layout"`
+  - 含中文的标志/锁定组合 → 在引号内明确指定精确汉字：`Chinese brand name "创智学院" in clean humanist sans-serif`
+  - 含中英双语 → 分别标注：`Chinese name "创智学院", English subtitle "Institute of Innovation"`
+  - 纯符号（明确规划为无文字时）→ 才加 `"pure mark, no letterforms"`
+  - **绝不**让模型自行推断文字——gpt-image-2 在未明确指定时会生成乱码
 
-提示词目标150-250词（含中文字符规范后会更长）。简陋的提示词只会产出泛化结果。
+- **中文字符负向引导**（含文字资产必须包含）：
+  `"no warped Chinese characters, no fake gibberish glyphs, no scrambled hanzi, no Lorem ipsum"`
 
-**中文字符最佳实践参考**：
-- 标注精确的字符：`display text "创智学院" centered, rendered in clean geometric sans-serif Chinese typeface`
-- 标注排版规则：`all UI text in Simplified Chinese, Song serif for headings, sans-serif for body`
-- 标注字符禁忌：`no warped glyphs, no garbled characters, characters must be legible and typographically correct`
+- **通用负向引导**：`"no stock photo people, no generic AI-style gradients, no cluttered layout"`
+
+提示词目标150-250词。简陋的提示词只会产出泛化结果。
 
 ### 资产清单
 
