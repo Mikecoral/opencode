@@ -186,7 +186,7 @@ Save critique to `[RUN_DIR]/critique.md`
 
 Show the user the dimension scores and MUST_FIX items. Ask:
 
-> "Critique complete. Score: [X]/10. [N] MUST_FIX items. Options: (1) Accept (2) Iterate (3) Full redesign"
+> "Critique complete. Score: [X]/10. [N] MUST_FIX items. Options: (1) Iterate with expert critique (recommended if any MUST_FIX or score < 8) (2) Full redesign (3) Move to audience simulation"
 
 ---
 
@@ -226,48 +226,149 @@ Assets: [ITER_DIR]/design-assets.md
 Save critique to: [ITER_DIR]/critique.md
 ```
 
-Show new scores alongside previous round. Set `[ITER_DIR]` as active directory. Ask: "Scores updated. Continue iterating or move to final validation? (iterate / done)"
+Show new scores alongside previous round. Set `[ITER_DIR]` as active directory. Ask: "Scores updated. Continue expert iteration or move to audience simulation? (iterate / audience)"
 
 ---
 
-## Stage 3.5 → Audience Validation (when team is done iterating)
+## Stage 4.5 → Audience Simulation
 
-Once the user indicates the design is ready, ask:
+Run this stage after the standard critic pass and the expert-critique iteration loop are complete, or earlier only if the user explicitly asks for audience testing.
 
-> "Design finalized. Run audience testing (crowd critic) before delivery? (yes/no)"
-
-If yes, dispatch @crowd-critic on the current active directory:
+Dispatch @crowd-critic on the current active directory:
 
 ```
 Output directory: [ACTIVE_DIR]
 Crowd critic enabled: true
-Sample size: 24
+Sample size: 100
 Audience inference: auto
+Domain selector: keyword
+Sampling strategy: country_diverse
+Allow small sample: false
 
 Project summary: [INSERT USER'S ORIGINAL DESIGN REQUEST]
 ```
 
-After completion, reconcile with standard critique. Produce a merged action summary:
+For cheaper smoke tests, lower `Sample size` to `24` or less and set `Allow small sample: true`. If the user asks for LLM-assisted sampling, set `Domain selector: llm` and `Sampling strategy: llm_plan`; the Python runner will still sample from only one selected SocioBench domain.
+
+After completion, read:
+- `[ACTIVE_DIR]/critique.md`
+- `[ACTIVE_DIR]/crowd-critic-summary.md`
+- `[ACTIVE_DIR]/crowd-critic-designer-actions.md`
+- `[ACTIVE_DIR]/crowd-simulation-analysis.md`
+- `[ACTIVE_DIR]/crowd-critic-validation.json`
+
+Produce a merged action summary:
 
 ```
 ## Merged Action Summary
 
-### Agreed (both critics flag)
+### Agreed (expert critic + audience simulation)
 - [asset]: [issue] — HIGH PRIORITY
 
 ### Craft only (standard critic)
 - [asset]: [issue]
 
-### Audience only (crowd critic, 3+ segments)
+### Audience only (3+ segments or primary audience)
 - [asset]: [issue]
 
 ### Conflicting signals
-- [asset]: standard says [X], crowd says [Y] → [recommendation]
+- [asset]: standard says [X], audience simulation says [Y] → [recommendation]
 ```
 
-**Conflict rule:** MUST_FIX from standard critic always overrides crowd preference. Audience issues apply only if they affect 3+ segments or the brief's primary audience.
+**Conflict rule:** MUST_FIX from standard critic always overrides audience preference. Audience issues apply if they affect 3+ segments, the brief's primary audience, or action readiness/comprehension is below 7/10.
 
-Ask: "[N] agreed issues. Iterate on these before delivery? (yes/no)"
+Ask: "[N] agreed issues and [M] audience-only issues found. Run an audience-driven iteration before delivery? (yes/no)"
+
+---
+
+## Stage 4.6 → Audience-Driven Iteration (if requested)
+
+**Step 1 — Determine AUDIENCE_ITER_DIR:**
+Count existing `audience-iter-N` folders under `[RUN_DIR]/`. Set `AUDIENCE_ITER_DIR = [RUN_DIR]/audience-iter-1` (or next N).
+
+**Step 2 — Dispatch @designer:**
+
+```
+MODE: ITERATE
+RUN_DIR: [RUN_DIR]
+ITER_DIR: [AUDIENCE_ITER_DIR]
+
+Assets to regenerate:
+[LIST EACH ASSET AND THE SPECIFIC AUDIENCE ISSUE TO FIX]
+
+Critique: [ACTIVE_DIR]/critique.md
+Crowd critique: [ACTIVE_DIR]/crowd-critic-designer-actions.md
+
+Save regenerated images to `[AUDIENCE_ITER_DIR]/`.
+Save manifest to `[AUDIENCE_ITER_DIR]/design-assets.md`.
+Do not modify original assets.
+```
+
+**Step 3 — Re-run expert critique and audience simulation on the audience iteration:**
+
+Dispatch @critic:
+
+```
+MODE: B
+RUN_DIR: [AUDIENCE_ITER_DIR]
+Brief: [RUN_DIR]/brief.md
+Assets: [AUDIENCE_ITER_DIR]/design-assets.md
+Save critique to: [AUDIENCE_ITER_DIR]/critique.md
+```
+
+Dispatch @crowd-critic:
+
+```
+Output directory: [AUDIENCE_ITER_DIR]
+Crowd critic enabled: true
+Sample size: 100
+Audience inference: auto
+Domain selector: keyword
+Sampling strategy: country_diverse
+Allow small sample: false
+
+Project summary: [INSERT USER'S ORIGINAL DESIGN REQUEST]
+```
+
+**Step 4 — Write before/after comparison:**
+
+Run the Python comparison script:
+
+```bash
+python3 .opencode/scripts/crowd_compare.py --before-dir [ACTIVE_DIR] --after-dir [AUDIENCE_ITER_DIR]
+```
+
+Then open `[AUDIENCE_ITER_DIR]/crowd-before-after.md` and add the image-level visible-change notes after inspecting the regenerated assets:
+
+```markdown
+# Crowd Simulation Before/After
+
+## Compared Directories
+- Before: [ACTIVE_DIR]
+- After: [AUDIENCE_ITER_DIR]
+
+## Metric Movement
+| Metric | Before | After | Change |
+|--------|--------|-------|--------|
+| Average comprehension | X | Y | delta |
+| Average trust | X | Y | delta |
+| Average action readiness | X | Y | delta |
+| Accept / confused / reject | ... | ... | ... |
+
+## Repeated Issues Resolved
+- [issue]
+
+## Repeated Issues Remaining
+- [issue]
+
+## Image-Level Changes
+- [asset]: [what visibly changed, and whether the audience issue improved]
+
+## Recommendation
+SHIP / ITERATE AGAIN / RETURN TO EXPERT CRITIC
+```
+
+Set `[AUDIENCE_ITER_DIR]` as active directory for final delivery if the comparison recommends `SHIP`; otherwise return to Stage 4 or Stage 4.6 based on the recommendation.
 
 ---
 
@@ -300,6 +401,9 @@ Generated: [date]
 - `concept-selection.md` — Chosen design direction
 - `design-assets.md` — Asset manifest with prompts
 - `critique.md` — Quality assessment ([X]/10)
+- `crowd-critic-summary.md` — Audience simulation summary (if run)
+- `crowd-simulation-analysis.md` — Sentiment, stance, comprehension, trust, and action-readiness analysis (if run)
+- `crowd-before-after.md` — Audience iteration comparison (if audience iteration was run)
 - `copy.md` — Creative copy (if generated)
 ```
 
