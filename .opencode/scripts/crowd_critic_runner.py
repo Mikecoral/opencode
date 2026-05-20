@@ -4,18 +4,27 @@ from __future__ import annotations
 import argparse
 import base64
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import os
 from pathlib import Path
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 
-from crowd_critic_schema import analysis_markdown, validation_report, write_json, write_jsonl
+from crowd_critic_schema import (
+    analysis_markdown,
+    read_jsonl,
+    structured_markdown,
+    validation_report,
+    write_json,
+    write_jsonl,
+)
 
 
-SOCIOBENCH_ROOT = Path("/Users/hongyuecheng/python-learn/SII/AIdesign/SocioBench-main")
+SOCIOBENCH_ROOT = Path(os.environ.get("SOCIOBENCH_ROOT", "/Users/hongyuecheng/python-learn/SII/AIdesign/SocioBench-main"))
 DATA_DIR = SOCIOBENCH_ROOT / "Dataset_all" / "A_GroundTruth_sampling500"
 DEFAULT_BASE_URL = "https://api.openai.com/v1"
 DEFAULT_SAMPLE_SIZE = 100
@@ -497,28 +506,51 @@ def resolve_asset(repo_root: Path, output_dir: Path, mention: str) -> Path:
 def asset_paths(repo_root: Path, output_dir: Path) -> list[Path]:
     manifest_path = output_dir / "design-assets.md"
     manifest = manifest_path.read_text(encoding="utf-8")
-    mentions = list(dict.fromkeys(re.findall(r"[`|(\s]([^`|()\s]+\.png)[`|)\s]", manifest)))
+    # Match PNG filenames regardless of surrounding punctuation or position in line
+    mentions = list(dict.fromkeys(re.findall(r"[\w./_-]+\.png", manifest)))
     if not mentions:
         raise RuntimeError(f"No PNG assets found in {manifest_path}")
     return [resolve_asset(repo_root, output_dir, mention) for mention in mentions]
 
 
-def post_chat(api_key: str, base_url: str, model: str, content: object, max_tokens: int = 1400) -> tuple[str, dict[str, object]]:
-    request = urllib.request.Request(
-        f"{base_url}/chat/completions",
-        data=json.dumps({"model": model, "max_tokens": max_tokens, "messages": [{"role": "user", "content": content}]}).encode("utf-8"),
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=180) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        raise RuntimeError(f"OpenAI-compatible API error {exc.code}: {exc.read().decode('utf-8', 'ignore')[:1000]}") from exc
-    result = payload.get("choices", [{}])[0].get("message", {}).get("content")
-    if not result:
-        raise RuntimeError(f"OpenAI-compatible API returned no content: {json.dumps(payload)[:500]}")
-    return result, payload
+def post_chat(
+    api_key: str,
+    base_url: str,
+    model: str,
+    content: object,
+    max_tokens: int = 1400,
+    retries: int = 3,
+) -> tuple[str, dict[str, object]]:
+    delay = 2.0
+    last_exc: Exception | None = None
+    for attempt in range(retries):
+        request = urllib.request.Request(
+            f"{base_url}/chat/completions",
+            data=json.dumps({"model": model, "max_tokens": max_tokens, "messages": [{"role": "user", "content": content}]}).encode("utf-8"),
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=180) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", "ignore")[:1000]
+            last_exc = RuntimeError(f"OpenAI-compatible API error {exc.code}: {body}")
+            if attempt < retries - 1 and exc.code in {429, 500, 502, 503, 504}:
+                time.sleep(delay * (2**attempt))
+                continue
+            raise last_exc from exc
+        except Exception as exc:
+            last_exc = exc
+            if attempt < retries - 1:
+                time.sleep(delay * (2**attempt))
+                continue
+            raise
+        result = payload.get("choices", [{}])[0].get("message", {}).get("content")
+        if not result:
+            raise RuntimeError(f"OpenAI-compatible API returned no content: {json.dumps(payload)[:500]}")
+        return result, payload
+    raise last_exc or RuntimeError("post_chat: all retries exhausted")
 
 
 def analyze_image(api_key: str, base_url: str, model: str, image_path: Path, prompt: str) -> tuple[str, dict[str, object]]:
@@ -611,6 +643,32 @@ Scores are 0-10. Sentiment, stance, and designer_signal must use the exact enum 
         "raw_payload": raw_payload,
         "parsed": extract_json_object(raw_response),
     }
+
+
+def load_checkpoint(output_dir: Path) -> tuple[set[tuple[int, str]], set[object], dict[int, list[dict[str, object]]]]:
+    """Return already-done (profile_index, asset) pairs, simulated person_ids, and observations grouped by profile_index."""
+    done_obs: set[tuple[int, str]] = set()
+    done_sims: set[object] = set()
+    obs_by_profile: dict[int, list[dict[str, object]]] = defaultdict(list)
+
+    visual_path = output_dir / "crowd-visual-analysis.jsonl"
+    raw_path = output_dir / "crowd-critic-raw.jsonl"
+
+    if visual_path.exists():
+        for row in read_jsonl(visual_path):
+            idx = row.get("profile_index")
+            asset_name = row.get("asset")
+            if idx is not None and asset_name:
+                done_obs.add((int(idx), str(asset_name)))
+                obs_by_profile[int(idx)].append(row)
+
+    if raw_path.exists():
+        for row in read_jsonl(raw_path):
+            pid = row.get("person_id")
+            if pid is not None:
+                done_sims.add(pid)
+
+    return done_obs, done_sims, obs_by_profile
 
 
 def parse_args() -> argparse.Namespace:
@@ -720,67 +778,102 @@ def main() -> int:
             "profiles": profiles,
         },
     )
-    write_json(
-        output_dir / "crowd-run-manifest.json",
-        {
-            "runner": "crowd_critic_runner.py",
-            "model": model,
-            "base_url": base_url,
-            "output_dir": str(output_dir),
-            "project_summary": args.project_summary,
-            "sample_size": args.sample_size,
-            "seed": seed,
-            "domain": domain,
-            "domain_selector": args.domain_selector,
-            "sampling_strategy": args.sampling_strategy,
-            "assets": [str(asset) for asset in assets],
-            "artifact_contract": {
-                "crowd-visual-analysis.jsonl": "one row per profile x asset, includes prompt, full VLM response, and raw API payload",
-                "crowd-critic-raw.jsonl": "one row per profile, includes parsed simulation fields plus prompt, raw response, and raw API payload",
-                "crowd-simulation-raw.jsonl": "one row per profile, exact simulation prompt/raw/parsed bundle for analysis",
-            },
+
+    manifest: dict[str, object] = {
+        "runner": "crowd_critic_runner.py",
+        "model": model,
+        "base_url": base_url,
+        "output_dir": str(output_dir),
+        "project_summary": args.project_summary,
+        "sample_size": args.sample_size,
+        "seed": seed,
+        "domain": domain,
+        "domain_selector": args.domain_selector,
+        "sampling_strategy": args.sampling_strategy,
+        "assets": [str(asset) for asset in assets],
+        "completed": False,
+        "artifact_contract": {
+            "crowd-visual-analysis.jsonl": "one row per profile x asset, includes prompt, full VLM response, and raw API payload",
+            "crowd-critic-raw.jsonl": "one row per profile, includes parsed simulation fields plus prompt, raw response, and raw API payload",
         },
-    )
+    }
+    write_json(output_dir / "crowd-run-manifest.json", manifest)
 
     if args.sampling_only:
+        manifest["completed"] = True
+        write_json(output_dir / "crowd-run-manifest.json", manifest)
         print(f"Sampling-only run complete for {output_dir}.")
         print(f"Domain: {domain}")
         print(f"Profiles: {len(profiles)}")
         print("Files: crowd-domain-selection.json, crowd-domain-profile-summary.json, crowd-sampling-plan.json, crowd-sampling-validation.json, crowd-profiles.json, crowd-run-manifest.json")
         return 0
 
-    observations: list[dict[str, object]] = []
-    simulations: list[dict[str, object]] = []
+    # ── Checkpoint ────────────────────────────────────────────────────────────
+    visual_path = output_dir / "crowd-visual-analysis.jsonl"
+    raw_path = output_dir / "crowd-critic-raw.jsonl"
     log_path = output_dir / "crowd-critic-full-log.md"
-    log_path.write_text(f"# Crowd Critic Full Log\n\nModel: {model}\n\n", encoding="utf-8")
+
+    done_observations, done_simulations, obs_by_profile = load_checkpoint(output_dir)
+
+    if done_observations or done_simulations:
+        print(
+            f"Resuming: {len(done_observations)} observations and {len(done_simulations)} simulations already complete.",
+            file=sys.stderr,
+        )
+
+    if not log_path.exists():
+        log_path.write_text(f"# Crowd Critic Full Log\n\nModel: {model}\n\n", encoding="utf-8")
+
+    # ── VLM loop with per-profile asset parallelism ───────────────────────────
+    asset_order = {asset.name: i for i, asset in enumerate(assets)}
 
     for profile_index, profile in enumerate(profiles):
-        profile_observations: list[dict[str, object]] = []
-        for asset in assets:
-            prompt = observation_prompt(profile, args.project_summary)
-            response, raw_payload = analyze_image(api_key, base_url, model, asset, prompt)
-            observation = {
-                "profile_index": profile_index,
-                "person_id": profile.get("person_id"),
-                "segment": profile.get("segment"),
-                "asset": asset.name,
-                "asset_path": str(asset),
-                "model": model,
-                "prompt": prompt,
-                "response": response,
-                "raw_payload": raw_payload,
-            }
-            observations.append(observation)
-            profile_observations.append(observation)
-            with log_path.open("a", encoding="utf-8") as log:
-                log.write(
-                    f"\n---\nProfile: {profile.get('person_id')}\nAsset: {asset.name}\n\n"
-                    f"Prompt:\n{prompt}\n\nResponse:\n{response}\n"
-                )
-        simulation = simulate_profile(api_key, base_url, model, profile, profile_observations)
-        simulations.append(
-            {
-                "person_id": profile.get("person_id"),
+        person_id = profile.get("person_id")
+        pending = [asset for asset in assets if (profile_index, asset.name) not in done_observations]
+
+        new_obs: list[dict[str, object]] = []
+
+        if pending:
+            def _analyze(
+                asset: Path,
+                _pi: int = profile_index,
+                _profile: dict[str, object] = profile,
+            ) -> dict[str, object]:
+                prompt = observation_prompt(_profile, args.project_summary)
+                response, raw_payload = analyze_image(api_key, base_url, model, asset, prompt)
+                return {
+                    "profile_index": _pi,
+                    "person_id": _profile.get("person_id"),
+                    "segment": _profile.get("segment"),
+                    "asset": asset.name,
+                    "asset_path": str(asset),
+                    "model": model,
+                    "prompt": prompt,
+                    "response": response,
+                    "raw_payload": raw_payload,
+                }
+
+            with ThreadPoolExecutor(max_workers=min(len(pending), 8)) as pool:
+                futures = {pool.submit(_analyze, asset): asset for asset in pending}
+                for future in as_completed(futures):
+                    obs = future.result()
+                    new_obs.append(obs)
+                    with visual_path.open("a", encoding="utf-8") as f:
+                        f.write(json.dumps(obs, ensure_ascii=False) + "\n")
+                    with log_path.open("a", encoding="utf-8") as log:
+                        log.write(
+                            f"\n---\nProfile: {person_id}\nAsset: {obs['asset']}\n\n"
+                            f"Prompt:\n{obs['prompt']}\n\nResponse:\n{obs['response']}\n"
+                        )
+
+        if person_id not in done_simulations:
+            all_obs = sorted(
+                obs_by_profile.get(profile_index, []) + new_obs,
+                key=lambda o: asset_order.get(str(o.get("asset", "")), 999),
+            )
+            simulation = simulate_profile(api_key, base_url, model, profile, all_obs)
+            sim_row: dict[str, object] = {
+                "person_id": person_id,
                 "segment": profile.get("segment"),
                 "model": model,
                 "prompt": simulation["prompt"],
@@ -788,38 +881,18 @@ def main() -> int:
                 "raw_payload": simulation["raw_payload"],
                 **simulation["parsed"],
             }
-        )
+            with raw_path.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(sim_row, ensure_ascii=False) + "\n")
 
-    write_jsonl(output_dir / "crowd-visual-analysis.jsonl", observations)
-    write_jsonl(output_dir / "crowd-critic-raw.jsonl", simulations)
-    write_jsonl(
-        output_dir / "crowd-simulation-raw.jsonl",
-        [
-            {
-                "person_id": item.get("person_id"),
-                "segment": item.get("segment"),
-                "model": item.get("model"),
-                "prompt": item.get("prompt"),
-                "raw_response": item.get("raw_response"),
-                "raw_payload": item.get("raw_payload"),
-                "parsed": {
-                    key: value
-                    for key, value in item.items()
-                    if key
-                    not in {
-                        "person_id",
-                        "segment",
-                        "model",
-                        "prompt",
-                        "raw_response",
-                        "raw_payload",
-                    }
-                },
-            }
-            for item in simulations
-        ],
-    )
+    # ── Final artifacts ───────────────────────────────────────────────────────
+    observations = read_jsonl(visual_path)
+    simulations = read_jsonl(raw_path)
+
     (output_dir / "crowd-simulation-analysis.md").write_text(analysis_markdown(simulations, assets), encoding="utf-8")
+    (output_dir / "crowd-critic-structured.md").write_text(
+        structured_markdown(simulations, observations, assets, manifest),
+        encoding="utf-8",
+    )
 
     report = validation_report(
         sample_size=args.sample_size,
@@ -829,6 +902,10 @@ def main() -> int:
         simulations=simulations,
     )
     write_json(output_dir / "crowd-critic-validation.json", report)
+
+    manifest["completed"] = report["status"] == "pass"
+    write_json(output_dir / "crowd-run-manifest.json", manifest)
+
     if report["status"] != "pass":
         raise RuntimeError(f"Crowd critic validation failed: {json.dumps(report, ensure_ascii=False)}")
 
@@ -840,7 +917,7 @@ def main() -> int:
     print(f"Validation: {report['status']}")
     print(
         "Files: crowd-run-manifest.json, crowd-profiles.json, crowd-visual-analysis.jsonl, "
-        "crowd-critic-raw.jsonl, crowd-simulation-raw.jsonl, crowd-simulation-analysis.md, "
+        "crowd-critic-raw.jsonl, crowd-simulation-analysis.md, crowd-critic-structured.md, "
         "crowd-critic-validation.json, crowd-critic-full-log.md"
     )
     return 0

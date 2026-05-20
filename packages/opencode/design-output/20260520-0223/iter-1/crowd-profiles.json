@@ -1,0 +1,55 @@
+{
+  "source": {
+    "dataset": "SocioBench ISSP sampling500",
+    "path": "/Users/hongyuecheng/python-learn/SII/AIdesign/SocioBench-main/Dataset_all/A_GroundTruth_sampling500/issp_answer_workorientations.json",
+    "domain": "workorientations",
+    "sample_size": 24,
+    "seed": "20260520-0223"
+  },
+  "note": "Profiles are demographic context for simulated audience critique, not real design preference labels.",
+  "profiles": [
+    {
+      "person_id": 110046439,
+      "segment": {
+        "country": "United States",
+        "sex": "Male",
+        "age_band": "Unknown",
+        "work_status": "In paid work",
+        "place": "A big city"
+      },
+      "attributes": {
+        "Country Prefix ISO 3166": "United Stated",
+        "Sex of Respondent": "Male",
+        "Highest completed education level: Categories for international comparison": "Upper secondary (programs that allow entry to university)",
+        "Education I: years of schooling": "13 years",
+        "Currently, formerly, or never in paid work": "Currently in paid work",
+        "Hours worked weekly": "70",
+        "Main status": "In paid work",
+        "Employment relationship": "Employee",
+        "Occupation ISCO/ ILO 2008": "5222",
+        "Supervise anyone directly responsible": "Yes",
+        "Trade union membership": "No, never",
+        "Type of organisation, public/ private": "Private employer",
+        "Living in steady partnership": "Yes, have partner; live in same household",
+        "Legal partnership status": "Married",
+        "Father's country of birth": "United States",
+        "Mother's country of birth": "United States",
+        "Groups of religious affiliations (derived from nat_RELIG)": "Jewish",
+        "Attendance of religious services": "Several times a week or more often (including every day, several times a day)",
+        "Top-Bottom self-placement": "08",
+        "How many persons in household": "One person (only respondent)",
+        "How many children in household: children between [school age] and 17 years of age": "No children",
+        "How many toddlers in household: children up to [school age -1] years": "No toddlers",
+        "Place of living: urban - rural": "A big city",
+        "Administrative mode of data-collection": "Telephone interview",
+        "Country specific highest completed degree of education: United States": "High school",
+        "Country specific religious affiliation or denomination: United States": "Jewish",
+        "Country specific ethnic group 1: United States": "Romania",
+        "Country specific ethnic group 2: United States": "Romania",
+        "Country specific personal income: United States": "170.000 USD or more per year",
+        "Country specific household income: United States": "170.000 USD or more per year",
+        "Country specific region: United States": "South Atlantic"
+      }
+    },
+        ... (remaining profiles summarized)
+    ...

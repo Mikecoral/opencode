@@ -1,0 +1,34 @@
+{
+  "runner": "crowd_critic_runner.py",
+  "model": "gpt-4o",
+  "base_url": "https://apicz.boyuerichdata.com/v1",
+  "output_dir": "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/crowd-current",
+  "project_summary": "为上海创智学院 / Shanghai Innovation Institute 设计一套品牌形象系统。机构定位为中国 AI 时代的研创型未来学院，面向 AI 高潜人才、青年科研者、产业伙伴、政府教育 stakeholders、公众和媒体。当前资产包括最终单色 SII logo、identity board、活动海报系列、帆布袋和桌牌，以及 iter-1 中根据上一轮 crowd critique 优化后的四张活动海报和生产 mockup。请评估这些图片是否需要继续迭代，以及如何迭代。",
+  "sample_size": 4,
+  "seed": "sii-chuangzhi-20260520-small:/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/crowd-current",
+  "domain": "nationalidentity",
+  "domain_selector": "keyword",
+  "sampling_strategy": "country_diverse",
+  "assets": [
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/logo-final-monochrome-sii-chuangzhi.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/identity-board-v2-clean-logo-final.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/color-system.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/poster-final-techfest-a.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/poster-final-ai-scientist-night.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/poster-final-demo-day.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/poster-final-open-lab-week.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/mockup-tote-bag-v2.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/mockup-desk-nameplate-v2.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/iter-1/poster-techfest-iter1.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/iter-1/poster-ai-scientist-night-iter1.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/iter-1/poster-demo-day-iter1.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/iter-1/poster-open-lab-week-iter1.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/iter-1/mockup-tote-flat-production-iter1.png",
+    "/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/iter-1/mockup-desk-nameplate-production-iter1.png"
+  ],
+  "artifact_contract": {
+    "crowd-visual-analysis.jsonl": "one row per profile x asset, includes prompt, full VLM response, and raw API payload",
+    "crowd-critic-raw.jsonl": "one row per profile, includes parsed simulation fields plus prompt, raw response, and raw API payload",
+    "crowd-simulation-raw.jsonl": "one row per profile, exact simulation prompt/raw/parsed bundle for analysis"
+  }
+}

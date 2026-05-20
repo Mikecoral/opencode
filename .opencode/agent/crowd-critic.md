@@ -31,7 +31,7 @@ Your task message must include:
 - `Sample size`: default `100`; use a smaller number such as `24` only for cheaper smoke tests or when the user explicitly requests it
 - `Allow small sample`: default `false`; must be `true` if `Sample size < 100`
 - `Audience inference`: default to `auto`
-- `Domain selector`: default `keyword`; use `llm` when the user asks for semantic domain selection
+- `Domain`: one of the allowed SocioBench domains — `citizenship`, `environment`, `family`, `health`, `nationalidentity`, `religion`, `roleofgovernment`, `socialinequality`, `socialnetworks`, `workorientations`. Must be explicitly chosen based on target audience demographics; do **not** pass `auto`.
 - `Sampling strategy`: default `country_diverse`; use `llm_plan` when the user asks for model-planned audience buckets within one domain
 - The original user design request or a concise project summary
 
@@ -52,8 +52,8 @@ Call `crowd-critic-runner` exactly once with:
 - `outputDir`: `{OUTPUT_DIR}`
 - `projectSummary`: the original user request plus a concise brief summary and target audience hints you infer
 - `sampleSize`: task sample size (`100` by default; use a smaller number only for smoke tests or explicit user requests)
-- `domain`: `auto` unless the task explicitly specifies one
-- `domainSelector`: task domain selector (`keyword` by default, `llm` for semantic domain routing)
+- `domain`: the task-specified domain (never `auto`)
+- `domainSelector`: `keyword` (default); use `llm` only if the task explicitly requests semantic domain routing
 - `samplingStrategy`: task sampling strategy (`country_diverse` by default, `llm_plan` for LLM-generated executable buckets)
 - `allowSmallSample`: `false` unless the user explicitly asks for a smoke test or `Sample size < 100`
 - `seed`: a stable value derived from `{OUTPUT_DIR}` and the organization name
@@ -71,20 +71,19 @@ Do not manually recreate the runner outputs. If the runner fails, stop and repor
 
 ## Runner Artifacts To Read
 
-Read these files after the runner completes:
-1. `{OUTPUT_DIR}/crowd-critic-validation.json`
-2. `{OUTPUT_DIR}/crowd-run-manifest.json`
-3. `{OUTPUT_DIR}/crowd-domain-selection.json`
-4. `{OUTPUT_DIR}/crowd-domain-profile-summary.json`
-5. `{OUTPUT_DIR}/crowd-sampling-plan.json`
-6. `{OUTPUT_DIR}/crowd-sampling-validation.json`
-7. `{OUTPUT_DIR}/crowd-profiles.json`
-8. `{OUTPUT_DIR}/crowd-visual-analysis.jsonl`
-9. `{OUTPUT_DIR}/crowd-critic-raw.jsonl`
-10. `{OUTPUT_DIR}/crowd-simulation-raw.jsonl`
-11. `{OUTPUT_DIR}/crowd-simulation-analysis.md`
+Python now does all deterministic aggregation. Read in this order:
 
-Validation status must be `pass`. If it is not `pass`, do not write summary/actions; report the failed checks.
+**Primary (always read):**
+1. `{OUTPUT_DIR}/crowd-critic-validation.json` — must have `"status": "pass"`. If not, stop and report failed checks; do not write summary/actions.
+2. `{OUTPUT_DIR}/crowd-run-manifest.json` — must have `"completed": true`. If not, the run was interrupted; report and stop.
+3. `{OUTPUT_DIR}/crowd-critic-structured.md` — **the main aggregation source**. Contains all tables (aggregate signals, segment heatmaps, asset mentions, top objections, top requested changes, representative comments, designer-signal cohorts). Do **not** recompute these tables; reference this file.
+
+**Secondary (read only when you need extra raw context for your qualitative synthesis):**
+4. `{OUTPUT_DIR}/crowd-critic-raw.jsonl` — individual simulation rows. Use only to look up additional comments or check edge cases not surfaced in the structured file.
+5. `{OUTPUT_DIR}/crowd-domain-selection.json` — record domain selection rationale in the summary.
+6. `{OUTPUT_DIR}/crowd-sampling-plan.json` / `crowd-sampling-validation.json` — only if `llm_plan` strategy was used.
+
+**Do not read** `crowd-visual-analysis.jsonl`, `crowd-profiles.json`, `crowd-domain-profile-summary.json`, or `crowd-simulation-analysis.md` unless you are debugging the runner itself — they are large and their useful content is already aggregated in `crowd-critic-structured.md`.
 
 ## Critical Interpretation Rules
 
@@ -99,49 +98,30 @@ Validation status must be `pass`. If it is not `pass`, do not write summary/acti
 
 ## Aggregation Output
 
+Python has already written `crowd-critic-structured.md` containing every quantitative table (aggregate signals, segment heatmaps, asset mentions, sentiment-by-age, top main objections, top requested changes, representative comments, designer-signal cohorts). **Do not recompute or rewrite those tables.** Your job is the qualitative synthesis on top.
+
 Write `{OUTPUT_DIR}/crowd-critic-summary.md`:
 
 ```markdown
 # Crowd Critic Summary: [Organization Name]
 
-## Setup
-- Sample size:
-- SocioBench domain:
-- Audience inference:
-- Visual inputs reviewed:
-- Runner validation:
-- Important limitation: simulated audience critique from demographic profiles, not real user testing.
+> All quantitative data is in [`crowd-critic-structured.md`](./crowd-critic-structured.md). This file provides the synthesis on top.
 
 ## High-Level Verdict
-[Proceed / Iterate / Rethink, with one paragraph explaining why.]
-
-## Audience Simulation Signals
-| Signal | Result |
-|--------|--------|
-| Sentiment distribution | positive / neutral / negative |
-| Stance distribution | accept / confused / reject |
-| Average comprehension | X/10 |
-| Average trust | X/10 |
-| Average action readiness | X/10 |
-
-## Segment Heatmap
-| Segment | Hierarchy | Type | Contrast | Rhythm | Space | Comprehension | Trust | Action Readiness | Main Concern |
-|---------|-----------|------|----------|--------|-------|---------------|-------|------------------|--------------|
-
-## Repeated Issues
-1. [Issue, frequency, affected segments, affected asset]
-
-## Representative Simulated Comments
-[Quote short profile-level comments from `crowd-critic-raw.jsonl`; do not invent comments.]
-
-## Conflicting Feedback
-[Where profile groups disagree and what the designer should do with the disagreement.]
+[Proceed / Iterate / Rethink, with one paragraph explaining why. Ground claims in specific numbers from `crowd-critic-structured.md` (e.g. "avg trust 4.2/10, 38% reject stance, age-46+ heatmap shows hierarchy 3.1").]
 
 ## What To Keep
-[Specific design elements that should survive the next iteration.]
+[3–6 specific design elements that should survive the next iteration. Cite supporting evidence: which segments rated them highly, which assets received `most_effective_asset` net-positive counts, which positive comments mention them.]
 
 ## What To Change
-[Specific design elements that should change.]
+[3–6 specific design elements that should change. Cite the segments / heatmap rows / objection counts that justify each change. Do not repeat the verbatim objection list — interpret it.]
+
+## Conflicting Feedback
+[Cases where segments disagree (e.g. 18-30 likes element X while 46+ rejects it). Reference the segment heatmaps directly. Tell the designer how to resolve each disagreement: prioritize one segment, find a middle ground, or accept the trade-off.]
+
+## Caveats
+- Simulated audience critique from demographic profiles, not real user testing.
+- [Any other limitations specific to this run, e.g. small sample size, domain mismatch, asset coverage gaps]
 ```
 
 Write `{OUTPUT_DIR}/crowd-critic-designer-actions.md`:
@@ -152,13 +132,14 @@ Write `{OUTPUT_DIR}/crowd-critic-designer-actions.md`:
 ## Priority Actions
 | Priority | Asset | Change | Reason | Affected Segments | Prompt Delta |
 |----------|-------|--------|--------|-------------------|--------------|
+[Sort P0 → P2. Each row must reference a concrete asset name from the Asset Mentions table, a specific change derived from the Requested Changes list or heatmap weak points, and a concrete prompt delta the Designer agent can paste into an imagegen call.]
 
 ## Ready-To-Use Regeneration Guidance
-1. [Concrete imagegen prompt delta, not a full generic prompt]
+1. [Concrete imagegen prompt delta for the top-priority asset — not a generic full prompt, just the delta to add/remove]
 2. ...
 
 ## Do Not Change
-[Elements with strong audience support.]
+[Elements with strong audience support — net-positive in Asset Mentions, high heatmap scores across segments, or repeated positive comments.]
 ```
 
-The action file must be concise enough that the Designer agent can use it directly in an iteration prompt.
+The action file must be concise enough that the Designer agent can paste each Prompt Delta directly into an iteration prompt.

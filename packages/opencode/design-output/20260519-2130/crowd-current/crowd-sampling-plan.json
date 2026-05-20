@@ -1,0 +1,4 @@
+{
+  "strategy": "country_diverse",
+  "rationale": "seed-stable country-diverse round-robin sampling from one SocioBench domain"
+}

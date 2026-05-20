@@ -1,0 +1,141 @@
+{
+  "model": "gpt-4o",
+  "prompt": "Create an executable sampling plan for a single SocioBench domain.\n\nInput context:\nProject summary:\n为上海创智学院 / Shanghai Innovation Institute（SII）设计一套品牌形象。机构定位为面向人工智能前沿的新型高等教育科研与人才培养机构，服务高潜力博士生、青年研究者、青年教师、顶尖高校科研机构合作方、科技企业、投资孵化机构、政府教育主管部门和公众媒体。设计目标是表达 AI 前沿学院、研究型创新共同体、智能涌现、科学美学、国际化、克制高级、非传统校徽，同时避免泛化电路板、机器人、廉价霓虹和商业培训感。当前 demo 包含 logo、横版标识、色彩、字体样张、品牌 mockup、楼宇门头、工牌、贴纸、帆布袋、官网首屏和 4 张理念海报。\n\nbrief.md:\n# 创智学院品牌形象设计 brief\n\n> 研究说明：检索结果显示“创智学院”最可信指向为“上海创智学院 / Shanghai Innovation Institute（SII）”，官网域名为 sii.edu.cn，位于上海市徐汇区华发路 699 弄 3 号、北杨人工智能小镇，2024 年成立，定位为汇聚顶尖大学、头部企业和科研机构的新型 AI 人才培养机构。本 brief 以“上海创智学院”为主要对象；若客户所指并非该机构，可将策略降级适配为“面向中国创新智能/AI 教育的新型学院”品牌方案。\n\n## 1. 组织 / Context\n\n上海创智学院是一所面向人工智能前沿的新型高等教育科研与人才培养机构。其核心不是传统“大学院系”形态，而是围绕 AI 领军人才培养、前沿科研攻关、产业转化和创新创业而建立的“教育—科技—人才—产业”一体化平台。\n\n公开资料显示，学院坚持“以学生为中心、以前沿为牵引”的培养理念，强调三类优势：\n\n- **超高规格师资**：全时导师、兼职导师、产业导师协同，采用导师组、Tutor、跨机构专家参与等机制。\n- **超常培养机制**：轻量级且快速迭代的课程体系，灵活修读、不设传统强制学制，重视原创价值、社会价值和高挑战项目。\n- **超凡条件保障**：位于上海徐汇西岸北杨人工智能小镇，拥有独立教学科研空间、算力资源、实验空间、创业孵化与生活保障。\n\n学院公开传播中出现的高频关键词包括：AI 领军人才、世界人工智能创新高地、前沿科研、产业主战场、国家战略、创新价值、创业支持、科研品味、开源、多模态、具身智能、AI for Science、智能体、微机器人、世界模型等。其品牌需要同时表达“国家级使命感”“国际化科研水准”“年轻开创精神”和“技术落地能力”。\n\n设计语境上，它处在几个交叉领域：\n\n1. **中国新型研究型教育机构**：需要比商业培训机构更有学术公信力，比传统高校更开放、更敏捷。\n2. **上海国际科技创新中心**：视觉上应具有城市开放、国际交流、产业链接的气质。\n3. **AI 原生学院**：品牌不应只是把电路、芯片、机器人图案贴上去，而要体现“智能涌现、系统进化、跨界共创”的底层逻辑。\n4. **年轻博士与青年科学家共同体**：需要吸引高潜力人才，传达“不拘一格、敢做难题、允许失败、追求价值”的文化。\n\n## 2. Audience / 目标受众\n\n### 核心受众\n\n- **高潜力博士生、硕博学生、AI 创客与青年研究者**：他们关注导师质量、科研自由度、算力资源、项目真实度、未来创业或学术发展路径。品牌需让他们感到“这里不是另一个传统学院，而是可以做成大事的前沿阵地”。\n- **青年教师、博士后、全球科研人才**：需要看到机构的学术野心、资源配置、国际表达能力和开放协作文化。\n- **顶尖高校与科研机构合作方**：关注制度可信度、学术标准、合作边界、成果归属与长期价值。\n\n### 次级受众\n\n- **头部科技企业、产业导师、投资机构、孵化器**：关注技术转化效率、项目质量、人才密度、产业场景匹配度。\n- **政府、教育主管部门、科创园区与公共机构**：关注国家战略服务能力、区域科创贡献、教育改革示范意义。\n- **公众、媒体、家长与潜在捐赠方**：需要理解“创智学院到底是什么”，并形成可信、积极、非噱头化的认知。\n\n### 受众心理洞察\n\n- 顶尖年轻人才不只被“名校光环”吸引，更被真实问题、高手密度、自由度、资源速度和价值感吸引。\n- AI 行业传播容易陷入炫技与概念堆砌，学院品牌应避免空泛“赛博感”，转向可验证的理性、系统化、开源精神与科学美学。\n- 对外沟通要降低新机构的不确定性：通过稳定的视觉秩序、清晰的信息系统和学术级审美建立信任。\n\n## 3. Positioning / 品牌定位\n\n### 建议定位语义\n\n**创智学院：面向 AI 时代的研究型创业者与领军人才共同体。**\n\n或更具传播性的表达：\n\n**从不可能到可能，从可能到价值，从价值到普惠。**\n\n此表达可作为品牌精神线索，适合用于主视觉、空间标语、招生传播与大会系统。\n\n### 品牌角色\n\n- **不是传统高校**：不是以学院历史、院系谱系和学科门类为主叙事。\n- **不是商业 AI 培训机构**：不是短周期技能培训或就业导向包装。\n- **不是单一研究院**：不只做论文和课题，而是打通培养、科研、工程、产业与创业。\n- **应是“AI 前沿创新阵地”**：高密度人才、高规格导师、高算力、高挑战问题、高转化可能性。\n\n### 差异化主张\n\n1. **人才培养差异**：以学生为中心，导师组与产业导师共同参与，让学生直接面向前沿真实问题。\n2. **评价体系差异**：从论文引用转向科学价值、经济价值、社会价值和创新价值。\n3. **资源组织差异**：联合高校、科研机构、企业、投资与孵化资源，形成开放网络。\n4. **文化差异**：鼓励破界、容忍失败、追求普惠价值，带有鲜明的未来主义与公共使命。\n\n## 4. Brand Personality / 品牌人格\n\n### 核心人格\n\n- **前沿但不浮夸**：科技感来自理性系统与真实成果，而非廉价霓虹。\n- **年轻但有分量**：成立时间新，但承担国家战略与世界级 AI 竞争使命。\n- **开放但有标准**：跨界协同、开源共享，同时坚持科学严谨和高门槛。\n- **勇敢但不莽撞**：敢攻难题、允许失败，以价值和影响力作为方向。\n- **中国根基、全球语境**：视觉上既不传统学院化，也不完全硅谷化，要有中国新型科创机构的自信。\n\n### 品牌价值观\n\n1. **创新价值**：以原创性和真实影响定义成功。\n2. **前沿牵引**：课程、课题与组织机制随 AI 前沿快速迭代。\n3. **学生中心**：人才不是流水线产物，而是共创者、项目负责人、未来创业者。\n4. **跨界共创**：高校、企业、科研、投资与社会场景共同构成学习环境。\n5. **普惠使命**：AI 的终点不是炫技，而是服务产业、科学与社会。\n\n### 语气建议\n\n- 中文：坚定、清晰、富有行动感；少用宏大空话，多用“做出成果”“改变世界”“真实问题”“从前沿到现场”。\n- 英文：简洁国际化，可使用 Institute / Innovation / Intelligence / Frontier / Marvellers / Builders / AI for Good 等词汇。\n\n## 5. Cultural / Visual DNA / 文化与视觉 DNA\n\n### 关键词\n\n1. **涌现 Emergence**：智能从复杂连接中生成。\n2. **破界 Boundary-breaking**：跨学科、跨组织、跨学术与产业边界。\n3. **算力 Compute**：万卡、数据中台、基础设施能力，但表达要抽象克制。\n4. **共创 Co-creation**：导师、学生、企业、科研机构协同。\n5. **阵地 Field Lab**：真实问题现场、实验空间、产业主战场。\n6. **开源 Open System**：开放协议、社区精神、透明研究过程。\n7. **奇点 / 奇迹 Marvel**：官网传播中出现“集不凡·创奇迹 / Calling for Marvellers”，可发展为品牌精神。\n8. **上海西岸 / 国际科创城市**：水岸、网格、城市更新、全球连接。\n9. **科学美学 Scientific Beauty**：几何、结构、秩序、变量、参数、光谱。\n10. **从 0 到 1 到 N**：研究突破、价值转化、普惠扩散。\n\n### 视觉 DNA 建议\n\n- **结构性图形**：可使用节点、轨迹、坐标、参数曲线、张量网格、动态场等表达“智能系统”。\n- **汉字结构启发**：从“创”“智”二字提取笔画逻辑：创的刀锋/开端，智的日/知/明；避免直接书法化，转为模块化、几何化、可生成的符号。\n- **SII 字母启发**：若采用英文缩写，可让 S 表示流动的智能路径，双 I 表示 intelligence 与 innovation、individual 与 institute、input 与 impact。\n- **空间感**：学院位于新兴 AI 小镇，品牌资产应能在建筑玻璃幕墙、导视、会议空间中形成高识别度。\n- **动态系统**：AI 学院品牌应从一开始考虑 motion identity：图形可生长、连接、分裂、迭代，用于发布会、官网、屏幕和社媒。\n\n## 6. Competitive Landscape / 竞争与参照环境\n\n### 直接参照\n\n- **清华、北大、上海交大、复旦、浙大等高校 AI 学院 / 研究院**：优势是历史声誉和学科积累；视觉通常偏高校正式、徽章化、蓝色学术体系。创智学院应避开“传统校徽 + 学院名”的保守套路，强调新机制与前沿速度。\n- **中国科学院、上海人工智能实验室、鹏城实验室、智源研究院等科研机构**：优势是科研公信力与项目资源；视觉多偏国家实验室与科技蓝。创智学院应在“教育与青年共同体”上建立更有人才吸引力的温度。\n- **头部 AI 企业研究院与开源社区**：如阿里、百度、腾讯、华为、字节、DeepSeek、OpenMOSS 等生态。企业视觉更商业和产品化；创智学院应保留公共性、学术性和长期主义。\n\n### 间接竞争\n\n- 国际研究型高校与 AI 实验室：MIT CSAIL、Stanford HAI、Berkeley BAIR、CMU Robotics Institute、Oxford / Cambridge AI 相关机构。\n- 创业孵化与技术社区：Y Combinator、AI Hackathon、开源社区、创客空间。\n\n### 设计机会\n\n多数中国 AI 教育/科研机构在视觉上集中于蓝色、线路板、抽象地球、粒子点阵，识别度趋同。创智学院可通过以下方式突围：\n\n- 建立一个**可生成、可运动、可扩展**的视觉系统，而非单个静态 logo。\n- 把“AI 科技感”从表层符号转为**系统秩序与智能涌现**。\n- 在学院权威感之外加入**年轻、锐利、实验性**，形成“国家级使命 + 创业者气质”的组合。\n- 打造中英双语一致的视觉语言，适应全球人才招聘与国际学术交流。\n\n## 7. Design Goals / 设计目标\n\n1. **建立清晰识别**：在招生海报、官网首页、学术报告、科研成果发布、园区导视中能迅速识别为创智学院。\n2. **传达新型机构属性**：区别于传统高校、研究院、培训机构，体现“人才培养 + 前沿科研 + 产业转化”。\n3. **兼容权威与实验**：具备政府/高校合作场景的正式感，也能用于 TechFest、训练营、开源项目等年轻场景。\n4. **构建资产系统**：不仅设计 logo，还要形成色彩、字体、图形、动态、版式、图像风格和信息层级规范。\n5. **支持多触点应用**：包括官网、小程序/报名系统、PPT、论文海报、讲座物料、工牌、导视、服装、周边、发布会大屏、实验室门牌、社交媒体封面等。\n6. **避免同质化科技风**：禁止过度使用芯片、电路板、蓝紫霓虹、机器人头像、脑神经剪影等泛化元素。\n7. **可国际传播**：中文名“创智学院”、英文名“Shanghai Innovation Institute”及缩写“SII”应有稳定组合方式。\n\n## 8. Logo Direction / 标志方向\n\n### 总体策略\n\n建议采用“主标识 + 动态图形系统 + 中英文字标”的组合，而非单一传统校徽。标志应具备三种气质：\n\n- **学院可信度**：简洁、稳定、可用于公章式正式场景。\n- **AI 前沿性**：具有结构、连接、迭代和智能涌现感。\n- **青年行动感**：不封闭、不厚重，具有向外展开和突破边界的姿态。\n\n### 可探索方向 A：创 / 智的结构化字标\n\n从“创”与“智”的笔画关系出发，将中文转化为几何模块：\n\n- “创”可提取“开端、切入、破局”的斜切或刀锋结构。\n- “智”可提取“知 + 日”的知识与光明意象，形成“被点亮的核心”。\n- 最终形成一个抽象 C / Z 或“创智”合字，既有中文根基又适合国际传播。\n\n适合：强调中国语义、学院名称记忆、空间导视。\n\n风险：需避免过度书法化、传统文化符号化或难以小尺寸识别。\n\n### 可探索方向 B：SII 智能场标志\n\n以 SII 为基础，将 S 处理为一条智能路径 / 数据流 / 水岸曲线，两个 I 处理为个体与机构、输入与影响、研究与产业的双柱。\n\n适合：国际化、官网、学术会议、英文传播。\n\n风险：SII 缩写独占性需通过中文组合加强，否则可能显得泛化。\n\n### 可探索方向 C：涌现节点 / 开放环\n\n设计一个开放的几何环或多节点系统，中心不是封闭圆，而是由若干模块相互作用生成“智能核心”。\n\n- 可表达“导师—学生—企业—科研—社会”的协作网络。\n- 可动态扩展为主视觉图形。\n- 可用于二级品牌：创智讲坛、TechFest、夏令营、创新创业专区等。\n\n适合：系统化品牌资产、动态视觉、活动延展。\n风险：需确保主标志简化后仍然有强记忆点。\n\n### Logo 设计原则\n\n- 可在 16px 网站 favicon、工牌、PPT 页脚、建筑立面、大屏动画中稳定使用。\n- 中文、英文、缩写三套组合需定义横版、竖版、单色、反白、安全区。\n- 不建议使用传统盾形校徽、博士帽、书本、灯泡、机器人脑袋等陈词滥调。\n- 若保留现有 logo，应围绕其识别资产建立更完整的视觉系统；若重塑，应进行平滑过渡，保留“SII / 创智”的核心记忆。\n\n## 9. Color / Typography Direction / 色彩与字体方向\n\n### 色彩策略\n\n建议构建“深色理性底色 + 高能智能色 + 学术中性色”的体系。\n\n#### 主色方向\n\n- **深空墨蓝 / Intelligent Navy**：用于权威、深度、科研可信感。建议接近 #081A2B / #0B1F33。\n- **创智青 / Quantum Cyan**：用于 AI、算力、开放连接。建议接近 #00D6E8 / #00BFD6。\n- **奇点紫 / Singularity Violet**：用于探索、未知、前沿突破。建议接近 #6A5CFF / #7B61FF。\n\n#### 辅助\n\ndesign-assets.md:\n# 创智学院静态 PNG 品牌资产\n\n生成日期：2026-05-19\n\n## 设计方向\n\n本轮按静态 PNG 品牌形象交付，不使用 SVG 或动态图形系统。核心视觉保留“智能涌现”的结构语言，但固定为可直接用于展示、汇报、官网概念稿和品牌提案的静态图像。\n\n关键词：AI 前沿学院、研究型创新共同体、智能涌现、科学美学、国际化、克制高级、非传统校徽。\n\n## 输出文件\n\n- `logo-primary.png`：方形主标识，适合头像、封面、品牌主视觉。\n- `logo-horizontal.png`：横版中英组合标识，适合官网页眉、PPT、门头和正式物料。\n- `color-palette.png`：品牌色彩系统展示板。\n- `typography-specimen.png`：品牌字体与排版样张。\n- `brand-mockup.png`：第一轮综合品牌应用场景 mockup。\n- `mockup-building-sign.png`：单物品楼宇门头标识 mockup，无个人信息。\n- `mockup-id-badge.png`：单物品通用证件 mockup，仅使用非个人占位文案，无姓名、人像、电话、邮箱、地址、二维码、条码或编号。\n- `mockup-laptop-sticker.png`：单物品笔记本贴纸 mockup，无屏幕个人数据。\n- `mockup-tote-bag.png`：单物品帆布袋 mockup，无个人信息。\n- `mockup-website-hero.png`：单物品官网首屏 mockup，仅使用通用栏目文案，无登录信息或个人数据。\n- `poster-impossible-to-impact.png`：理念海报，“从不可能到可能，从可能到价值”。\n- `poster-real-problems.png`：理念海报，“在真实问题中训练智能”。\n- `poster-emergent-cocreation.png`：理念海报，“智能涌现，破界共创”。\n- `poster-young-leaders.png`：理念海报，“青年领军，面向前沿”。\n\n## 核心色彩\n\n- Intelligent Navy：`#081A2B`\n- Deep Research Blue：`#0B1F33`\n- Quantum Cyan：`#00D6E8`\n- Singularity Violet：`#6A5CFF`\n- Impact Green：`#35D07F`\n- Prototype Orange：`#FF8A3D`\n- Lab Silver：`#E8EEF3`\n- Graphite：`#1F2933`\n- Pure White：`#FFFFFF`\n\n## Prompt 摘要\n\n### logo-primary\n\nPremium static brand identity logo for “创智学院” with “SII”, abstract intelligent emergence symbol, open geometric field, nodes, subtle C/Z gesture, luminous knowledge core, deep navy background, quantum cyan and violet accents, polished bilingual lockup, no robots, brains, circuit boards, shields, books, or cheap neon.\n\n### logo-horizontal\n\nPremium horizontal bilingual logo lockup for “创智学院 / Shanghai Innovation Institute”, left abstract static SII intelligence-field mark, right readable Chinese and English text, institutional and international research institute style, clean typography, scalable mark, avoid school badges and tech cliches.\n\n### color-palette\n\nStatic brand color palette presentation board with labeled swatches and hex codes, Swiss grid, scientific precision, generous whitespace, subtle node-grid background, bilingual title.\n\n### typography-specimen\n\nPremium typography specimen board with Chinese headline “创智学院”, tagline “从不可能到可能，从可能到价值”, English heading, SII abbreviation, hierarchy examples, modern geometric sans-serif, strong grid, restrained scientific visual language.\n\n### brand-mockup\n\nHigh-end static brand application mockup showing building sign, conference poster, ID badge, laptop sticker, tote bag, presentation slide, and website hero card, coherent visual identity in deep navy, white, cyan, violet, silver gray, and small orange accent.\n\n### individual mockups\n\n第二轮将综合 mockup 拆分为单物品生成，分别覆盖楼宇门头、通用证件、笔记本贴纸、帆布袋、官网首屏。所有 prompt 均明确禁止真实姓名、人像、电话、邮箱、地址、二维码、条码、证件号、学号、登录信息或可识别个人信息。\n\n### academy posters\n\n补充 4 张学院理念宣传海报，均为静态 PNG：\n\n- “从不可能到可能，从可能到价值”\n- “在真实问题中训练智能”\n- “智能涌现，破界共创”\n- “青年领军，面向前沿”\n\n海报 prompt 均要求不出现电话、邮箱、地址、二维码、日期、报名信息、个人姓名或其他可识别信息。\n\n## 自动质量检查\n\n使用视觉分析工具抽检 `logo-primary.png`、`logo-horizontal.png`、`brand-mockup.png`：结果显示文字清晰、视觉统一、质感专业，未发现明显 AI 伪影。\n\n第二轮抽检 `mockup-id-badge.png`、`poster-impossible-to-impact.png`、`poster-emergent-cocreation.png`：未发现真实姓名、人像、电话、邮箱、地址、二维码、条码、编号、日期或其他个人信息；抽检海报标题清晰，品牌调性匹配。\n\n\nEmpirical domain profile summary:\n{\n  \"profile_count\": 500,\n  \"allowed_plan_fields\": [\n    \"age_band\",\n    \"sex\",\n    \"country\",\n    \"work_status_contains\",\n    \"education_contains\",\n    \"place_contains\",\n    \"self_placement_range\"\n  ],\n  \"segment_distributions\": {\n    \"age_band\": {\n      \"31-45\": 202,\n      \"46-60\": 179,\n      \"18-30\": 84,\n      \"61-75\": 31\n    },\n    \"sex\": {\n      \"Male\": 251,\n      \"Female\": 248\n    },\n    \"country\": {\n      \"Australia\": 15,\n      \"Austria\": 15,\n      \"Belgium\": 15,\n      \"Chile\": 15,\n      \"China\": 15,\n      \"Czech Republic\": 15,\n      \"Estonia\": 15,\n      \"Germany\": 15,\n      \"Spain\": 15,\n      \"Switzerland\": 15,\n      \"Croatia\": 14,\n      \"Finland\": 14,\n      \"France\": 14,\n      \"Georgia\": 14,\n      \"Great Britain\": 14,\n      \"Hungary\": 14,\n      \"Iceland\": 14,\n      \"India\": 14,\n      \"Israel\": 14,\n      \"Japan\": 14,\n      \"Latvia\": 14,\n      \"Lithuania\": 14,\n      \"Mexico\": 14,\n      \"New Zealand\": 14,\n      \"Norway\": 14,\n      \"Philippines\": 14,\n      \"Poland\": 14,\n      \"Russia\": 14,\n      \"Slovakia\": 14,\n      \"Slovenia\": 14,\n      \"South Africa\": 14,\n      \"Suriname\": 14,\n      \"Sweden\": 14,\n      \"Taiwan, China\": 14,\n      \"United States\": 14\n    },\n    \"work_status\": {\n      \"In paid work\": 480,\n      \"In education\": 5,\n      \"Other\": 4,\n      \"Unemployed and looking for a job\": 4,\n      \"Currently in paid work\": 2,\n      \"In compulsory military service or community service\": 2,\n      \"Permanently sick or disabled\": 1\n    },\n    \"place\": {\n      \"A big city\": 154,\n      \"A country village\": 126,\n      \"A town or a small city\": 96,\n      \"The suburbs or outskirts of a big city\": 60,\n      \"A farm or home in the country\": 25\n    }\n  },\n  \"attribute_value_examples\": {\n    \"education\": {\n      \"Upper secondary (programs that allow entry to university)\": 116,\n      \"Lower level tertiary, first stage (also technical schools at a tertiary level)\": 111,\n      \"Lower secondary (secondary completed does not allow entry to university: obligatory school)\": 106,\n      \"12 years\": 93,\n      \"Post secondary, non-tertiary (other upper secondary programs toward labour market or technical formation)\": 73,\n      \"Upper level tertiary (Master, Doctor)\": 61,\n      \"16 years\": 57,\n      \"15 years\": 54,\n      \"11 years\": 49,\n      \"10 years\": 40,\n      \"13 years\": 39,\n      \"14 years\": 29,\n      \"17 years\": 29,\n      \"18 years\": 17,\n      \"Primary school (elementary education)\": 17,\n      \"9 years\": 16,\n      \"19 years\": 15,\n      \"8 years\": 15,\n      \"20 years\": 9,\n      \"No formal education\": 9,\n      \"7 years\": 4,\n      \"No formal schooling, no years at school\": 4,\n      \"22 years\": 3,\n      \"6 years\": 3,\n      \"2 years\": 2,\n      \"24 years\": 2,\n      \"5 years\": 2,\n      \"25 years\": 1,\n      \"28 years\": 1,\n      \"29 years\": 1,\n      \"4 years\": 1,\n      \"96\": 1,\n      \"Don't know\": 1\n    },\n    \"self_placement\": {\n      \"05\": 130,\n      \"06\": 82,\n      \"07\": 77,\n      \"08\": 54,\n      \"04\": 44,\n      \"03\": 33,\n      \"09\": 14,\n      \"Highest, Top, 10\": 12,\n      \"02\": 10,\n      \"Lowest, Bottom, 01\": 8,\n      \"Don't know\": 1\n    }\n  }\n}\n\nSample size: 100\n\nReturn only strict JSON:\n{\n  \"strategy\": \"llm_plan\",\n  \"buckets\": [\n    {\n      \"name\": \"short_bucket_name\",\n      \"weight\": 0.25,\n      \"constraints\": {\n        \"age_band\": [\"18-30\"],\n        \"work_status_contains\": [\"paid work\"],\n        \"education_contains\": [\"tertiary\", \"university\"]\n      },\n      \"fallback\": {\"drop\": [\"education_contains\"]},\n      \"rationale\": \"why this bucket matters for the design audience\"\n    }\n  ],\n  \"rationale\": \"overall sampling rationale\",\n  \"confidence\": 0.0\n}\n\nRules:\n- Use only allowed_plan_fields shown in the profile summary.\n- Do not invent fields such as industry_partner, student, government_official, applicant, or parent.\n- Bucket constraints must be executable against the profile summary values.\n- Weights must sum approximately to 1.0.\n- Every bucket must include a fallback.drop list, even if empty.",
+  "raw_response": "```json\n{\n  \"strategy\": \"llm_plan\",\n  \"buckets\": [\n    {\n      \"name\": \"young_highly_educated_professionals\",\n      \"weight\": 0.25,\n      \"constraints\": {\n        \"age_band\": [\"18-30\"],\n        \"work_status_contains\": [\"paid work\"],\n        \"education_contains\": [\"tertiary\", \"university\"]\n      },\n      \"fallback\": {\n        \"drop\": [\"education_contains\"]\n      },\n      \"rationale\": \"This group represents young professionals in paid work with strong educational backgrounds, aligning with the core target audience of high-potential early-career talent for Shanghai Innovation Institute.\"\n    },\n    {\n      \"name\": \"mid_career_professionals\",\n      \"weight\": 0.5,\n      \"constraints\": {\n        \"age_band\": [\"31-45\"],\n        \"work_status_contains\": [\"paid work\"]\n      },\n      \"fallback\": {\n        \"drop\": []\n      },\n      \"rationale\": \"This group reflects the largest segment in the profile summary and is crucial for capturing experienced professionals who might consider transitioning into AI research, education, or industry collaboration with the institute.\"\n    },\n    {\n      \"name\": \"senior_professionals_or_academics\",\n      \"weight\": 0.15,\n      \"constraints\": {\n        \"age_band\": [\"46-60\"],\n        \"work_status_contains\": [\"paid work\"],\n        \"education_contains\": [\"tertiary\", \"university\"]\n      },\n      \"fallback\": {\n        \"drop\": [\"education_contains\"]\n      },\n      \"rationale\": \"This segment includes seasoned professionals or academics with substantial experience who may be interested in leadership or mentorship roles within the institute's ecosystem.\"\n    },\n    {\n      \"name\": \"aspiring_students_and_researchers\",\n      \"weight\": 0.1,\n      \"constraints\": {\n        \"age_band\": [\"18-30\"],\n        \"work_status_contains\": [\"education\"],\n        \"place_contains\": [\"a big city\", \"a town or a small city\"]\n      },\n      \"fallback\": {\n        \"drop\": [\"place_contains\"]\n      },\n      \"rationale\": \"This bucket targets current students and early-stage researchers who are likely to pursue opportunities at an international AI-focused educational institution.\"\n    }\n  ],\n  \"rationale\": \"This sampling plan prioritizes segments most aligned with the Shanghai Innovation Institute's target audience, focusing on young and mid-career professionals, while also including senior professionals who could contribute to mentorship and aspiring students as a potential talent pipeline.\",\n  \"confidence\": 0.85\n}\n```",
+  "raw_payload": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": [],
+          "content": "```json\n{\n  \"strategy\": \"llm_plan\",\n  \"buckets\": [\n    {\n      \"name\": \"young_highly_educated_professionals\",\n      \"weight\": 0.25,\n      \"constraints\": {\n        \"age_band\": [\"18-30\"],\n        \"work_status_contains\": [\"paid work\"],\n        \"education_contains\": [\"tertiary\", \"university\"]\n      },\n      \"fallback\": {\n        \"drop\": [\"education_contains\"]\n      },\n      \"rationale\": \"This group represents young professionals in paid work with strong educational backgrounds, aligning with the core target audience of high-potential early-career talent for Shanghai Innovation Institute.\"\n    },\n    {\n      \"name\": \"mid_career_professionals\",\n      \"weight\": 0.5,\n      \"constraints\": {\n        \"age_band\": [\"31-45\"],\n        \"work_status_contains\": [\"paid work\"]\n      },\n      \"fallback\": {\n        \"drop\": []\n      },\n      \"rationale\": \"This group reflects the largest segment in the profile summary and is crucial for capturing experienced professionals who might consider transitioning into AI research, education, or industry collaboration with the institute.\"\n    },\n    {\n      \"name\": \"senior_professionals_or_academics\",\n      \"weight\": 0.15,\n      \"constraints\": {\n        \"age_band\": [\"46-60\"],\n        \"work_status_contains\": [\"paid work\"],\n        \"education_contains\": [\"tertiary\", \"university\"]\n      },\n      \"fallback\": {\n        \"drop\": [\"education_contains\"]\n      },\n      \"rationale\": \"This segment includes seasoned professionals or academics with substantial experience who may be interested in leadership or mentorship roles within the institute's ecosystem.\"\n    },\n    {\n      \"name\": \"aspiring_students_and_researchers\",\n      \"weight\": 0.1,\n      \"constraints\": {\n        \"age_band\": [\"18-30\"],\n        \"work_status_contains\": [\"education\"],\n        \"place_contains\": [\"a big city\", \"a town or a small city\"]\n      },\n      \"fallback\": {\n        \"drop\": [\"place_contains\"]\n      },\n      \"rationale\": \"This bucket targets current students and early-stage researchers who are likely to pursue opportunities at an international AI-focused educational institution.\"\n    }\n  ],\n  \"rationale\": \"This sampling plan prioritizes segments most aligned with the Shanghai Innovation Institute's target audience, focusing on young and mid-career professionals, while also including senior professionals who could contribute to mentorship and aspiring students as a potential talent pipeline.\",\n  \"confidence\": 0.85\n}\n```",
+          "refusal": null,
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1779253229,
+    "id": "chatcmpl-DhTKfWpqmDSE6zofVsqUojM9FWeNA",
+    "model": "gpt-4o-2024-11-20",
+    "object": "chat.completion",
+    "service_tier": "default",
+    "system_fingerprint": "fp_af7f7349a4",
+    "usage": {
+      "completion_tokens": 538,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "latency_checkpoint": {
+        "engine_tbt_ms": 15,
+        "engine_ttft_ms": 355,
+        "engine_ttlt_ms": 8574,
+        "pre_inference_ms": 117,
+        "service_tbt_ms": 15,
+        "service_ttft_ms": 1226,
+        "service_ttlt_ms": 9439,
+        "total_duration_ms": 9325,
+        "user_visible_ttft_ms": 1109
+      },
+      "prompt_tokens": 6396,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      },
+      "total_tokens": 6934
+    }
+  },
+  "parsed": {
+    "strategy": "llm_plan",
+    "buckets": [
+      {
+        "name": "young_highly_educated_professionals",
+        "weight": 0.25,
+        "constraints": {
+          "age_band": [
+            "18-30"
+          ],
+          "work_status_contains": [
+            "paid work"
+          ],
+          "education_contains": [
+            "tertiary",
+            "university"
+          ]
+        },
+        "fallback": {
+          "drop": [
+            "education_contains"
+          ]
+        },
+        "rationale": "This group represents young professionals in paid work with strong educational backgrounds, aligning with the core target audience of high-potential early-career talent for Shanghai Innovation Institute."
+      },
+      {
+        "name": "mid_career_professionals",
+        "weight": 0.5,
+        "constraints": {
+          "age_band": [
+            "31-45"
+          ],
+          "work_status_contains": [
+            "paid work"
+          ]
+        },
+        "fallback": {
+          "drop": []
+        },
+        "rationale": "This group reflects the largest segment in the profile summary and is crucial for capturing experienced professionals who might consider transitioning into AI research, education, or industry collaboration with the institute."
+      },
+      {
+        "name": "senior_professionals_or_academics",
+        "weight": 0.15,
+        "constraints": {
+          "age_band": [
+            "46-60"
+          ],
+          "work_status_contains": [
+            "paid work"
+          ],
+          "education_contains": [
+            "tertiary",
+            "university"
+          ]
+        },
+        "fallback": {
+          "drop": [
+            "education_contains"
+          ]
+        },
+        "rationale": "This segment includes seasoned professionals or academics with substantial experience who may be interested in leadership or mentorship roles within the institute's ecosystem."
+      },
+      {
+        "name": "aspiring_students_and_researchers",
+        "weight": 0.1,
+        "constraints": {
+          "age_band": [
+            "18-30"
+          ],
+          "work_status_contains": [
+            "education"
+          ],
+          "place_contains": [
+            "a big city",
+            "a town or a small city"
+          ]
+        },
+        "fallback": {
+          "drop": [
+            "place_contains"
+          ]
+        },
+        "rationale": "This bucket targets current students and early-stage researchers who are likely to pursue opportunities at an international AI-focused educational institution."
+      }
+    ],
+    "rationale": "This sampling plan prioritizes segments most aligned with the Shanghai Innovation Institute's target audience, focusing on young and mid-career professionals, while also including senior professionals who could contribute to mentorship and aspiring students as a potential talent pipeline.",
+    "confidence": 0.85
+  }
+}

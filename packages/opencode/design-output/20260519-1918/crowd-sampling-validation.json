@@ -1,0 +1,39 @@
+{
+  "status": "pass",
+  "bucket_reports": [
+    {
+      "bucket": "young_highly_educated_professionals",
+      "target": 25,
+      "strict_candidates": 79,
+      "relaxed": false,
+      "selected": 25
+    },
+    {
+      "bucket": "mid_career_professionals",
+      "target": 50,
+      "strict_candidates": 197,
+      "relaxed": false,
+      "selected": 50
+    },
+    {
+      "bucket": "senior_professionals_or_academics",
+      "target": 15,
+      "strict_candidates": 161,
+      "relaxed": false,
+      "selected": 15
+    },
+    {
+      "bucket": "aspiring_students_and_researchers",
+      "target": 10,
+      "strict_candidates": 1,
+      "relaxed": true,
+      "selected": 5
+    },
+    {
+      "bucket": "__fill__",
+      "target": 5,
+      "selected": 5
+    }
+  ],
+  "selected_count": 100
+}

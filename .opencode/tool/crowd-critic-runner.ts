@@ -2,6 +2,11 @@
 import { tool } from "@opencode-ai/plugin"
 import * as path from "node:path"
 
+// Resolve workspace root from this tool file's location:
+//   .opencode/tool/crowd-critic-runner.ts  →  workspace root
+const WORKSPACE_ROOT = path.resolve(import.meta.dir, "../..")
+const SCRIPT_PATH = path.join(WORKSPACE_ROOT, ".opencode/scripts/crowd_critic_runner.py")
+
 const DOMAINS = [
   "auto",
   "citizenship",
@@ -54,7 +59,7 @@ This tool is a thin OpenCode wrapper around .opencode/scripts/crowd_critic_runne
     const proc = Bun.spawn(
       [
         "python3",
-        path.join(process.cwd(), ".opencode/scripts/crowd_critic_runner.py"),
+        SCRIPT_PATH,
         "--output-dir",
         args.outputDir,
         "--project-summary",
@@ -73,7 +78,7 @@ This tool is a thin OpenCode wrapper around .opencode/scripts/crowd_critic_runne
         ...(args.allowSmallSample ? ["--allow-small-sample"] : []),
       ],
       {
-        cwd: process.cwd(),
+        cwd: WORKSPACE_ROOT,
         env: process.env,
         stdout: "pipe",
         stderr: "pipe",

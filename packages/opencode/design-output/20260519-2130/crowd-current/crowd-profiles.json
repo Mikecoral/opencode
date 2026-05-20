@@ -1,0 +1,127 @@
+{
+  "source": {
+    "dataset": "SocioBench ISSP sampling500",
+    "path": "/Users/hongyuecheng/python-learn/SII/AIdesign/SocioBench-main/Dataset_all/A_GroundTruth_sampling500/issp_answer_nationalidentity.json",
+    "domain": "nationalidentity",
+    "sample_size": 4,
+    "seed": "sii-chuangzhi-20260520-small:/Users/hongyuecheng/python-learn/SII/AIdesign/opencode/packages/opencode/design-output/20260519-2130/crowd-current"
+  },
+  "note": "Profiles are demographic context for simulated audience critique, not real design preference labels.",
+  "profiles": [
+    {
+      "person_id": 60037002,
+      "segment": {
+        "country": "United States",
+        "sex": "Female",
+        "age_band": "18-30",
+        "work_status": "In education",
+        "place": "The suburbs or outskirts of a big city"
+      },
+      "attributes": {
+        "Sex of Respondent": "Female",
+        "Age of respondent": "25",
+        "Year of birth": "1989",
+        "Highest completed education level: Categories for international comparison": "Upper secondary (programs that allow entry to university)",
+        "Education I: years of schooling": "16",
+        "Currently, formerly, or never in paid work": "Currently not in paid work, paid work in the past",
+        "Main status": "In education",
+        "Employment relationship": "Employee",
+        "Trade union membership": "No, never",
+        "Living in steady partnership": "No partner",
+        "Legal partnership status": "Never married/ never in a civil partnership, single",
+        "Attendance of religious services": "Once a year",
+        "Did respondent vote in last general election": "No",
+        "How many persons in household": "3",
+        "How many children in household: children between [school age] and 17 years of age": "No children",
+        "Place of living: urban - rural": "The suburbs or outskirts of a big city",
+        "Administrative mode of data-collection": "CAPI, visuals"
+      }
+    },
+    {
+      "person_id": 60008670,
+      "segment": {
+        "country": "France",
+        "sex": "Female",
+        "age_band": "61-75",
+        "work_status": "Retired",
+        "place": "A big city"
+      },
+      "attributes": {
+        "Sex of Respondent": "Female",
+        "Age of respondent": "61",
+        "Year of birth": "1952",
+        "Highest completed education level: Categories for international comparison": "Upper secondary (programs that allow entry to university)",
+        "Education I: years of schooling": "13",
+        "Currently, formerly, or never in paid work": "Currently not in paid work, paid work in the past",
+        "Main status": "Retired",
+        "Employment relationship": "Employee",
+        "Trade union membership": "No, never",
+        "Living in steady partnership": "Yes, have partner; live in same household",
+        "Legal partnership status": "Married",
+        "Attendance of religious services": "Several times a week or more often (incl. every day, several times a day)",
+        "Place of living: urban - rural": "A big city",
+        "Administrative mode of data-collection": "SC, mailed back by R"
+      }
+    },
+    {
+      "person_id": 60019325,
+      "segment": {
+        "country": "Latvia",
+        "sex": "Female",
+        "age_band": "31-45",
+        "work_status": "In paid work",
+        "place": "A country village"
+      },
+      "attributes": {
+        "Sex of Respondent": "Female",
+        "Age of respondent": "32",
+        "Year of birth": "1981",
+        "Highest completed education level: Categories for international comparison": "Upper level tertiary (Master, Doctor)",
+        "Education I: years of schooling": "16",
+        "Currently, formerly, or never in paid work": "Currently in paid work,",
+        "Hours worked weekly": "40",
+        "Main status": "In paid work",
+        "Employment relationship": "Employee",
+        "Trade union membership": "No, never",
+        "Living in steady partnership": "Yes, have partner; live in same household",
+        "Legal partnership status": "Married",
+        "Attendance of religious services": "Once a week",
+        "Did respondent vote in last general election": "Yes",
+        "How many persons in household": "4",
+        "How many children in household: children between [school age] and 17 years of age": "1 child",
+        "Place of living: urban - rural": "A country village",
+        "Administrative mode of data-collection": "F2F, PAPI, visuals"
+      }
+    },
+    {
+      "person_id": 60021614,
+      "segment": {
+        "country": "Mexico",
+        "sex": "Male",
+        "age_band": "31-45",
+        "work_status": "In paid work",
+        "place": "A big city"
+      },
+      "attributes": {
+        "Sex of Respondent": "Male",
+        "Age of respondent": "35",
+        "Year of birth": "1979",
+        "Highest completed education level: Categories for international comparison": "Upper level tertiary (Master, Doctor)",
+        "Education I: years of schooling": "19",
+        "Currently, formerly, or never in paid work": "Currently in paid work,",
+        "Hours worked weekly": "40",
+        "Main status": "In paid work",
+        "Employment relationship": "Employee",
+        "Trade union membership": "No, never",
+        "Living in steady partnership": "No partner",
+        "Legal partnership status": "Never married/ never in a civil partnership, single",
+        "Attendance of religious services": "Once a month",
+        "Did respondent vote in last general election": "Yes",
+        "How many persons in household": "5",
+        "How many children in household: children between [school age] and 17 years of age": "No children",
+        "Place of living: urban - rural": "A big city",
+        "Administrative mode of data-collection": "F2F, PAPI, no visuals"
+      }
+    }
+  ]
+}
